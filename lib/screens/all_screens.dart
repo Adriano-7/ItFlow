@@ -1,13 +1,13 @@
 
-export 'start_screen.dart';
+export 'start_screens/start_screen.dart';
 
-export 'login_screen.dart';
-export 'register_screen.dart';
+export 'start_screens/login_screen.dart';
+export 'start_screens/register_screen.dart';
 
-export 'home_screen.dart';
-export 'search_screen.dart';
-export 'notification_screen.dart';
-export 'profile_screen.dart';
+export 'main_app_screens/home_screen.dart';
+export 'main_app_screens/search_screen.dart';
+export 'main_app_screens/notification_screen.dart';
+export 'main_app_screens/profile_screen.dart';
 
-export 'settings_screen.dart';
+export 'main_app_screens/settings_screen.dart';
 
