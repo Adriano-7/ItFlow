@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:itflowapp/constants.dart';
 import 'package:itflowapp/main.dart';
+import 'package:itflowapp/widgets/JobOffer.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -23,50 +24,46 @@ class ProfileScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Expanded(
-            //profile
-            flex: 1,
-            child: Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    //profile picture and edit profile
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children:const [
-                      Icon(Icons.person, size: 100),
-                      ElevatedButton(
-                          onPressed: null, child: Text("Edit Profile")),
-                    ],
-                  ),
+          Row(
+            children: [
+              Expanded(
+                child: Column(
+                  //profile picture and edit profile
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children:const [
+                    Icon(Icons.person, size: 100),
+                    ElevatedButton(
+                        onPressed: null, child: Text("Edit Profile")),
+                  ],
                 ),
-                Expanded(
-                  child: Column(
-                    // name and profession
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Column(
-                        children:const [
-                          Text(
-                            "Faísca Raimundo",
-                            style: TextStyle(fontSize: 25),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text("Analytical Counselor"),
-                        ],
-                      ),
-                    ],
-                  ),
+              ),
+              Expanded(
+                child: Column(
+                  // name and profession
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Column(
+                      children:const [
+                        Text(
+                          "Faísca Raimundo",
+                          style: TextStyle(fontSize: 25),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text("Analytical Counselor"),
+                      ],
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-          const Expanded(
+          
             //bookmarks
-            flex: 2,
-            child: Text("Bookmarks"),
-          )
+            
+            JobOffer(hirer: "II SECTOR inc", location: "Porto,Portugal",type: "Full time", job: "REACT JS DEVELOPER",),
+          
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
