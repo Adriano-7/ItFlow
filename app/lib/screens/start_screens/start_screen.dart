@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:itflowapp/theme/app_theme.dart';
-import 'package:itflowapp/widgets/MyButton.dart';
+import 'package:itflowapp/widgets/double_button.dart';
 import 'package:itflowapp/constants.dart';
 import 'package:itflowapp/main.dart';
 
@@ -14,7 +14,6 @@ class StartScreen extends StatelessWidget {
           title: const Text(appName),
           centerTitle: true,
         ),
-        backgroundColor: Colors.black,
         body: Column(
           children: [
             Expanded(
@@ -52,40 +51,21 @@ class StartScreen extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: MyButton(
-                            onPressed: () {
-                              Navigator.pushNamed(context, Routes.login);
-                            },
-                            leftRadius: 15,
-                            backgroundColor: AppColors.green,
-                            textStyle: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.black,
-                            ),
-                            verticalPadding: 16,
-                            textContent: 'Log In',
-                          ),
-                        ),
-                        Expanded(
-                          child: MyButton(
-                            onPressed: () {
-                              Navigator.pushNamed(context, Routes.register);
-                            },
-                            rightRadius: 15,
-                            textStyle: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.green,
-                            ),
-                            verticalPadding: 16,
-                            textContent: 'Register',
-                          ),
-                        ),
-                      ],
+                    DoubleButton(
+                      onPressedFirst: () {
+                        Navigator.pushNamed(context, Routes.login);
+                      },
+                      childFirst: const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 16.0),
+                        child: Text('Log In'),
+                      ),
+                      onPressedSecond: () {
+                        Navigator.pushNamed(context, Routes.register);
+                      },
+                      childSecond: const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 16.0),
+                        child: Text('Register'),
+                      ),
                     ),
                     const SizedBox(height: 10),
                     const Text(

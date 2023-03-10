@@ -1,25 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:itflowapp/theme/app_theme.dart';
 import 'package:itflowapp/main.dart';
 
 class NavBar extends StatelessWidget {
-  final int currentIndex;
-  const NavBar({Key? key, required this.currentIndex}) : super(key: key);
-
-  // Routes
-  static const String home = '/home';
-  static const String search = '/search';
-  static const String notification = '/notification';
-  static const String profile = '/profile';
+  final int _currentIndex;
+  const NavBar({Key? key, required int currentIndex}) :
+        _currentIndex = currentIndex, super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
       iconSize: 28,
-      fixedColor: ThemeData.dark().colorScheme.secondary,
       showSelectedLabels: false,
       showUnselectedLabels: false,
-      currentIndex: currentIndex,
+      currentIndex: _currentIndex,
+      backgroundColor: AppColors.black,
       items: _buildNavBarItems(),
       onTap: (int index) {
         switch (index) {
@@ -45,29 +41,29 @@ class NavBar extends StatelessWidget {
   }
 
   BottomNavigationBarItem _buildNavBarItem(
-      {required IconData icon, required String label}) {
+      {required IconData icon, String label = ''}) {
     return BottomNavigationBarItem(
         icon: Icon(icon),
         label: label,
         activeIcon: Container(
           decoration: BoxDecoration(
-            color: ThemeData.dark().colorScheme.secondary,
+            color: AppColors.green,
             borderRadius: BorderRadius.circular(20),
           ),
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(18),
           child: Icon(
             icon,
-            color: Colors.black,
+            color: AppColors.black,
           ),
         ));
   }
 
   List<BottomNavigationBarItem> _buildNavBarItems() {
     return [
-      _buildNavBarItem(icon: Icons.home, label: home),
-      _buildNavBarItem(icon: Icons.search, label: search),
-      _buildNavBarItem(icon: Icons.notifications, label: notification),
-      _buildNavBarItem(icon: Icons.person, label: profile),
+      _buildNavBarItem(icon: Icons.home),
+      _buildNavBarItem(icon: Icons.search),
+      _buildNavBarItem(icon: Icons.notifications),
+      _buildNavBarItem(icon: Icons.person),
     ];
   }
 }

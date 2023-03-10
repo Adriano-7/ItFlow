@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:itflowapp/constants.dart';
 import 'package:itflowapp/main.dart';
-import 'package:itflowapp/theme/navigation_bar.dart';
+import 'package:itflowapp/widgets/navigation_bar.dart';
 
 class NotificationScreen extends StatelessWidget {
   const NotificationScreen({Key? key}) : super(key: key);
