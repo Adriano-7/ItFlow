@@ -1,0 +1,4 @@
+#Fri Mar 10 18:00:32 WET 2023
+base.0=/home/luis/2LEIC14T1/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
