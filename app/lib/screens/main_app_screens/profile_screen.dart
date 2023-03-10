@@ -1,9 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:itflowapp/constants.dart';
 import 'package:itflowapp/main.dart';
-import 'package:itflowapp/widgets/JobOffer.dart';
-
+import 'package:itflowapp/widgets/job_offer.dart';
+import 'package:itflowapp/widgets/navigation_bar.dart';
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
 
@@ -43,6 +42,7 @@ class ProfileScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children:const [
                         Text(
                           "Faísca Raimundo",
@@ -62,46 +62,13 @@ class ProfileScreen extends StatelessWidget {
           
             //bookmarks
             
-            JobOffer(hirer: "II SECTOR inc", location: "Porto,Portugal",type: "Full time", job: "REACT JS DEVELOPER",),
+            const JobOffer(hirer: "II SECTOR inc", location: "Porto,Portugal",type: "Full time", job: "REACT JS DEVELOPER",),
           
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
+      bottomNavigationBar: const NavBar(
         currentIndex: 3,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: '',
-          ),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.notifications), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: ''),
-        ],
-        onTap: (int index) {
-          switch (index) {
-            case 0:
-              Navigator.pushReplacement(
-                  context, NoPageTransitionToMyApp(Routes.home));
-              break;
-            case 1:
-              Navigator.pushReplacement(
-                  context, NoPageTransitionToMyApp(Routes.search));
-              break;
-            case 2:
-              Navigator.pushReplacement(
-                  context, NoPageTransitionToMyApp(Routes.notification));
-              break;
-            case 3: // The current one
-              // Maybe update page?
-              break;
-          }
-        },
       ),
     );
   }
 }
-
-
