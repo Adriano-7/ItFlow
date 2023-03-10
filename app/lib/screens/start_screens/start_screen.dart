@@ -10,17 +10,16 @@ class StartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text(appName),
-          centerTitle: true,
-        ),
         body: Column(
           children: [
             Expanded(
                 flex: 4,
                 child: Column(
                   children: const [
-                    Image(image: AssetImage('assets/images/start_img.png')),
+                    Padding(
+                      padding: EdgeInsets.only(top: 40),
+                      child: Image(image: AssetImage('assets/images/start_img.png'))
+                    ),
                     Padding(
                       padding:
                           EdgeInsets.symmetric(horizontal: 40, vertical: 15),
