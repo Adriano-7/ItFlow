@@ -6,13 +6,13 @@ You can find here details about the product (or mini-app or module), from a high
 
 * Business modeling 
   * [Product Vision](/docs/ProductVision.md)
-  * [Elevator Pitch](/docs/ElevatorPitch.md)
+  * [Elevator Pitch]
 * [Requirements](/docs/requirements.md)
   * [Domain model](/docs/requirements.md)
 * [Architecture and Design](/docs/ArchitectureAndDesign.md)
-  * [Logical architecture](/docs/ArchitectureAndDesign.md)
-  * [Physical architecture](/docs/ArchitectureAndDesign.md)
-  * [Vertical prototype](/docs/ArchitectureAndDesign.md)
+  * [Logical architecture](/docs/ArchitectureAndDesign.md#logical-architecture)
+  * [Physical architecture](/docs/ArchitectureAndDesign.md#physical-architecture)
+  * [Vertical prototype](/docs/ArchitectureAndDesign.md#vertical-prototype)
 * [Implementation]
 * [Test]
 * [Configuration and change management]
@@ -24,13 +24,10 @@ Please contact us!
 
 Thank you!
 
-Adriano Alexandre dos Santos Machado
-
-Igor Cherstnev
-
-José Pedro Evans de Carvalho Nobre João
-
-Henrique Filipe Pereira da Silva Caridade
+- Adriano Alexandre dos Santos Machado
+- Igor Cherstnev
+- José Pedro Evans de Carvalho Nobre João
+- Henrique Filipe Pereira da Silva Caridade
 
 ---
 
