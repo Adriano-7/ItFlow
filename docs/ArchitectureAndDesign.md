@@ -40,3 +40,5 @@ The following features were implemented:
 <p align="center" justify="center">
 <img src="../images/seeker_profile.jpg" width="300"></center>
 </p>
+
+We are currently working with FIGMA to design our prototype. Here's a link to our current project: https://www.figma.com/file/ITJGuCmmKHlOhnb4bvyrCV/IT-Flow-prototype?node-id=191%3A231&t=ZK66NVF5PD1d4Mfm-1
