@@ -66,7 +66,7 @@ class StartScreen extends StatelessWidget {
                         child: Text('Register'),
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 15),
                     const Text(
                       'Not a fan of registering? Enter as a guest instead.',
                     ),
