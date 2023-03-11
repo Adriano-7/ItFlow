@@ -25,8 +25,11 @@ Please contact us!
 Thank you!
 
 Adriano Alexandre dos Santos Machado
+
 Igor Cherstnev
+
 José Pedro Evans de Carvalho Nobre João
+
 Henrique Filipe Pereira da Silva Caridade
 
 ---
