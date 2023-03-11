@@ -25,12 +25,18 @@ In our app's physical architecture there are 4 main entities:
 The following features were implemented:
 - A start screen with buttons to navigate to the login screen and the register screen;
 <br>
-<center><img src="../images/start_screen.jpg" width="300"></center>
+<p align="center" justify="center">
+<img src="../images/start_screen.jpg" width="300">
+</p>
 
 - A draft of the navigation between the screens using the bottom navigation bar;
 <br>
-<center><img src="../images/bottom_navigation_bar.jpg" width="300"></center>
+<p align="center" justify="center">
+<img src="../images/bottom_navigation_bar.jpg" width="300"></center>
+</p>
 
 - A draft of the job seeker's profile screen;
 <br>
-<center><img src="../images/seeker_profile.jpg" width="300"></center>
+<p align="center" justify="center">
+<img src="../images/seeker_profile.jpg" width="300"></center>
+</p>
