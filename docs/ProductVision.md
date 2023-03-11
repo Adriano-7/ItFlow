@@ -8,12 +8,13 @@ Our platform is designed to help IT professionals find their perfect fit. This a
 ### Main Features
 This app has as its main goal, providing a platform for IT professional to find what they are looking for, having the following features:
 - Friendly interface with light and dark mode;
+- Jobs from an external source (ITJobs), but also with the possibility of in-app job posting;
 - Two types of users: Job Seekers and Employers;
 - Job Seekers can:
   - Create a profile;
   - Search for jobs with different filters (location, salary, skills, etc.)
   - Apply for jobs (redirection);
-  - Save jobs;
+  - Save jobs (bookmark);
   - Attach CV;
   - Get notifications if a job fits their profile;
   - Review companies.
