@@ -27,6 +27,7 @@ Thank you!
 - Adriano Alexandre dos Santos Machado
 - Igor Cherstnev
 - José Pedro Evans de Carvalho Nobre João
+- Luís Filipe da Silva Jesus
 - Henrique Filipe Pereira da Silva Caridade
 
 ---
