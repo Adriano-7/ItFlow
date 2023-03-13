@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.itflow.itflowapp">
    <application
-        android:label="itflowapp"
+        android:label="ItFlow"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
