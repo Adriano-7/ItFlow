@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:itflowapp/constants.dart';
-import 'package:itflowapp/main.dart';
 import 'package:itflowapp/widgets/navigation_bar.dart';
 
 class NotificationScreen extends StatelessWidget {

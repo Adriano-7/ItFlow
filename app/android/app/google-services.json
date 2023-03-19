@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "807880797504",
+    "project_id": "itflow-932ec",
+    "storage_bucket": "itflow-932ec.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:807880797504:android:5c3a894c26ff8cadc05ea5",
+        "android_client_info": {
+          "package_name": "com.itflow.itflowapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "807880797504-pj4gf6qlk8ntnne32kp7rnttdih9nev0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9xLpOw4ZzCZnJT8T2aLbD3VwSkGm8XUU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "807880797504-pj4gf6qlk8ntnne32kp7rnttdih9nev0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
