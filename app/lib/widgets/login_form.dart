@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/gestures.dart';
 import 'package:itflowapp/controllers/auth_controller.dart';
 import 'package:itflowapp/main.dart';
 
@@ -24,28 +25,28 @@ class _LoginFormState extends State<LoginForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            padding: const EdgeInsets.only(top: 15.0),
             child: TextFormField(
               validator: (value) {
                 // TODO
               },
               controller: widget._emailController,
               decoration: InputDecoration(
-                prefixIcon: Icon(Icons.person_outline),
+                prefixIcon: const Icon(Icons.person_outline),
                 labelText: 'Email',
                 hintText: 'example@gmail.com',
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30),
+                  borderRadius: BorderRadius.circular(15),
                 ),
-                contentPadding: EdgeInsets.zero,
+                contentPadding: const EdgeInsets.all(25.0),
               ),
             ),
           ),
           const SizedBox(height: 16),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            padding: const EdgeInsets.only(top: 5.0),
             child: TextFormField(
-              validator: (value){
+              validator: (value) {
                 // TODO
               },
               controller: widget._passwordController,
@@ -55,9 +56,9 @@ class _LoginFormState extends State<LoginForm> {
                 labelText: 'Password',
                 hintText: 'yourpassword',
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30),
+                  borderRadius: BorderRadius.circular(15),
                 ),
-                contentPadding: EdgeInsets.zero,
+                contentPadding: const EdgeInsets.all(25.0),
                 suffixIcon: IconButton(
                   onPressed: () {
                     setState(() {
@@ -71,19 +72,41 @@ class _LoginFormState extends State<LoginForm> {
               ),
             ),
           ),
-          Align(
-            alignment: Alignment.centerRight,
+          Padding(
+              padding: const EdgeInsets.only(top: 40.0, bottom: 10.0),
+              child: Center(
+                  child: RichText(
+                text: TextSpan(text: 'Don\'t have an account? ', children: [
+                  TextSpan(
+                    text: 'Sign Up',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        Navigator.pushNamed(context, Routes.register);
+                      },
+                  ),
+                ]),
+              ))),
+          Padding(
+            //full width button
+            padding: const EdgeInsets.all(1.0),
             child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                minimumSize: const Size.fromHeight(50),
+              ),
               onPressed: () {
-                if(!_formKey.currentState!.validate()) return;
+                if (!_formKey.currentState!.validate()) return;
 
-                AuthController().loginUser(widget._emailController.text, widget._passwordController.text);
+                AuthController().loginUser(widget._emailController.text,
+                    widget._passwordController.text);
 
                 // Remove Every Screen and Leave Only the New One
                 Navigator.pushNamedAndRemoveUntil(
                     context, Routes.home, ModalRoute.withName('/'));
               },
-              child: const Text('Submit'),
+              child: const Text('Log In'),
             ),
           ),
         ],
