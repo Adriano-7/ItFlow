@@ -27,9 +27,7 @@ class _LoginFormState extends State<LoginForm> {
           Padding(
             padding: const EdgeInsets.only(top: 15.0),
             child: TextFormField(
-              validator: (value) {
-                // TODO
-              },
+              validator: (value) {},
               controller: widget._emailController,
               decoration: InputDecoration(
                 prefixIcon: const Icon(Icons.person_outline),

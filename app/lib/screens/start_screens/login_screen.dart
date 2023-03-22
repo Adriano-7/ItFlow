@@ -8,46 +8,40 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text(appName),
-          centerTitle: true,
+      appBar: AppBar(
+        title: const Text(appName),
+        centerTitle: true,
+      ),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
         ),
-        body: Column(
-          children: [
-            Expanded(
-                flex: 3,
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 40, vertical: 100),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Nice to see you again!',
-                        style: TextStyle(
-                          fontSize: 45,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const Padding(
-                          padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                          child: Text(
-                            "Let's get you signed in!",
-                            style: TextStyle(
-                              fontSize: 40,
-                              fontWeight: FontWeight.w300,
-                            ),
-                          )),
-                      Padding(
-                          padding: const EdgeInsets.only(top: 5.0),
-                          child: LoginForm())
-                    ],
-                  ),
-                ))
-          ],
-        )
-
-        //LoginForm(),
-        );
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 100),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Nice to see you again!',
+                style: TextStyle(
+                  fontSize: 45,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const Padding(
+                  padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                  child: Text(
+                    "Let's get you signed in!",
+                    style: TextStyle(
+                      fontSize: 40,
+                      fontWeight: FontWeight.w300,
+                    ),
+                  )),
+              LoginForm(),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
