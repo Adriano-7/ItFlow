@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:itflowapp/constants.dart';
-import 'package:itflowapp/widgets/register_form.dart';
+import 'package:itflowapp/constants/constants.dart';
+import 'package:itflowapp/widgets/forms/register_form.dart';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({Key? key}) : super(key: key);

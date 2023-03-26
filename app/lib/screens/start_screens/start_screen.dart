@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:itflowapp/theme/app_theme.dart';
 import 'package:itflowapp/widgets/double_button.dart';
-import 'package:itflowapp/constants.dart';
+import 'package:itflowapp/constants/constants.dart';
 import 'package:itflowapp/main.dart';
 
 class StartScreen extends StatelessWidget {

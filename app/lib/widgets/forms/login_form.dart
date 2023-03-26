@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
-import 'package:itflowapp/controllers/auth_controller.dart';
+import 'package:itflowapp/controllers/auth.dart';
 import 'package:itflowapp/main.dart';
 
 class LoginForm extends StatefulWidget {
@@ -27,7 +27,9 @@ class _LoginFormState extends State<LoginForm> {
           Padding(
             padding: const EdgeInsets.only(top: 15.0),
             child: TextFormField(
-              validator: (value) {},
+              validator: (value) {
+                // TODO
+              },
               controller: widget._emailController,
               decoration: InputDecoration(
                 prefixIcon: const Icon(Icons.person_outline),
@@ -71,22 +73,27 @@ class _LoginFormState extends State<LoginForm> {
             ),
           ),
           Padding(
-              padding: const EdgeInsets.only(top: 40.0, bottom: 10.0),
-              child: Center(
-                  child: RichText(
-                text: TextSpan(text: 'Don\'t have an account? ', children: [
-                  TextSpan(
-                    text: 'Sign Up',
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
+            padding: const EdgeInsets.only(top: 40.0, bottom: 10.0),
+            child: Center(
+              child: RichText(
+                text: TextSpan(
+                  text: 'Don\'t have an account? ',
+                  children: [
+                    TextSpan(
+                      text: 'Sign Up',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          Navigator.pushNamed(context, Routes.register);
+                        },
                     ),
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () {
-                        Navigator.pushNamed(context, Routes.register);
-                      },
-                  ),
-                ]),
-              ))),
+                  ],
+                ),
+              ),
+            ),
+          ),
           Padding(
             //full width button
             padding: const EdgeInsets.all(1.0),

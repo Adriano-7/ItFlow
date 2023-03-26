@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:itflowapp/controllers/auth_controller.dart';
+import 'package:itflowapp/controllers/auth.dart';
 import 'package:itflowapp/main.dart';
 
 class RegisterForm extends StatefulWidget {

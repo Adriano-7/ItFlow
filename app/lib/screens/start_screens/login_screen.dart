@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:itflowapp/constants.dart';
-import 'package:itflowapp/widgets/login_form.dart';
+import 'package:itflowapp/constants/constants.dart';
+import 'package:itflowapp/widgets/forms/login_form.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);

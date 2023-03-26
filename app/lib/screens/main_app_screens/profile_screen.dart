@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:itflowapp/constants.dart';
+import 'package:itflowapp/constants/constants.dart';
 import 'package:itflowapp/main.dart';
 import 'package:itflowapp/widgets/job_offer.dart';
 import 'package:itflowapp/widgets/navigation_bar.dart';
@@ -62,7 +62,7 @@ class ProfileScreen extends StatelessWidget {
           
             //bookmarks
             
-            const JobOffer(hirer: "II SECTOR inc", location: "Porto,Portugal",type: "Full time", job: "REACT JS DEVELOPER",),
+          JobOffer(hirer: "II SECTOR inc", location: "Porto,Portugal",type: "Full time", job: "REACT JS DEVELOPER",),
           
         ],
       ),

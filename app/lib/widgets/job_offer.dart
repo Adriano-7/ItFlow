@@ -1,93 +1,123 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:itflowapp/models/job.dart';
 import 'package:itflowapp/theme/app_theme.dart';
 import 'package:itflowapp/widgets/icon_switch.dart';
 
 class JobOffer extends StatelessWidget {
+  static const double _logoWidthPercentage = 0.15;
+  static const double _logoHeightPercentage = 0.10;
+  static const double _titlePercentage = 0.50;
+  static const double _cardHeight = 100;
+
   final String _hirer; //hirer name
   final String _location; //city and country
   final String _type; // part-time or full-time
   final String _job; // ex: React-developer or engineer
-  final Icon _logo; // hirer logo
-  const JobOffer({
+  late final Image _logo; // hirer logo
+
+  JobOffer({
     Key? key,
     String hirer = '',
     String location = '',
     String type = '',
     String job = '',
-    Icon logo = const Icon(size: 50, Icons.assignment_late_rounded),
+    Image? logo,
   })  : _hirer = hirer,
         _location = location,
         _type = type,
         _job = job,
-        _logo = logo,
-        super(key: key);
+        super(key: key) {
+    _logo = logo ??
+        Image.network(
+            'https://i.scdn.co/image/ab67616d0000b2734e57c459c44ad93020529594', scale: 10,);
+  }
+
+  factory JobOffer.fromJob(Job job) {
+    return JobOffer(
+      hirer: job.company.name,
+      location: job.locations == null ? '' : job.locations![0].name,
+      type: job.types == null ? '' : job.types![0].name,
+      job: job.title,
+      logo: Image.network(job.company.logoUrl),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
+    // double screenHeight = MediaQuery.of(context).size.height;
     return Container(
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(15)),
         color: AppColors.black,
       ),
       width: screenWidth * 0.9,
-      height: screenHeight * 0.15,
+      height: _cardHeight,
       alignment: Alignment.center,
       child: Padding(
         padding: const EdgeInsets.all(10.0),
-        child: Column(
+        child: Stack(
           children: [
-            Expanded(
-              child: Row(
-                //upper section
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    //logo and texts row
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Align( // LOGO
+              alignment: Alignment.topLeft,
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxHeight: screenWidth * _logoHeightPercentage,
+                  maxWidth: screenWidth * _logoWidthPercentage,
+                ),
+                child: _logo,
+              ),
+            ),
+            Align( // TITLE
+              alignment: Alignment.topCenter,
+              child: Container(
+                constraints: BoxConstraints(
+                  maxWidth: screenWidth * _titlePercentage,
+                  maxHeight: _cardHeight * 0.5,
+                ),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      _logo,
-                      const SizedBox(width: 5),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text(_hirer),
-                          Text(
-                            _job,
-                            style: const TextStyle(fontSize: 18),
-                          ),
-                        ],
+                      Text(
+                        _hirer,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Text(
+                        _job,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(fontSize: 18),
                       ),
                     ],
                   ),
-                  IconSwitch(
-                    onChanged: (_) {},
-                    iconEnabled: const Icon(Icons.bookmark),
-                    iconDisabled: const Icon(Icons.bookmark_border),
-                  )
+                ),
+              ),
+            ),
+            Align( // BOOKMARK
+              alignment: Alignment.topRight,
+              child: IconSwitch(
+                onChanged: (_) {},
+                iconEnabled: const Icon(Icons.bookmark),
+                iconDisabled: const Icon(Icons.bookmark_border),
+              ),
+            ),
+            Align( // LOCATION
+              alignment: Alignment.bottomLeft,
+              child: Row(
+                children: [
+                  const Icon(Icons.location_on),
+                  const SizedBox(width: 10),
+                  Text(_location),
                 ],
               ),
             ),
-            Expanded(
-              child: Row(
-                //lower section
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      children: [
-                        const Icon(Icons.location_on),
-                        const SizedBox(width: 10),
-                        Text(_location),
-                      ],
-                    ),
-                  ),
-                  Align(alignment: Alignment.centerRight, child: Text(_type)),
-                ],
-              ),
+            Align( // TIME TYPE
+              alignment: Alignment.bottomRight,
+              child: Text(_type),
             ),
           ],
         ),
