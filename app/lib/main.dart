@@ -1,13 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:itflowapp/theme/app_theme.dart';
 import 'package:itflowapp/screens/all_screens.dart';
+import 'package:flutter/services.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 void main() {
+  // Firebase Initialization
   WidgetsFlutterBinding.ensureInitialized();
   Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  // Portrait Mode
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    // DeviceOrientation.portraitDown,
+  ]);
+
   runApp(const MyApp());
 }
 
