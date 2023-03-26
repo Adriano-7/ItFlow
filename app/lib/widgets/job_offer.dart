@@ -31,7 +31,9 @@ class JobOffer extends StatelessWidget {
         super(key: key) {
     _logo = logo ??
         Image.network(
-            'https://i.scdn.co/image/ab67616d0000b2734e57c459c44ad93020529594', scale: 10,);
+          'https://i.scdn.co/image/ab67616d0000b2734e57c459c44ad93020529594',
+          scale: 10,
+        );
   }
 
   factory JobOffer.fromJob(Job job) {
@@ -60,17 +62,24 @@ class JobOffer extends StatelessWidget {
         padding: const EdgeInsets.all(10.0),
         child: Stack(
           children: [
-            Align( // LOGO
+            Align(
+              // LOGO
               alignment: Alignment.topLeft,
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  maxHeight: screenWidth * _logoHeightPercentage,
-                  maxWidth: screenWidth * _logoWidthPercentage,
+              child: Container(
+                height: screenWidth * _logoHeightPercentage,
+                width: screenWidth * _logoWidthPercentage,
+                decoration:  BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: const Color.fromARGB(255, 255, 255, 255),
                 ),
-                child: _logo,
+                child: Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: Center(child: _logo),
+                ),
               ),
             ),
-            Align( // TITLE
+            Align(
+              // TITLE
               alignment: Alignment.topCenter,
               child: Container(
                 constraints: BoxConstraints(
@@ -97,7 +106,8 @@ class JobOffer extends StatelessWidget {
                 ),
               ),
             ),
-            Align( // BOOKMARK
+            Align(
+              // BOOKMARK
               alignment: Alignment.topRight,
               child: IconSwitch(
                 onChanged: (_) {},
@@ -105,7 +115,8 @@ class JobOffer extends StatelessWidget {
                 iconDisabled: const Icon(Icons.bookmark_border),
               ),
             ),
-            Align( // LOCATION
+            Align(
+              // LOCATION
               alignment: Alignment.bottomLeft,
               child: Row(
                 children: [
@@ -115,7 +126,8 @@ class JobOffer extends StatelessWidget {
                 ],
               ),
             ),
-            Align( // TIME TYPE
+            Align(
+              // TIME TYPE
               alignment: Alignment.bottomRight,
               child: Text(_type),
             ),

@@ -32,7 +32,6 @@ class ItJobsApiController {
     final uri = Uri.parse(
         "${_jobRootUrl}list.json?api_key=$_apiKey&limit=$limit&page=$page$optional");
     final jsonMap = await _apiCall(uri);
-    print('GOT IT');
     return JobList.fromJson(jsonMap);
   }
 
@@ -95,8 +94,6 @@ class JobGet {
 }
 
 class JobList {
-  static int _jobListCount = 0;
-  final int id;
   final int total;
   final int page;
   final int limit;
@@ -107,7 +104,7 @@ class JobList {
     this.page,
     this.limit,
     this.results,
-  ) : id = (_jobListCount++);
+  );
 
   factory JobList.fromJson(Map<String, dynamic> jsonMap) {
     return JobList(
