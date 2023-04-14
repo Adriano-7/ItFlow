@@ -7,6 +7,8 @@ import 'package:itflowapp/widgets/job_offer.dart';
 import 'package:itflowapp/screens/main_app_screens/filters_screen.dart';
 
 class SearchScreen extends StatefulWidget {
+  const SearchScreen({super.key});
+
   @override
   _SearchScreenState createState() => _SearchScreenState();
 }
@@ -24,12 +26,13 @@ class _SearchScreenState extends State<SearchScreen> {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(20.0),
             child: TextField(
               decoration: InputDecoration(
-                hintText: 'Search jobs',
+                prefixIcon: const Icon(Icons.search),
+                hintText: 'Search...',
                 suffixIcon: IconButton(
-                  icon: Icon(Icons.filter_list),
+                  icon: const Icon(Icons.filter_list),
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -47,9 +50,9 @@ class _SearchScreenState extends State<SearchScreen> {
               },
             ),
           ),
-          Text(
-            'Search Results',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(0.0, 40.0, 190.0, 20.0),
+            child: Text('Search Results', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
           ),
           Expanded(
             child: FutureBuilder<JobSearch>(
@@ -60,15 +63,16 @@ class _SearchScreenState extends State<SearchScreen> {
                     itemCount: snapshot.data!.results.length,
                     itemBuilder: (BuildContext context, int index) {
                       Job job = snapshot.data!.results[index];
-                      return JobOffer.fromJob(job);
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: JobOffer.fromJob(job),
+                      );
                     },
                   );
                 } else if (snapshot.hasError) {
-                  return Center(
-                    child: Text('Error: ${snapshot.error}'),
-                  );
+                  return Container();
                 } else {
-                  return Center(
+                  return const Center(
                     child: CircularProgressIndicator(),
                   );
                 }
