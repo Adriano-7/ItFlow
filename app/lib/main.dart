@@ -53,7 +53,7 @@ class Routes {
     login: (context) => const LoginScreen(),
     register: (context) => const RegisterScreen(),
     home: (context) => HomeScreen(),
-    search: (context) => const SearchScreen(),
+    search: (context) => SearchScreen(),
     notification: (context) => const NotificationScreen(),
     profile: (context) => const ProfileScreen(),
     settings: (context) => const SettingsScreen(),
