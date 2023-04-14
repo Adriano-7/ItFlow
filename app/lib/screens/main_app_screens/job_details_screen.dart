@@ -146,9 +146,8 @@ class JobDetailsScreenState extends State<JobDetailsScreen> {
                       child: Padding(
                         padding: const EdgeInsets.only(
                             top: 9.0, bottom: 9.0, left: 22.0, right: 22.0),
-                        //put clock icon
                         child: Row(children: [
-                          const Icon(Icons.access_time, size: 17),
+                          const Icon(Icons.access_time, size: 13),
                           const SizedBox(width: 6),
                           Text(
                             widget.getTimeAgo(),
