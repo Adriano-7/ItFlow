@@ -3,6 +3,8 @@ import 'package:itflowapp/constants/constants.dart';
 import 'package:itflowapp/main.dart';
 import 'package:itflowapp/widgets/job_offer.dart';
 import 'package:itflowapp/widgets/navigation_bar.dart';
+import 'package:itflowapp/models/job.dart';
+
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
 
@@ -29,7 +31,7 @@ class ProfileScreen extends StatelessWidget {
                 child: Column(
                   //profile picture and edit profile
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children:const [
+                  children: const [
                     Icon(Icons.person, size: 100),
                     ElevatedButton(
                         onPressed: null, child: Text("Edit Profile")),
@@ -43,7 +45,7 @@ class ProfileScreen extends StatelessWidget {
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children:const [
+                      children: const [
                         Text(
                           "Faísca Raimundo",
                           style: TextStyle(fontSize: 25),
@@ -59,11 +61,16 @@ class ProfileScreen extends StatelessWidget {
               ),
             ],
           ),
-          
-            //bookmarks
-            
-          JobOffer(hirer: "II SECTOR inc", location: "Porto,Portugal",type: "Full time", job: "REACT JS DEVELOPER",),
-          
+
+          //bookmarks
+
+          JobOffer(
+            hirer: "II SECTOR inc",
+            location: "Porto,Portugal",
+            type: "Full time",
+            job: "REACT JS DEVELOPER",
+            jobDetails: Job.empty(),
+          ),
         ],
       ),
       bottomNavigationBar: const NavBar(

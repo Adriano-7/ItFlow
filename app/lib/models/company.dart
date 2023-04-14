@@ -1,7 +1,6 @@
-import 'dart:convert';
-
 class Company {
-  static const _annonnymousImg = 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Anonymous.svg/1200px-Anonymous.svg.png';
+  static const _annonnymousImg =
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Anonymous.svg/1200px-Anonymous.svg.png';
 
   final int id;
   final String name;
