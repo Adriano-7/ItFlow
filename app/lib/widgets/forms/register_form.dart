@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
-import 'package:itflowapp/controllers/auth.dart';
 import 'package:itflowapp/main.dart';
+import 'package:itflowapp/theme/app_theme.dart';
+import '../../controllers/register_controller.dart';
 
 class RegisterForm extends StatefulWidget {
   bool _isPasswordHidden = true;
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _repeatpasswordController = TextEditingController();
-  final _nameController = TextEditingController();
-  final _phoneController = TextEditingController();
-  var firstPassword;
+  bool _isRepeatPasswordHidden = true;
+  final _controller = RegisterFormController();
   RegisterForm({Key? key}) : super(key: key);
 
   @override
@@ -28,116 +25,77 @@ class _RegisterFormState extends State<RegisterForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 16),
-          Padding( //name entry
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: TextFormField(
-              validator: (value) {
-                if(value!.isEmpty){
-                  return "Username can't be empty!";
-                }
-              },
-              controller: widget._nameController,
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.person_outline),
-                labelText: 'Name',
-                hintText: 'Faísca Raimundo',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                contentPadding: EdgeInsets.zero,
+          TextFormField(
+            validator: widget._controller.usernameValidator,
+            controller: widget._controller.nameController,
+            decoration: InputDecoration(
+              prefixIcon: Icon(Icons.person_outline),
+              labelText: 'Name',
+              hintText: 'John Goldman',
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(30),
               ),
+              contentPadding: EdgeInsets.zero,
             ),
           ),
           const SizedBox(height: 16),
-          Padding( //email entry
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: TextFormField(
-              validator: (value) {
-                if(value!.isEmpty){
-                  return "Email can't be empty!";
-                }
-              },
-              controller: widget._emailController,
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.email_outlined),
-                labelText: 'Email',
-                hintText: 'example@gmail.com',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                contentPadding: EdgeInsets.zero,
+          TextFormField(
+            validator: widget._controller.emailValidator,
+            controller: widget._controller.emailController,
+            decoration: InputDecoration(
+              prefixIcon: Icon(Icons.email_outlined),
+              labelText: 'Email',
+              hintText: 'example@gmail.com',
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(30),
               ),
+              contentPadding: EdgeInsets.zero,
             ),
           ),
           const SizedBox(height: 16),
-          Padding( //phone entry
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: TextFormField(
-              validator: (value) {
-                if(value!.isEmpty){
-                  return "Phone number can't be empty!";
-                }
-              },
-              controller: widget._phoneController,
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.phone),
-                labelText: 'Phone No.',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                contentPadding: EdgeInsets.zero,
+          TextFormField(
+            validator: widget._controller.phoneNumberValidator,
+            controller: widget._controller.phoneController,
+            decoration: InputDecoration(
+              prefixIcon: Icon(Icons.phone),
+              labelText: 'Phone No.',
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(30),
               ),
+              contentPadding: EdgeInsets.zero,
             ),
           ),
           const SizedBox(height: 16),
-          Padding(//password entry
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: TextFormField(
-              validator: (value){
-                if(value!.isEmpty){
-                  return "password can't be empty!";
-                }
-              },
-              onChanged:(value){
-                widget.firstPassword=value;
-              },
-              controller: widget._passwordController,
-              obscureText: widget._isPasswordHidden,
-              decoration: InputDecoration(
-                prefixIcon: const Icon(Icons.key),
-                labelText: 'Password',
-                hintText: 'yourpassword',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                contentPadding: EdgeInsets.zero,
-                suffixIcon: IconButton(
-                  onPressed: () {
-                    setState(() {
-                      widget._isPasswordHidden = !widget._isPasswordHidden;
-                    });
-                  },
-                  icon: Icon(widget._isPasswordHidden
-                      ? Icons.visibility
-                      : Icons.visibility_off),
-                ),
+          TextFormField(
+            validator: widget._controller.passwordValidator,
+            controller: widget._controller.passwordController,
+            obscureText: widget._isPasswordHidden,
+            decoration: InputDecoration(
+              prefixIcon: const Icon(Icons.key),
+              labelText: 'Password',
+              hintText: 'yourpassword',
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(30),
+              ),
+              contentPadding: EdgeInsets.zero,
+              suffixIcon: IconButton(
+                onPressed: () {
+                  setState(() {
+                    widget._isPasswordHidden = !widget._isPasswordHidden;
+                  });
+                },
+                icon: Icon(widget._isPasswordHidden
+                    ? Icons.visibility
+                    : Icons.visibility_off),
               ),
             ),
           ),
-          const SizedBox(height: 16),
-          Padding(//repeat password entry
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20),
             child: TextFormField(
-              validator: (value){
-                if(value!.isEmpty){
-                  return "password can't be empty!";
-                }
-                if(value!=widget.firstPassword)
-                  return "Passwords don't match!" ;
-
-              },
-              controller: widget._repeatpasswordController,
-              obscureText: widget._isPasswordHidden,
+              validator: widget._controller.repeatPasswordValidator,
+              controller: widget._controller.repeatPasswordController,
+              obscureText: widget._isRepeatPasswordHidden,
               decoration: InputDecoration(
                 prefixIcon: const Icon(Icons.key),
                 labelText: 'Repeat Password',
@@ -149,16 +107,23 @@ class _RegisterFormState extends State<RegisterForm> {
                 suffixIcon: IconButton(
                   onPressed: () {
                     setState(() {
-                      widget._isPasswordHidden = !widget._isPasswordHidden;
+                      widget._isRepeatPasswordHidden =
+                          !widget._isRepeatPasswordHidden;
                     });
                   },
-                  icon: Icon(widget._isPasswordHidden
+                  icon: Icon(widget._isRepeatPasswordHidden
                       ? Icons.visibility
                       : Icons.visibility_off),
                 ),
               ),
             ),
           ),
+          (widget._controller.getErrorMessage == null)
+              ? Container()
+              : Text(
+                  widget._controller.getErrorMessage!,
+                  style: const TextStyle(color: AppColors.red),
+                ),
           Padding(
             padding: const EdgeInsets.only(top: 40.0, bottom: 10.0),
             child: Center(
@@ -182,21 +147,13 @@ class _RegisterFormState extends State<RegisterForm> {
             ),
           ),
           Padding(
-            //full width button
+            // Full width button
             padding: const EdgeInsets.all(1.0),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size.fromHeight(50),
               ),
-              onPressed: () {
-                if (!_formKey.currentState!.validate()) return;
-
-                AuthController().createUser(widget._emailController.text, widget._passwordController.text);
-
-                // Remove Every Screen and Leave Only the New One
-                Navigator.pushNamedAndRemoveUntil(
-                    context, Routes.home, ModalRoute.withName('/'));
-              },
+              onPressed: () => widget._controller.submit(_formKey, context),
               child: const Text('Submit'),
             ),
           ),

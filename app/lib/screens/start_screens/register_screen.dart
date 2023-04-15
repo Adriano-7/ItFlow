@@ -13,7 +13,10 @@ class RegisterScreen extends StatelessWidget {
         centerTitle: true,
       ),
       body: SingleChildScrollView(
-        child: RegisterForm(),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+          child: RegisterForm(),
+        ),
       ),
     );
   }

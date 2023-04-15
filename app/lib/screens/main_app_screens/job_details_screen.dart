@@ -68,20 +68,21 @@ class JobDetailsScreenState extends State<JobDetailsScreen> {
                   ),
                 ),
                 Align(
-                    child: Container(
-                  width: MediaQuery.of(context).size.width * 0.20,
-                  height: MediaQuery.of(context).size.height * 0.10,
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(18)),
-                    color: Colors.white,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.20,
+                    height: MediaQuery.of(context).size.height * 0.10,
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(18)),
+                      color: Colors.white,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(3.0),
+                      child: widget.jobOffer.company?.logoUrl != null
+                          ? Image.network(widget.jobOffer.company!.logoUrl)
+                          : Container(),
+                    ),
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(3.0),
-                    child: widget.jobOffer.company?.logoUrl != null
-                        ? Image.network(widget.jobOffer.company!.logoUrl)
-                        : Container(),
-                  ),
-                )),
+                ),
                 const SizedBox(height: 20),
                 Text(widget.jobOffer.company?.name ?? '',
                     textAlign: TextAlign.center,
@@ -101,7 +102,7 @@ class JobDetailsScreenState extends State<JobDetailsScreen> {
                   children: [
                     const Icon(Icons.location_on),
                     Text(
-                      widget.jobOffer.locations?[0].name ?? "unknow Location",
+                      widget.jobOffer.locations?[0].name ?? "Unknown Location",
                       style: const TextStyle(fontSize: 15),
                     ),
                   ],
@@ -124,7 +125,7 @@ class JobDetailsScreenState extends State<JobDetailsScreen> {
                         padding: const EdgeInsets.only(
                             top: 9.0, bottom: 9.0, left: 22.0, right: 22.0),
                         child: Text(
-                          widget.jobOffer.types?[0].name ?? "unknow Type",
+                          widget.jobOffer.types?[0].name ?? "Unknown Type",
                           style: const TextStyle(
                             fontSize: 13,
                             color: AppColors.green,

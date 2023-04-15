@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
-import 'package:itflowapp/controllers/auth.dart';
+import 'package:itflowapp/theme/app_theme.dart';
+import 'package:itflowapp/controllers/login_controller.dart';
 import 'package:itflowapp/main.dart';
 
 class LoginForm extends StatefulWidget {
   bool _isPasswordHidden = true;
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final _controller = LoginFormController();
 
   LoginForm({Key? key}) : super(key: key);
 
@@ -27,10 +27,8 @@ class _LoginFormState extends State<LoginForm> {
           Padding(
             padding: const EdgeInsets.only(top: 15.0),
             child: TextFormField(
-              validator: (value) {
-                // TODO
-              },
-              controller: widget._emailController,
+              validator: widget._controller.emailValidator,
+              controller: widget._controller.emailController,
               decoration: InputDecoration(
                 prefixIcon: const Icon(Icons.person_outline),
                 labelText: 'Email',
@@ -42,14 +40,11 @@ class _LoginFormState extends State<LoginForm> {
               ),
             ),
           ),
-          const SizedBox(height: 16),
           Padding(
-            padding: const EdgeInsets.only(top: 5.0),
+            padding: const EdgeInsets.symmetric(vertical: 20.0),
             child: TextFormField(
-              validator: (value) {
-                // TODO
-              },
-              controller: widget._passwordController,
+              validator: widget._controller.passwordValidator,
+              controller: widget._controller.passwordController,
               obscureText: widget._isPasswordHidden,
               decoration: InputDecoration(
                 prefixIcon: const Icon(Icons.key),
@@ -72,12 +67,18 @@ class _LoginFormState extends State<LoginForm> {
               ),
             ),
           ),
+          (widget._controller.getErrorMessage == null)
+              ? Container()
+              : Text(
+                  widget._controller.getErrorMessage!,
+                  style: const TextStyle(color: AppColors.red),
+                ),
           Padding(
             padding: const EdgeInsets.only(top: 40.0, bottom: 10.0),
             child: Center(
               child: RichText(
                 text: TextSpan(
-                  text: 'Don\'t have an account? ',
+                  text: "Don't have an account? ",
                   children: [
                     TextSpan(
                       text: 'Sign Up',
@@ -101,16 +102,7 @@ class _LoginFormState extends State<LoginForm> {
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size.fromHeight(50),
               ),
-              onPressed: () {
-                if (!_formKey.currentState!.validate()) return;
-
-                AuthController().loginUser(widget._emailController.text,
-                    widget._passwordController.text);
-
-                // Remove Every Screen and Leave Only the New One
-                Navigator.pushNamedAndRemoveUntil(
-                    context, Routes.home, ModalRoute.withName('/'));
-              },
+              onPressed: () => widget._controller.submit(_formKey, context),
               child: const Text('Log In'),
             ),
           ),
