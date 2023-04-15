@@ -1,4 +1,3 @@
-
 export 'start_screens/start_screen.dart';
 
 export 'start_screens/login_screen.dart';
@@ -10,4 +9,4 @@ export 'main_app_screens/notification_screen.dart';
 export 'main_app_screens/profile_screen.dart';
 
 export 'main_app_screens/settings_screen.dart';
-
+export 'main_app_screens/job_details_screen.dart';

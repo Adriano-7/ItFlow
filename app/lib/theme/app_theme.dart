@@ -68,11 +68,11 @@ class AppTheme {
 
 @immutable
 class AppColors {
-  static const Color white = const Color(0xFFFFFFFF);
-  static const Color black = const Color(0xFF181818);
-  static const Color green = const Color(0xFFB9EFC9);
-  static const Color gray = const Color(0xFF443D3D);
-  static const Color red = const Color(0xFFFF3D3D);
+  static const Color white = Color(0xFFFFFFFF);
+  static const Color black = Color(0xFF181818);
+  static const Color green = Color(0xFFB9EFC9);
+  static const Color gray = Color(0xFF443D3D);
+  static const Color red = Color(0xFFFF3D3D);
 
   const AppColors();
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:itflowapp/theme/app_theme.dart';
 import 'package:itflowapp/screens/all_screens.dart';
 import 'package:flutter/services.dart';
-
+import 'package:itflowapp/models/job.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
@@ -48,15 +48,19 @@ class Routes {
   static const String notification = '/notification';
   static const String profile = '/profile';
   static const String settings = '/settings';
+  static const String jobDetails = '/jobDetails';
   static Map<String, Widget Function(BuildContext)> routes = {
     start: (context) => const StartScreen(),
     login: (context) => const LoginScreen(),
     register: (context) => const RegisterScreen(),
-    home: (context) => HomeScreen(),
-    search: (context) => SearchScreen(),
+    home: (context) => const HomeScreen(),
+    search: (context) => const SearchScreen(),
     notification: (context) => const NotificationScreen(),
     profile: (context) => const ProfileScreen(),
     settings: (context) => const SettingsScreen(),
+    jobDetails: (context) => JobDetailsScreen(
+          jobOffer: ModalRoute.of(context)!.settings.arguments as Job,
+        ),
   };
 }
 

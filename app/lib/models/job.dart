@@ -1,6 +1,4 @@
 import 'dart:core';
-
-import 'package:itflowapp/constants/it_jobs_constants.dart';
 import 'package:itflowapp/models/company.dart';
 
 class JobType {
@@ -74,7 +72,7 @@ class JobLocation {
 
 class Job {
   final int id;
-  final Company company;
+  final Company? company;
   final int companyId;
   final String title;
   final String body;
@@ -84,8 +82,8 @@ class Job {
   final List<JobContract>? contracts;
   final List<JobLocation>? locations;
   final bool allowsRemote;
-  final DateTime publishedAt;
-  final DateTime updatedAt;
+  final DateTime? publishedAt;
+  final DateTime? updatedAt;
   final String slug;
 
   const Job(
@@ -105,6 +103,10 @@ class Job {
     this.slug,
   );
 
+  const Job.empty()
+      : this(
+            0, null, 0, '', '', '', 0, null, null, null, false, null, null, '');
+
   factory Job.fromJson(Map<String, dynamic> jsonMap) {
     return Job(
       jsonMap['id'],
@@ -120,8 +122,9 @@ class Job {
       jsonMap.containsKey('contracts')
           ? JobContract.fromJsonList(jsonMap['contracts'])
           : null,
-      jsonMap.containsKey('locations') ?
-      JobLocation.fromJsonList(jsonMap['locations']) : null,
+      jsonMap.containsKey('locations')
+          ? JobLocation.fromJsonList(jsonMap['locations'])
+          : null,
       jsonMap.containsKey('allowRemote') ? jsonMap['allowRemote'] : false,
       DateTime.parse(jsonMap['publishedAt']),
       DateTime.parse(jsonMap['updatedAt']),
