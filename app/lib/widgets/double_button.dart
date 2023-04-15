@@ -1,26 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:itflowapp/theme/app_theme.dart';
 
-class DoubleButton extends StatelessWidget {
-  final void Function() _onPressedFirst;
-  final void Function() _onPressedSecond;
-  final Widget _childFirst;
-  final Widget _childSecond;
-  final double _borderRadius;
+// stateful widget where each button redirects to a given page, and color change to the selected button
+class DoubleButton extends StatefulWidget {
+  final void Function() onPressedFirst;
+  final void Function() onPressedSecond;
+  final Widget childFirst;
+  final Widget childSecond;
+  final double borderRadius;
 
   const DoubleButton({
     Key? key,
-    required void Function() onPressedFirst,
-    required void Function() onPressedSecond,
-    required Widget childFirst,
-    required Widget childSecond,
-    double borderRadius = 15,
-  })  : _onPressedFirst = onPressedFirst,
-        _onPressedSecond = onPressedSecond,
-        _childFirst = childFirst,
-        _childSecond = childSecond,
-        _borderRadius = borderRadius,
-        super(key: key);
+    required this.onPressedFirst,
+    required this.onPressedSecond,
+    required this.childFirst,
+    required this.childSecond,
+    this.borderRadius = 18,
+  }) : super(key: key);
+
+  @override
+  DoubleButtonState createState() => DoubleButtonState();
+}
+
+class DoubleButtonState extends State<DoubleButton> {
+  bool _isFirstSelected = true;
 
   @override
   Widget build(BuildContext context) {
@@ -28,34 +31,48 @@ class DoubleButton extends StatelessWidget {
       children: [
         Expanded(
           child: ElevatedButton(
-            onPressed: _onPressedFirst,
-            style: ButtonStyle(
-              shape: MaterialStateProperty.all(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.horizontal(
-                    left: Radius.circular(_borderRadius),
-                    right: Radius.zero,
-                  ),
+            onPressed: () {
+              setState(() {
+                _isFirstSelected = true;
+              });
+              widget.onPressedFirst();
+            },
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.horizontal(
+                  left: Radius.circular(widget.borderRadius),
+                  right: Radius.zero,
                 ),
               ),
+              backgroundColor: _isFirstSelected
+                  ? AppColors.green
+                  : Theme.of(context).primaryColor,
+              foregroundColor: _isFirstSelected ? Colors.black : Colors.white,
             ),
-            child: _childFirst,
+            child: widget.childFirst,
           ),
         ),
         Expanded(
-          child: OutlinedButton(
-            onPressed: _onPressedSecond,
-            style: ButtonStyle(
-              shape: MaterialStateProperty.all(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.horizontal(
-                    left: Radius.zero,
-                    right: Radius.circular(_borderRadius),
-                  ),
+          child: ElevatedButton(
+            onPressed: () {
+              setState(() {
+                _isFirstSelected = false;
+              });
+              widget.onPressedSecond();
+            },
+            style: OutlinedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.horizontal(
+                  left: Radius.zero,
+                  right: Radius.circular(widget.borderRadius),
                 ),
               ),
+              backgroundColor: _isFirstSelected
+                  ? Theme.of(context).primaryColor
+                  : AppColors.green,
+              foregroundColor: _isFirstSelected ? Colors.white : Colors.black,
             ),
-            child: _childSecond,
+            child: widget.childSecond,
           ),
         ),
       ],
