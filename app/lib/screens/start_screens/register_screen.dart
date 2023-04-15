@@ -12,7 +12,9 @@ class RegisterScreen extends StatelessWidget {
         title: const Text(appName),
         centerTitle: true,
       ),
-      body: RegisterForm(),
+      body: SingleChildScrollView(
+        child: RegisterForm(),
+      ),
     );
   }
 }
