@@ -4,6 +4,7 @@ import 'package:itflowapp/models/job.dart';
 import 'package:itflowapp/theme/app_theme.dart';
 import 'package:itflowapp/widgets/double_button.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:itflowapp/controllers/net_utils.dart';
 import 'package:itflowapp/widgets/icon_switch.dart';
 
 import '../../main.dart';
@@ -233,33 +234,95 @@ class JobDetailsScreenState extends State<JobDetailsScreen> {
                 ),
                 const SizedBox(height: 10),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 19.0),
-                  child: showDescription
-                      ? Html(data: widget.jobOffer.body, style: {
-                          "html": Style(
-                            fontFamily: "Arial",
-                            fontSize: const FontSize(15.0),
-                            lineHeight: const LineHeight(1.7),
-                            textAlign: TextAlign.justify,
-                            wordSpacing: 1.0,
-                            letterSpacing: 0.5,
-                          ),
-                        })
-                      : Html(
-                          data: widget.jobOffer.company?.description ?? '',
-                          style: {
-                              "html": Style(
-                                fontFamily: "Arial",
-                                fontSize: const FontSize(15.0),
-                                lineHeight: const LineHeight(1.7),
-                                textAlign: TextAlign.justify,
-                                wordSpacing: 1.0,
-                                letterSpacing: 0.5,
-                              ),
-                            }),
-                ),
+                    padding: const EdgeInsets.symmetric(horizontal: 19.0),
+                    child: Column(
+                      children: buildInfoWidget(),
+                    )),
               ])),
         ));
+  }
+
+  List<Widget> buildInfoWidget() {
+    if (showDescription) {
+      return [
+        Html(
+            data: widget.jobOffer.body,
+            onLinkTap: (url, _, __, ___) {
+              launchURL(url!);
+            },
+            style: {
+              "html": Style(
+                fontFamily: "Arial",
+                fontSize: const FontSize(15.0),
+                lineHeight: const LineHeight(1.7),
+                textAlign: TextAlign.justify,
+                wordSpacing: 1.0,
+                letterSpacing: 0.5,
+              ),
+            })
+      ];
+    } else {
+      List<Widget> buttons = [];
+      if (widget.jobOffer.company?.url != null) {
+        buttons.add(
+          IconButton(
+            onPressed: () {
+              launchURL(widget.jobOffer.company!.url!);
+            },
+            icon: const Icon(
+              Icons.language,
+              color: AppColors.green,
+            ),
+          ),
+        );
+      }
+      if (widget.jobOffer.company?.email != null) {
+        buttons.add(
+          IconButton(
+            onPressed: () {
+              launchURL('mailto:${widget.jobOffer.company!.email}');
+            },
+            icon: const Icon(
+              Icons.email,
+              color: AppColors.green,
+            ),
+          ),
+        );
+      }
+      if (widget.jobOffer.company?.phoneNumber != null) {
+        buttons.add(
+          IconButton(
+            onPressed: () {
+              launchURL('tel:${widget.jobOffer.company!.phoneNumber}');
+            },
+            icon: const Icon(Icons.phone, color: AppColors.green),
+          ),
+        );
+      }
+      return [
+        if (buttons.isNotEmpty)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: buttons,
+          ),
+        Html(
+          data: widget.jobOffer.company?.description ?? '',
+          onLinkTap: (url, _, __, ___) {
+            launchURL(url!);
+          },
+          style: {
+            "html": Style(
+              fontFamily: "Arial",
+              fontSize: const FontSize(15.0),
+              lineHeight: const LineHeight(1.7),
+              textAlign: TextAlign.justify,
+              wordSpacing: 1.0,
+              letterSpacing: 0.5,
+            ),
+          },
+        ),
+      ];
+    }
   }
 
   void showMoreInfo() {
