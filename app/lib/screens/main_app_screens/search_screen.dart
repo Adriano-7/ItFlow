@@ -8,7 +8,7 @@ import 'package:itflowapp/screens/main_app_screens/filters_screen.dart';
 import '../../main.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+  const SearchScreen({Key? key}) : super(key: key);
 
   @override
   _SearchScreenState createState() => _SearchScreenState();
@@ -16,15 +16,31 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   String _searchText = '';
+  Map<String, dynamic> _filters = {};
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final args = ModalRoute.of(context)!.settings.arguments;
+    if (args != null) {
+      _filters = args as Map<String, dynamic>;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          centerTitle: true,
-          title: InkWell(onTap: () {Navigator.pushReplacementNamed(context, Routes.home);},
-            child: Image.asset('assets/images/logo.png', height: 30,),
-          )
+        centerTitle: true,
+        title: InkWell(
+          onTap: () {
+            Navigator.pushReplacementNamed(context, Routes.home);
+          },
+          child: Image.asset(
+            'assets/images/logo.png',
+            height: 30,
+          ),
+        ),
       ),
       body: Column(
         children: [
@@ -40,13 +56,19 @@ class _SearchScreenState extends State<SearchScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => FilterScreen(),
+                        builder: (context) => FilterScreen(filters: _filters),
                       ),
-                    );
+                    ).then((value) {
+                      if (value != null) {
+                        setState(() {
+                          _filters = value;
+                        });
+                      }
+                    });
                   },
                 ),
               ),
-              onChanged: (value) {
+              onSubmitted: (value) {
                 setState(() {
                   _searchText = value;
                 });
@@ -55,12 +77,16 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
           const Padding(
             padding: EdgeInsets.fromLTRB(0.0, 40.0, 190.0, 20.0),
-            child: Text('Search Results', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+            child: Text(
+              'Search Results',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
           ),
           Expanded(
             child: FutureBuilder<JobSearch>(
-              future: ItJobsApiController.searchJobs(_searchText),
-              builder: (BuildContext context, AsyncSnapshot<JobSearch> snapshot) {
+              future: ItJobsApiController.searchJobs(_searchText, _filters),
+              builder:
+                  (BuildContext context, AsyncSnapshot<JobSearch> snapshot) {
                 if (snapshot.hasData) {
                   return ListView.builder(
                     itemCount: snapshot.data!.results.length,

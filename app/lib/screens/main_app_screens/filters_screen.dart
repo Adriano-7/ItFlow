@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:itflowapp/theme/app_theme.dart';
 import '../../main.dart';
 import '../../widgets/double_button.dart';
-import '../../screens/main_app_screens/search_screen.dart';
 
 
 class FilterScreen extends StatefulWidget {
-  const FilterScreen({Key? key}) : super(key: key);
+  const FilterScreen({Key? key, required Map<String, dynamic> filters}) : super(key: key);
   @override
   _FilterScreenState createState() => _FilterScreenState();
 }
@@ -70,11 +69,7 @@ class _FilterScreenState extends State<FilterScreen> {
                   childFirst: const Padding(
                     padding: EdgeInsets.symmetric(vertical: 18.0, horizontal: 0),
                     child: Text('Part Time', style: TextStyle(fontSize: 15,)),),
-                  onPressedSecond: () {
-                    setState(() {
-                      isFullTimeSelected = true;
-                      isPartTimeSelected = false;
-                    });
+                  onPressedSecond: () {setState(() {isFullTimeSelected = true;isPartTimeSelected = false;});
                   },
                   childSecond: const Padding(
                     padding: EdgeInsets.symmetric(vertical: 18.0, horizontal: 0),
@@ -91,7 +86,16 @@ class _FilterScreenState extends State<FilterScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 30),
         child: ElevatedButton(
           onPressed: () {
-            Navigator.pushReplacementNamed(context, Routes.search);
+            print('isFullTimeSelected: $isFullTimeSelected');
+            print('isPartTimeSelected: $isPartTimeSelected');
+            print('company name: ${_companyNameController.text}');
+
+            Navigator.pushReplacementNamed(context, Routes.search,
+              arguments: {
+                'type': isFullTimeSelected ? 1 : isPartTimeSelected ? 0 : null,
+                'company': 519, // add company ID here if needed
+              },
+            );
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: AppColors.green,

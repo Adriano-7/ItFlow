@@ -35,13 +35,17 @@ class ItJobsApiController {
     return JobList.fromJson(jsonMap);
   }
 
-  static Future<JobSearch> searchJobs(String query,
-      {int limit = 50, int page = 1, int? company, int? type}) async {
+  static Future<JobSearch> searchJobs(String query, Map<String, dynamic> filters) async {
+    print("Filters: $filters");
     String optional = '';
-    if (company != null) optional += '&company=$company';
-    if (type != null) optional += '&type=$type';
-    final uri = Uri.parse(
-        "${_jobRootUrl}search.json?api_key=$_apiKey&q=$query&limit=$limit&page=$page$optional");
+    int limit = 50;
+    int page = 1;
+
+    if (filters['company'] != null)
+      optional += '&company=${filters['company']}';
+    if (filters['type'] != null) optional += '&type=${filters['type']}';
+
+    final uri = Uri.parse("${_jobRootUrl}search.json?api_key=$_apiKey&q=$query&limit=$limit&page=$page$optional");
     final jsonMap = await _apiCall(uri);
     return JobSearch.fromJson(jsonMap);
   }
@@ -134,6 +138,7 @@ class JobSearch {
   );
 
   factory JobSearch.fromJson(Map<String, dynamic> jsonMap) {
+    if(jsonMap['query'] == null) jsonMap['query'] = '';
     return JobSearch(
       jsonMap['total'],
       jsonMap['page'],
@@ -142,6 +147,8 @@ class JobSearch {
       Job.fromJsonList(jsonMap['results']),
     );
   }
+
+  List<Job> get jobs => results;
 }
 
 // Companies
