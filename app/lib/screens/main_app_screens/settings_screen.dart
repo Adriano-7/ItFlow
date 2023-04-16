@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:itflowapp/constants/constants.dart';
+import '../../main.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -8,8 +8,10 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(appName),
-        centerTitle: true,
+          centerTitle: true,
+          title: InkWell(onTap: () {Navigator.pushReplacementNamed(context, Routes.home);},
+            child: Image.asset('assets/images/logo.png', height: 30,),
+          )
       ),
       body: const Center(
         child: Text('Settings'),

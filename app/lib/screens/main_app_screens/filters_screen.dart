@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:itflowapp/constants/constants.dart';
+import '../../main.dart';
 
 class FilterScreen extends StatefulWidget {
   @override
@@ -14,8 +14,10 @@ class _FilterScreenState extends State<FilterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(appName),
-        centerTitle: true,
+          centerTitle: true,
+          title: InkWell(onTap: () {Navigator.pushReplacementNamed(context, Routes.home);},
+            child: Image.asset('assets/images/logo.png', height: 30,),
+          )
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

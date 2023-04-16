@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:itflowapp/constants/constants.dart';
 import 'package:itflowapp/models/job.dart';
 import 'package:itflowapp/theme/app_theme.dart';
 import 'package:itflowapp/widgets/double_button.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:itflowapp/controllers/net_utils.dart';
 import 'package:itflowapp/widgets/icon_switch.dart';
+
+import '../../main.dart';
 
 class JobDetailsScreen extends StatefulWidget {
   final Job jobOffer;
@@ -52,21 +54,44 @@ class JobDetailsScreenState extends State<JobDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text(appName),
+            centerTitle: true,
+            title: InkWell(onTap: () {Navigator.pushReplacementNamed(context, Routes.home);},
+              child: Image.asset('assets/images/logo.png', height: 30,),
+            )
         ),
         body: SingleChildScrollView(
           child: Padding(
               padding: const EdgeInsets.only(top: 20.0, left: 9, right: 9),
               child: Column(children: [
-                Align(
-                  alignment: Alignment.topRight,
-                  child: IconSwitch(
-                    onChanged: (_) {},
-                    iconSize: 30.0,
-                    iconEnabled: const Icon(Icons.bookmark),
-                    iconDisabled: const Icon(Icons.bookmark_border),
-                  ),
-                ),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: showMoreInfo,
+                        child: Row(
+                          children: const [
+                            SizedBox(width: 20),
+                            Icon(
+                              Icons.info_outline,
+                            ),
+                            SizedBox(width: 5),
+                            Text(
+                              'More Info',
+                              style: TextStyle(
+                                color: AppColors.green,
+                                fontFamily: 'Arial',
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      IconSwitch(
+                        onChanged: (_) {},
+                        iconSize: 30.0,
+                        iconEnabled: const Icon(Icons.bookmark),
+                        iconDisabled: const Icon(Icons.bookmark_border),
+                      ),
+                    ]),
                 Align(
                     child: Container(
                   width: MediaQuery.of(context).size.width * 0.20,
@@ -208,32 +233,181 @@ class JobDetailsScreenState extends State<JobDetailsScreen> {
                 ),
                 const SizedBox(height: 10),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 19.0),
-                  child: showDescription
-                      ? Html(data: widget.jobOffer.body, style: {
-                          "html": Style(
-                            fontFamily: "Arial",
-                            fontSize: const FontSize(15.0),
-                            lineHeight: const LineHeight(1.7),
-                            textAlign: TextAlign.justify,
-                            wordSpacing: 1.0,
-                            letterSpacing: 0.5,
-                          ),
-                        })
-                      : Html(
-                          data: widget.jobOffer.company?.description ?? '',
-                          style: {
-                              "html": Style(
-                                fontFamily: "Arial",
-                                fontSize: const FontSize(15.0),
-                                lineHeight: const LineHeight(1.7),
-                                textAlign: TextAlign.justify,
-                                wordSpacing: 1.0,
-                                letterSpacing: 0.5,
-                              ),
-                            }),
-                ),
+                    padding: const EdgeInsets.symmetric(horizontal: 19.0),
+                    child: Column(
+                      children: buildInfoWidget(),
+                    )),
               ])),
         ));
+  }
+
+  List<Widget> buildInfoWidget() {
+    if (showDescription) {
+      return [
+        Html(
+            data: widget.jobOffer.body,
+            onLinkTap: (url, _, __, ___) {
+              launchURL(url!);
+            },
+            style: {
+              "html": Style(
+                fontFamily: "Arial",
+                fontSize: const FontSize(15.0),
+                lineHeight: const LineHeight(1.7),
+                textAlign: TextAlign.justify,
+                wordSpacing: 1.0,
+                letterSpacing: 0.5,
+              ),
+            })
+      ];
+    } else {
+      List<Widget> buttons = [];
+      if (widget.jobOffer.company?.url != null) {
+        buttons.add(
+          IconButton(
+            onPressed: () {
+              launchURL(widget.jobOffer.company!.url!);
+            },
+            icon: const Icon(
+              Icons.language,
+              color: AppColors.green,
+            ),
+          ),
+        );
+      }
+      if (widget.jobOffer.company?.email != null) {
+        buttons.add(
+          IconButton(
+            onPressed: () {
+              launchURL('mailto:${widget.jobOffer.company!.email}');
+            },
+            icon: const Icon(
+              Icons.email,
+              color: AppColors.green,
+            ),
+          ),
+        );
+      }
+      if (widget.jobOffer.company?.phoneNumber != null) {
+        buttons.add(
+          IconButton(
+            onPressed: () {
+              launchURL('tel:${widget.jobOffer.company!.phoneNumber}');
+            },
+            icon: const Icon(Icons.phone, color: AppColors.green),
+          ),
+        );
+      }
+      return [
+        if (buttons.isNotEmpty)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: buttons,
+          ),
+        Html(
+          data: widget.jobOffer.company?.description ?? '',
+          onLinkTap: (url, _, __, ___) {
+            launchURL(url!);
+          },
+          style: {
+            "html": Style(
+              fontFamily: "Arial",
+              fontSize: const FontSize(15.0),
+              lineHeight: const LineHeight(1.7),
+              textAlign: TextAlign.justify,
+              wordSpacing: 1.0,
+              letterSpacing: 0.5,
+            ),
+          },
+        ),
+      ];
+    }
+  }
+
+  void showMoreInfo() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text(
+            'Details',
+            style: TextStyle(
+              color: AppColors.green,
+              fontFamily: 'Arial',
+            ),
+          ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                buildAttributeText(
+                    'Company', widget.jobOffer.company?.name ?? ''),
+                const SizedBox(height: 8),
+                buildAttributeText('Title', widget.jobOffer.title),
+                const SizedBox(height: 8),
+                buildAttributeText(
+                    'Locations',
+                    widget.jobOffer.locations
+                        ?.map((location) => location.name)
+                        .toList()
+                        .join(', ')),
+                const SizedBox(height: 8),
+                buildAttributeText(
+                    'Types',
+                    widget.jobOffer.types
+                        ?.map((type) => type.name)
+                        .toList()
+                        .join(', ')),
+                const SizedBox(height: 8),
+                // map
+                buildAttributeText(
+                    'Contracts',
+                    widget.jobOffer.contracts
+                        ?.map((type) => type.name)
+                        .toList()
+                        .join(', ')),
+                const SizedBox(height: 8),
+                buildAttributeText('Wage', widget.jobOffer.wage),
+                const SizedBox(height: 8),
+                buildAttributeText(
+                    'Allows Remote', widget.jobOffer.allowsRemote)
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Close'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget buildAttributeText(String attribute, dynamic value) {
+    return RichText(
+      text: TextSpan(
+        text: '$attribute: ',
+        style: const TextStyle(
+          color: AppColors.green,
+          fontFamily: 'Arial',
+          fontWeight: FontWeight.bold,
+        ),
+        children: <TextSpan>[
+          TextSpan(
+            text: (value != null || value == '')
+                ? value.toString()
+                : 'Not specified',
+            style: const TextStyle(
+              color: AppColors.white,
+              fontFamily: 'Arial',
+              fontWeight: FontWeight.normal,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

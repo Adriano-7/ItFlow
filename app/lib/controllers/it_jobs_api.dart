@@ -36,7 +36,7 @@ class ItJobsApiController {
   }
 
   static Future<JobSearch> searchJobs(String query,
-      {int limit = 10, int page = 1, int? company, int? type}) async {
+      {int limit = 50, int page = 1, int? company, int? type}) async {
     String optional = '';
     if (company != null) optional += '&company=$company';
     if (type != null) optional += '&type=$type';
