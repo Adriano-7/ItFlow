@@ -10,7 +10,7 @@ class SearchScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text(appName),
+        title: const Text(kAppName),
       ),
       body: const Center(
         child: Text('Search'),

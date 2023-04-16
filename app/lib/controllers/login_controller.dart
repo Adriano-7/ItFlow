@@ -26,8 +26,8 @@ class LoginFormController {
     if (value == null || value!.isEmpty) {
       return "password can't be empty!";
     }
-    if (value.length < passwordMinimumSize || value.length > passwordMaximumSize) {
-      return "Password length must be between $passwordMinimumSize and $passwordMaximumSize characters.";
+    if (value.length < kPasswordMinimumLength || value.length > kPasswordMaximumLength) {
+      return "Password length must be between $kPasswordMinimumLength and $kPasswordMaximumLength characters.";
     }
     return null;
   }

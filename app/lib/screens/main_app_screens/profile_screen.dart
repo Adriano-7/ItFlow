@@ -13,7 +13,7 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text(appName),
+        title: const Text(kAppName),
         actions: [
           IconButton(
             onPressed: () {

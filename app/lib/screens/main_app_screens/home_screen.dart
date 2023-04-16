@@ -17,7 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text(appName),
+        title: const Text(kAppName),
       ),
       body: const OffersListView(),
       bottomNavigationBar: const NavBar(

@@ -52,7 +52,7 @@ class JobDetailsScreenState extends State<JobDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text(appName),
+          title: const Text(kAppName),
         ),
         body: SingleChildScrollView(
           child: Padding(

@@ -1,33 +1,24 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:itflowapp/main.dart';
-import 'package:itflowapp/theme/app_theme.dart';
 import 'package:itflowapp/widgets/double_button.dart';
-import '../../controllers/register_controller.dart';
+import 'package:itflowapp/controllers/register_controller.dart';
 
 class RegisterForm extends StatefulWidget {
-  String userType = "Standard";
-  bool _isPasswordHidden = true;
-  bool _isRepeatPasswordHidden = true;
-  final _controller = RegisterFormController();
-  RegisterForm({Key? key}) : super(key: key);
+  final RegisterFormController _controller;
+  const RegisterForm({Key? key, required RegisterFormController controller})
+      : _controller = controller,
+        super(key: key);
 
   @override
   State<RegisterForm> createState() => _RegisterFormState();
-
-  void changeUser(){
-    if(userType=="Standard"){
-       userType = "Enterprise";
-    }
-    else if(userType=="Enterprise"){
-      userType = "Standard";
-    }
-      
-  }
 }
 
 class _RegisterFormState extends State<RegisterForm> {
   final _formKey = GlobalKey<FormState>();
+  bool _isPasswordHidden = true;
+  bool _isRepeatPasswordHidden = true;
 
   @override
   Widget build(BuildContext context) {
@@ -38,23 +29,27 @@ class _RegisterFormState extends State<RegisterForm> {
         children: [
           const SizedBox(height: 16),
           DoubleButton(
-            onPressedFirst: widget.changeUser, 
-            onPressedSecond: widget.changeUser, 
+            onPressedFirst: () {
+              widget._controller.userType = UserType.standard;
+            },
+            onPressedSecond: () {
+              widget._controller.userType = UserType.enterprise;
+            },
             childFirst: const Padding(
-                padding: EdgeInsets.symmetric(vertical: 16.0),
-                child: Text('Standard'),
-              ), 
+              padding: EdgeInsets.symmetric(vertical: 16.0),
+              child: Text('Standard'),
+            ),
             childSecond: const Padding(
-                padding: EdgeInsets.symmetric(vertical: 16.0),
-                child: Text('Enterprise'),
-              ),
+              padding: EdgeInsets.symmetric(vertical: 16.0),
+              child: Text('Enterprise'),
+            ),
           ),
           const SizedBox(height: 32),
           TextFormField(
             validator: widget._controller.usernameValidator,
             controller: widget._controller.nameController,
             decoration: InputDecoration(
-              prefixIcon: Icon(Icons.person_outline),
+              prefixIcon: const Icon(Icons.person_outline),
               labelText: 'Name',
               hintText: 'John Goldman',
               border: OutlineInputBorder(
@@ -68,7 +63,7 @@ class _RegisterFormState extends State<RegisterForm> {
             validator: widget._controller.emailValidator,
             controller: widget._controller.emailController,
             decoration: InputDecoration(
-              prefixIcon: Icon(Icons.email_outlined),
+              prefixIcon: const Icon(Icons.email_outlined),
               labelText: 'Email',
               hintText: 'example@gmail.com',
               border: OutlineInputBorder(
@@ -82,7 +77,7 @@ class _RegisterFormState extends State<RegisterForm> {
             validator: widget._controller.phoneNumberValidator,
             controller: widget._controller.phoneController,
             decoration: InputDecoration(
-              prefixIcon: Icon(Icons.phone),
+              prefixIcon: const Icon(Icons.phone),
               labelText: 'Phone No.',
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30),
@@ -94,7 +89,7 @@ class _RegisterFormState extends State<RegisterForm> {
           TextFormField(
             validator: widget._controller.passwordValidator,
             controller: widget._controller.passwordController,
-            obscureText: widget._isPasswordHidden,
+            obscureText: _isPasswordHidden,
             decoration: InputDecoration(
               prefixIcon: const Icon(Icons.key),
               labelText: 'Password',
@@ -106,10 +101,10 @@ class _RegisterFormState extends State<RegisterForm> {
               suffixIcon: IconButton(
                 onPressed: () {
                   setState(() {
-                    widget._isPasswordHidden = !widget._isPasswordHidden;
+                    _isPasswordHidden = !_isPasswordHidden;
                   });
                 },
-                icon: Icon(widget._isPasswordHidden
+                icon: Icon(_isPasswordHidden
                     ? Icons.visibility
                     : Icons.visibility_off),
               ),
@@ -120,7 +115,7 @@ class _RegisterFormState extends State<RegisterForm> {
             child: TextFormField(
               validator: widget._controller.repeatPasswordValidator,
               controller: widget._controller.repeatPasswordController,
-              obscureText: widget._isRepeatPasswordHidden,
+              obscureText: _isRepeatPasswordHidden,
               decoration: InputDecoration(
                 prefixIcon: const Icon(Icons.key),
                 labelText: 'Repeat Password',
@@ -132,11 +127,10 @@ class _RegisterFormState extends State<RegisterForm> {
                 suffixIcon: IconButton(
                   onPressed: () {
                     setState(() {
-                      widget._isRepeatPasswordHidden =
-                          !widget._isRepeatPasswordHidden;
+                      _isRepeatPasswordHidden = !_isRepeatPasswordHidden;
                     });
                   },
-                  icon: Icon(widget._isRepeatPasswordHidden
+                  icon: Icon(_isRepeatPasswordHidden
                       ? Icons.visibility
                       : Icons.visibility_off),
                 ),
@@ -172,34 +166,15 @@ class _RegisterFormState extends State<RegisterForm> {
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size.fromHeight(50),
               ),
-              onPressed: () => widget._controller.submit(_formKey, context).then((value) {
-                if (value) {
-                  if(widget.userType=="Standard"){
-                     // Remove Every Screen and Leave Only the New One
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, Routes.standardRegister, ModalRoute.withName('/'));
-                  }
-                  else{
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, Routes.enterpriseRegister, ModalRoute.withName('/'));
-                  }
-                   
+              onPressed: () {
+                if (!_formKey.currentState!.validate()) return;
+                if (widget._controller.userType == UserType.standard) {
+                  widget._controller.screen = RegisterScreenType.standard;
                 } else {
-                  setState(() {});
+                  widget._controller.screen = RegisterScreenType.enterprise;
                 }
-              }),
-              child: const Text('Submit'),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Center(
-              child: (widget._controller.getErrorMessage == null)
-                  ? Container()
-                  : Text(
-                      widget._controller.getErrorMessage!,
-                      style: const TextStyle(color: AppColors.red),
-                    ),
+              },
+              child: const Text('Next'),
             ),
           ),
         ],

@@ -2,9 +2,12 @@
 
 // GLOBAL CONSTANTS GO HERE ! //
 
-const String appName = 'ItFlow';
+const String kAppName = 'ItFlow';
 
-const userNameMinimumSize = 6;
-const userNameMaximumSize = 64;
-const passwordMinimumSize = 8;
-const passwordMaximumSize = 64;
+const kUserNameMinimumLength = 6;
+const kUserNameMaximumLength = 64;
+const kPasswordMinimumLength = 8;
+const kPasswordMaximumLength = 64;
+
+const kDescriptionMinimumLength = 30;
+const kDescriptionMaximumLength = 1000;
