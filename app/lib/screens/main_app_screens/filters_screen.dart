@@ -91,6 +91,26 @@ class _FilterScreenState extends State<FilterScreen> {
                         ),
                       ),
                     ),
+                ],
+                ),
+                SizedBox(height: 32),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {},
+                      child: Text('Discard'),
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.red,
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {},
+                      child: Text('Apply'),
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.green,
+                      ),
+                    ),
                   ],
                 ),
               ],
