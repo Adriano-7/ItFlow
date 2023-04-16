@@ -93,7 +93,7 @@ class _FilterScreenState extends State<FilterScreen> {
             Navigator.pushReplacementNamed(context, Routes.search,
               arguments: {
                 'type': isFullTimeSelected ? 1 : isPartTimeSelected ? 0 : null,
-                'company': 519, // add company ID here if needed
+                //'company': To be implemented
               },
             );
           },
