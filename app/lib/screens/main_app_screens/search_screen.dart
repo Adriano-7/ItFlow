@@ -4,8 +4,8 @@ import 'package:itflowapp/widgets/navigation_bar.dart';
 import 'package:itflowapp/controllers/it_jobs_api.dart';
 import 'package:itflowapp/models/job.dart';
 import 'package:itflowapp/screens/main_app_screens/filters_screen.dart';
-
 import '../../main.dart';
+import '../../widgets/filters_applied.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
@@ -25,6 +25,12 @@ class _SearchScreenState extends State<SearchScreen> {
     if (args != null) {
       _filters = args as Map<String, dynamic>;
     }
+  }
+
+  void _handleFilterRemove(Map<String, dynamic> updatedFilters) {
+    setState(() {
+      _filters = updatedFilters;
+    });
   }
 
   @override
@@ -74,7 +80,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 });
               },
             ),
-          ),
+          ),FiltersApplied(filters: _filters, onFilterRemoved: _handleFilterRemove),
           const Padding(
             padding: EdgeInsets.fromLTRB(0.0, 40.0, 190.0, 20.0),
             child: Text(
