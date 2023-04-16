@@ -45,13 +45,13 @@ class _FilterScreenState extends State<FilterScreen> {
                 const Padding(
                   padding: EdgeInsets.only(bottom: 8),
                   child: Text(
-                    'Company name',
+                    'Filter by Company',
                     style: TextStyle(fontSize: 16),
                   ),
                 ),
                 TextField(
                   decoration: InputDecoration(
-                    hintText: 'Search company',
+                    hintText: 'Company id',
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(10),),
                     contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                   ),
@@ -60,7 +60,7 @@ class _FilterScreenState extends State<FilterScreen> {
                 const Padding(
                   padding: EdgeInsets.only(top: 16, bottom: 8),
                   child: Text(
-                    'Type of Job',
+                    'Filter by type of Job',
                     style: TextStyle(fontSize: 16),
                   ),
                 ),
@@ -88,12 +88,12 @@ class _FilterScreenState extends State<FilterScreen> {
           onPressed: () {
             print('isFullTimeSelected: $isFullTimeSelected');
             print('isPartTimeSelected: $isPartTimeSelected');
-            print('company name: ${_companyNameController.text}');
+            print('company id: ${_companyNameController.text}');
 
             Navigator.pushReplacementNamed(context, Routes.search,
               arguments: {
-                'type': isFullTimeSelected ? 1 : isPartTimeSelected ? 0 : null,
-                //'company': To be implemented
+                'type': isFullTimeSelected ? 1 : isPartTimeSelected ? 2 : null,
+                 if (_companyNameController.text.isNotEmpty) 'company_id': _companyNameController.text,
               },
             );
           },
