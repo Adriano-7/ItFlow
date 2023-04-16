@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:itflowapp/constants/constants.dart';
+import 'package:itflowapp/widgets/job_offer_description.dart';
 import 'package:itflowapp/widgets/navigation_bar.dart';
 import 'package:itflowapp/controllers/it_jobs_api.dart';
 import 'package:itflowapp/models/job.dart';
@@ -65,7 +66,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       Job job = snapshot.data!.results[index];
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: JobOffer.fromJob(job),
+                        child: JobOfferDescription.fromJob(job),
                       );
                     },
                   );
