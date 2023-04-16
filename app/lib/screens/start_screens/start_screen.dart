@@ -18,8 +18,7 @@ class StartScreen extends StatelessWidget {
                 children: const [
                   Padding(
                       padding: EdgeInsets.only(top: 40),
-                      child: Image(
-                          image: AssetImage('assets/images/start_img.png'))),
+                      child: Image(image: AssetImage('assets/images/start_img.png'))),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                     child: Text(

@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:itflowapp/theme/app_theme.dart';
 import '../../main.dart';
+import '../../widgets/double_button.dart';
+import '../../screens/main_app_screens/search_screen.dart';
+
 
 class FilterScreen extends StatefulWidget {
+  const FilterScreen({Key? key}) : super(key: key);
   @override
   _FilterScreenState createState() => _FilterScreenState();
 }
@@ -10,32 +15,36 @@ class _FilterScreenState extends State<FilterScreen> {
   bool isPartTimeSelected = false;
   bool isFullTimeSelected = false;
 
+  //Text controller
+  final TextEditingController _companyNameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
           centerTitle: true,
-          title: InkWell(onTap: () {Navigator.pushReplacementNamed(context, Routes.home);},
-            child: Image.asset('assets/images/logo.png', height: 30,),
-          )
-      ),
+          title: InkWell(
+            onTap: () {
+              Navigator.pushReplacementNamed(context, Routes.home);
+            },
+            child: Image.asset(
+              'assets/images/logo.png',
+              height: 30,
+            ),
+          )),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 16),
-            child: Text(
-              'Filters',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 32, horizontal: 16),
+            child: Text('Filters', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 8),
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 8),
                   child: Text(
                     'Company name',
                     style: TextStyle(fontSize: 16),
@@ -44,83 +53,56 @@ class _FilterScreenState extends State<FilterScreen> {
                 TextField(
                   decoration: InputDecoration(
                     hintText: 'Search company',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(
-                        vertical: 12, horizontal: 16),
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10),),
+                    contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                   ),
+                  controller: _companyNameController,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 16, bottom: 8),
+                const Padding(
+                  padding: EdgeInsets.only(top: 16, bottom: 8),
                   child: Text(
                     'Type of Job',
                     style: TextStyle(fontSize: 16),
                   ),
                 ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: ElevatedButton(
-                        onPressed: () {
-                          setState(() {
-                            isPartTimeSelected = true;
-                            isFullTimeSelected = false;
-                          });
-                        },
-                        child: Text('Part time'),
-                        style: ElevatedButton.styleFrom(
-                          primary: isPartTimeSelected
-                              ? Colors.green
-                              : Colors.grey[300],
-                        ),
-                      ),
+                DoubleButton(
+                  onPressedFirst: () { setState(() {isPartTimeSelected = true; isFullTimeSelected = false;});},
+                  childFirst: const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 18.0, horizontal: 0),
+                    child: Text('Part Time', style: TextStyle(fontSize: 15,)),),
+                  onPressedSecond: () {
+                    setState(() {
+                      isFullTimeSelected = true;
+                      isPartTimeSelected = false;
+                    });
+                  },
+                  childSecond: const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 18.0, horizontal: 0),
+                    child: Text('Full Time', style: TextStyle(fontSize: 15,),
                     ),
-                    SizedBox(width: 16),
-                    Expanded(
-                      child: ElevatedButton(
-                        onPressed: () {
-                          setState(() {
-                            isPartTimeSelected = false;
-                            isFullTimeSelected = true;
-                          });
-                        },
-                        child: Text('Full time'),
-                        style: ElevatedButton.styleFrom(
-                          primary: isFullTimeSelected
-                              ? Colors.green
-                              : Colors.grey[300],
-                        ),
-                      ),
-                    ),
-                ],
-                ),
-                SizedBox(height: 32),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {},
-                      child: Text('Discard'),
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.red,
-                      ),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {},
-                      child: Text('Apply'),
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.green,
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ],
             ),
           ),
         ],
       ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 30),
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, Routes.search);
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: AppColors.green,
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+          child: const Text('Submit'),
+        ),
+      ),
     );
   }
 }
-
