@@ -7,6 +7,8 @@ import 'package:itflowapp/models/job.dart';
 import 'package:itflowapp/widgets/job_offer.dart';
 import 'package:itflowapp/screens/main_app_screens/filters_screen.dart';
 
+import '../../main.dart';
+
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
 
@@ -21,8 +23,10 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
-        title: const Text(appName),
+          centerTitle: true,
+          title: InkWell(onTap: () {Navigator.pushReplacementNamed(context, Routes.home);},
+            child: Image.asset('assets/images/logo.png', height: 30,),
+          )
       ),
       body: Column(
         children: [

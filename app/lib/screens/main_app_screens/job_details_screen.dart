@@ -6,6 +6,8 @@ import 'package:itflowapp/widgets/double_button.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:itflowapp/widgets/icon_switch.dart';
 
+import '../../main.dart';
+
 class JobDetailsScreen extends StatefulWidget {
   final Job jobOffer;
 
@@ -52,7 +54,10 @@ class JobDetailsScreenState extends State<JobDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text(appName),
+            centerTitle: true,
+            title: InkWell(onTap: () {Navigator.pushReplacementNamed(context, Routes.home);},
+              child: Image.asset('assets/images/logo.png', height: 30,),
+            )
         ),
         body: SingleChildScrollView(
           child: Padding(
