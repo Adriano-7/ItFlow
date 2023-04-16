@@ -10,6 +10,7 @@ class RegisterFormController {
   final repeatPasswordController = TextEditingController();
   final nameController = TextEditingController();
   final phoneController = TextEditingController();
+  final locationController = TextEditingController();
   String? _errorMessage;
   String? _errorCode;
 
@@ -64,7 +65,12 @@ class RegisterFormController {
     }
     return null;
   }
-
+  String? locationValidator(value) {
+    if (value == null || value!.isEmpty) {
+      return "Location can't be empty!";
+    }
+    return null;
+  }
   Future<bool> submit(GlobalKey<FormState> formKey, BuildContext context) async {
     if (!formKey.currentState!.validate()) return false;
 

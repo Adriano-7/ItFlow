@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:itflowapp/screens/start_screens/enterprise_reg_screen.dart';
+import 'package:itflowapp/screens/start_screens/standard_reg_screen.dart';
 import 'package:itflowapp/theme/app_theme.dart';
 import 'package:itflowapp/screens/all_screens.dart';
 import 'package:flutter/services.dart';
@@ -43,6 +45,8 @@ class Routes {
   static const String start = '/start';
   static const String login = '/start/login';
   static const String register = '/start/register';
+  static const String standardRegister = '/start/standardReg';
+  static const String enterpriseRegister = '/start/enterpriseReg';
   static const String home = '/home';
   static const String search = '/search';
   static const String notification = '/notification';
@@ -53,6 +57,8 @@ class Routes {
     start: (context) => const StartScreen(),
     login: (context) => const LoginScreen(),
     register: (context) => const RegisterScreen(),
+    standardRegister:(context) => const StandardRegScreen(),
+    enterpriseRegister:(context) => const EnterpriseRegScreen(),
     home: (context) => const HomeScreen(),
     search: (context) => const SearchScreen(),
     notification: (context) => const NotificationScreen(),

@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:itflowapp/main.dart';
 import 'package:itflowapp/theme/app_theme.dart';
+import 'package:itflowapp/widgets/double_button.dart';
 import '../../controllers/register_controller.dart';
 
 class RegisterForm extends StatefulWidget {
+  String userType = "Standard";
   bool _isPasswordHidden = true;
   bool _isRepeatPasswordHidden = true;
   final _controller = RegisterFormController();
@@ -12,6 +14,16 @@ class RegisterForm extends StatefulWidget {
 
   @override
   State<RegisterForm> createState() => _RegisterFormState();
+
+  void changeUser(){
+    if(userType=="Standard"){
+       userType = "Enterprise";
+    }
+    else if(userType=="Enterprise"){
+      userType = "Standard";
+    }
+      
+  }
 }
 
 class _RegisterFormState extends State<RegisterForm> {
@@ -25,6 +37,19 @@ class _RegisterFormState extends State<RegisterForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 16),
+          DoubleButton(
+            onPressedFirst: widget.changeUser, 
+            onPressedSecond: widget.changeUser, 
+            childFirst: const Padding(
+                padding: EdgeInsets.symmetric(vertical: 16.0),
+                child: Text('Standard'),
+              ), 
+            childSecond: const Padding(
+                padding: EdgeInsets.symmetric(vertical: 16.0),
+                child: Text('Enterprise'),
+              ),
+          ),
+          const SizedBox(height: 32),
           TextFormField(
             validator: widget._controller.usernameValidator,
             controller: widget._controller.nameController,
@@ -149,9 +174,16 @@ class _RegisterFormState extends State<RegisterForm> {
               ),
               onPressed: () => widget._controller.submit(_formKey, context).then((value) {
                 if (value) {
-                  // Remove Every Screen and Leave Only the New One
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, Routes.home, ModalRoute.withName('/'));
+                  if(widget.userType=="Standard"){
+                     // Remove Every Screen and Leave Only the New One
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, Routes.standardRegister, ModalRoute.withName('/'));
+                  }
+                  else{
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, Routes.enterpriseRegister, ModalRoute.withName('/'));
+                  }
+                   
                 } else {
                   setState(() {});
                 }
