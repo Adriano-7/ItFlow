@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:itflowapp/constants/constants.dart';
-
 import '../../main.dart';
 
 class SettingsScreen extends StatelessWidget {

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:itflowapp/constants/constants.dart';
 import 'package:itflowapp/widgets/navigation_bar.dart';
 import 'package:itflowapp/widgets/offers_list_view.dart';
-
-import '../../main.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);

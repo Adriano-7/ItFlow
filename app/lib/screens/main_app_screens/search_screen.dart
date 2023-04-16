@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:itflowapp/constants/constants.dart';
 import 'package:itflowapp/widgets/job_offer_description.dart';
 import 'package:itflowapp/widgets/navigation_bar.dart';
 import 'package:itflowapp/controllers/it_jobs_api.dart';
 import 'package:itflowapp/models/job.dart';
-import 'package:itflowapp/widgets/job_offer.dart';
 import 'package:itflowapp/screens/main_app_screens/filters_screen.dart';
 
 import '../../main.dart';

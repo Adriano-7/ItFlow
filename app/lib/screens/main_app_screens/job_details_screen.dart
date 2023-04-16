@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:itflowapp/constants/constants.dart';
 import 'package:itflowapp/models/job.dart';
 import 'package:itflowapp/theme/app_theme.dart';
 import 'package:itflowapp/widgets/double_button.dart';
