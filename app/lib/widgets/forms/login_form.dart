@@ -67,12 +67,6 @@ class _LoginFormState extends State<LoginForm> {
               ),
             ),
           ),
-          (widget._controller.getErrorMessage == null)
-              ? Container()
-              : Text(
-                  widget._controller.getErrorMessage!,
-                  style: const TextStyle(color: AppColors.red),
-                ),
           Padding(
             padding: const EdgeInsets.only(top: 40.0, bottom: 10.0),
             child: Center(
@@ -102,8 +96,27 @@ class _LoginFormState extends State<LoginForm> {
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size.fromHeight(50),
               ),
-              onPressed: () => widget._controller.submit(_formKey, context),
+              onPressed: () => widget._controller.submit(_formKey, context).then((value) {
+                if (value) {
+                  // Remove Every Screen and Leave Only the New One
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, Routes.home, ModalRoute.withName('/'));
+                } else {
+                  setState(() {});
+                }
+              }),
               child: const Text('Log In'),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Center(
+              child: (widget._controller.getErrorMessage == null)
+                  ? Container()
+                  : Text(
+                widget._controller.getErrorMessage!,
+                style: const TextStyle(color: AppColors.red),
+              ),
             ),
           ),
         ],

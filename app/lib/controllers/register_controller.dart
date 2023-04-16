@@ -65,21 +65,18 @@ class RegisterFormController {
     return null;
   }
 
-  void submit(GlobalKey<FormState> formKey, BuildContext context) {
-    if (!formKey.currentState!.validate()) return;
+  Future<bool> submit(GlobalKey<FormState> formKey, BuildContext context) async {
+    if (!formKey.currentState!.validate()) return false;
 
-    AuthController.createUser(getEmail, getPassword).then((status) {
-      if (status.errorOccurred) {
-        _errorMessage = status.errorMessage;
-        _errorCode = status.errorCode;
-      } else { // All Good
-        // TODO: Save user info in data base
-        // e.g. DatabaseController.saveInfo?
-
-        // Remove Every Screen and Leave Only the New One
-        Navigator.pushNamedAndRemoveUntil(
-            context, Routes.home, ModalRoute.withName('/'));
-      }
-    });
+    SignUpStatus status = await AuthController.createUser(getEmail, getPassword);
+    if (status.errorOccurred) {
+      _errorMessage = status.errorMessage;
+      _errorCode = status.errorCode;
+      return false;
+    } else { // All Good
+      // TODO: Save user info in data base
+      // e.g. DatabaseController.saveInfo?
+      return true;
+    }
   }
 }
