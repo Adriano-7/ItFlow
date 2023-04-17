@@ -1,81 +1,95 @@
-import 'package:flutter/cupertino.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:itflowapp/controllers/database.dart';
+import 'package:itflowapp/models/user.dart';
 
 class AuthController {
-  final email = TextEditingController();
-  final password = TextEditingController();
+  static final _auth = FirebaseAuth.instance;
 
-  final _auth = FirebaseAuth.instance;
+  static User? get currentUser => _auth.currentUser;
+  static Stream<User?> get authStateChanges => _auth.authStateChanges();
 
-  User? get currentUser => _auth.currentUser;
+  static UserModel? currentUserModel;
 
-  Stream<User?> get authStateChanges => _auth.authStateChanges();
-
-  Future<void> createUser(String email, String password) async {
+  static Future<SignUpStatus> createUser(String email, String password) async {
     try {
       await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      return const SignUpStatus();
     } on FirebaseAuthException catch(e) {
-      final ex = SignUpFailure.code(e.code);
-      print('FIREBASE AUTH EXCEPTION: ${ex.message}');
-      throw ex;
+      return SignUpStatus.error(e.code);
     } catch (_) {
-      const ex = SignUpFailure();
-      print('EXCEPTION: ${ex.message}');
-      throw ex;
+      return SignUpStatus.error();
     }
   }
 
-  Future<void> loginUser(String email, String password) async {
+  static Future<LogInStatus> loginUser(String email, String password) async {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
+      final info = await DataBaseController.getUser(currentUser!.uid);
+      if (info == null) return LogInStatus.error("user-not-found");
+      currentUserModel = UserModel.fromFirestore(info);
+      return const LogInStatus();
     } on FirebaseAuthException catch(e) {
-      final ex = LogInFailure.code(e.code);
-      print('FIREBASE AUTH EXCEPTION: ${ex.message}');
-      throw ex;
+      return LogInStatus.error(e.code);
     } catch (_) {
-      const ex = LogInFailure();
-      print('EXCEPTION: ${ex.message}');
-      throw ex;
+      return LogInStatus.error();
     }
   }
 
-  Future<void> logout() async => await _auth.signOut();
+  static Future<bool?> isEmailInUse(String email) async {
+    try {
+      return (await FirebaseAuth.instance.fetchSignInMethodsForEmail(email)).isNotEmpty;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  static Future<void> logout() async {
+    currentUserModel = null;
+    await _auth.signOut();
+  }
 }
 
-class SignUpFailure {
-  final String message;
-  const SignUpFailure([this.message = "An Unknown error occurred."]);
+class SignUpStatus {
+  final bool errorOccurred;
+  final String? errorMessage;
+  final String? errorCode;
+  const SignUpStatus([this.errorOccurred = false, this.errorMessage, this.errorCode]);
 
-  factory SignUpFailure.code(String code){
-    switch(code){
+
+  factory SignUpStatus.error([String code = "unknown-error"]){
+    switch (code) {
       case 'weak-password':
-        return const SignUpFailure('Please enter a stronger password.');
+        return SignUpStatus(true, 'Please enter a stronger password.', code);
       case 'invalid-email':
-        return const SignUpFailure('Email is not valid.');
+        return SignUpStatus(true, 'Email is not valid.', code);
       case 'email-already-in-use':
-        return const SignUpFailure('An account already exists with that email.');
+        return SignUpStatus(true, 'An account already exists with that email.', code);
       case 'operation-not-allowed':
-        return const SignUpFailure('Operation is not allowed. Please contact support.');
-      default: return const SignUpFailure();
+        return SignUpStatus(true, 'Operation is not allowed. Please contact support.', code);
+      default:
+        return SignUpStatus(true, 'An Unknown error occurred.', code);
     }
   }
 }
 
-class LogInFailure {
-  final String message;
-  const LogInFailure([this.message = "An Unknown error occurred."]);
+class LogInStatus {
+  final bool errorOccurred;
+  final String? errorMessage;
+  final String? errorCode;
+  const LogInStatus([this.errorOccurred = false, this.errorMessage, this.errorCode]);
 
-  factory LogInFailure.code(String code){
+  factory LogInStatus.error([String code = "unknown-error"]){
     switch(code){
       case 'wrong-password':
-        return const LogInFailure('Wrong password.');
+        return LogInStatus(true, 'Wrong password.', code);
       case 'invalid-email':
-        return const LogInFailure('Email is not valid.');
+        return LogInStatus(true, 'Email is not valid.', code);
       case 'user-not-found':
-        return const LogInFailure("This user doesn't exist.");
+        return LogInStatus(true, "This user doesn't exist.", code);
       case 'user-disabled':
-        return const LogInFailure('This user has been disabled. Please contact support for help.');
-      default: return const LogInFailure();
+        return LogInStatus(true, 'This user has been disabled. Please contact support for help.', code);
+      default:
+        return LogInStatus(true, 'An Unknown error occurred.', code);
     }
   }
 }

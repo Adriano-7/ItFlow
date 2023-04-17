@@ -12,10 +12,10 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          centerTitle: true,
-          title: InkWell(onTap: () {Navigator.pushReplacementNamed(context, Routes.home);},
-            child: Image.asset('assets/images/logo.png', height: 30,),
-          ),
+        centerTitle: true,
+        title: InkWell(onTap: () {Navigator.pushReplacementNamed(context, Routes.home);},
+          child: Image.asset('assets/images/logo.png', height: 30,),
+        ),
         actions: [
           IconButton(
             onPressed: () {

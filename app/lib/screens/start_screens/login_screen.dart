@@ -9,37 +9,32 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(appName),
+        title: const Text(kAppName),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 100),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Nice to see you again!',
-                style: TextStyle(
-                  fontSize: 45,
-                  fontWeight: FontWeight.bold,
-                ),
+        padding: const EdgeInsets.only(right: 40, left: 40, top: 100, bottom: 15),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Nice to see you again!',
+              style: TextStyle(
+                fontSize: 45,
+                fontWeight: FontWeight.bold,
               ),
-              const Padding(
-                  padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                  child: Text(
-                    "Let's get you signed in!",
-                    style: TextStyle(
-                      fontSize: 40,
-                      fontWeight: FontWeight.w300,
-                    ),
-                  )),
-              LoginForm(),
-            ],
-          ),
+            ),
+            const SizedBox(height: 10),
+            const Text(
+              "Let's get you signed in!",
+              style: TextStyle(
+                fontSize: 40,
+                fontWeight: FontWeight.w300,
+              ),
+            ),
+            const SizedBox(height: 20),
+            LoginForm(),
+          ],
         ),
       ),
     );

@@ -35,7 +35,7 @@ class Company {
       jsonMap['id'],
       jsonMap['name'],
       jsonMap['id'] == 1 ? _annonnymousImg : jsonMap['logo'],
-      jsonMap['description'] ??= '',
+      jsonMap['description'] ?? '',
       jsonMap['slug'],
       jsonMap.containsKey('phone') ? jsonMap['phone']?.toString() : null,
       jsonMap.containsKey('fax') ? jsonMap['fax']?.toString() : null,
