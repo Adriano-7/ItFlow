@@ -13,7 +13,9 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text(kAppName),
+        title: InkWell(onTap: () {Navigator.pushReplacementNamed(context, Routes.home);},
+          child: Image.asset('assets/images/logo.png', height: 30,),
+        ),
         actions: [
           IconButton(
             onPressed: () {

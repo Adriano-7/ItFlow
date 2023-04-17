@@ -10,8 +10,10 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(kAppName),
-        centerTitle: true,
+          centerTitle: true,
+          title: InkWell(onTap: () {Navigator.pushReplacementNamed(context, Routes.home);},
+            child: Image.asset('assets/images/logo.png', height: 30,),
+          )
       ),
       body: Center(
         child: ElevatedButton(

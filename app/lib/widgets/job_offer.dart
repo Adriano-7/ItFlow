@@ -64,7 +64,7 @@ class JobOffer extends StatelessWidget {
         child: Container(
           decoration: const BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(15)),
-            color: AppColors.black,
+            color: AppColors.gray2,
           ),
           width: screenWidth * 0.90,
           height: _cardHeight,
