@@ -111,7 +111,7 @@ class _OffersListViewState extends State<OffersListView> {
           // All good
           final Widget offer = _offers[index];
           return Padding (
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 25.0),
             child: offer,
           );
         },);
