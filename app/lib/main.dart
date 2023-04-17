@@ -34,12 +34,11 @@ void main() {
     DeviceOrientation.portraitUp,
     // DeviceOrientation.portraitDown,
   ]);
-
 }
 
 class MyApp extends StatelessWidget {
   final String initialRoute;
-  const MyApp({super.key, required this.initialRoute});
+  const MyApp({super.key, this.initialRoute = Routes.start});
 
   static GlobalKey mtAppKey = GlobalKey();
 
