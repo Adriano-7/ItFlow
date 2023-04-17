@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:itflowapp/main.dart';
+import 'package:itflowapp/models/user.dart';
 import 'package:itflowapp/widgets/double_button.dart';
 import 'package:itflowapp/controllers/register_controller.dart';
 
@@ -110,33 +111,46 @@ class _RegisterFormState extends State<RegisterForm> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20),
-            child: TextFormField(
-              validator: widget._controller.repeatPasswordValidator,
-              controller: widget._controller.repeatPasswordController,
-              obscureText: _isRepeatPasswordHidden,
-              decoration: InputDecoration(
-                prefixIcon: const Icon(Icons.key),
-                labelText: 'Repeat Password',
-                hintText: 'yourpassword',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                contentPadding: EdgeInsets.zero,
-                suffixIcon: IconButton(
-                  onPressed: () {
-                    setState(() {
-                      _isRepeatPasswordHidden = !_isRepeatPasswordHidden;
-                    });
-                  },
-                  icon: Icon(_isRepeatPasswordHidden
-                      ? Icons.visibility
-                      : Icons.visibility_off),
-                ),
+          const SizedBox(height: 16),
+          TextFormField(
+            validator: widget._controller.repeatPasswordValidator,
+            controller: widget._controller.repeatPasswordController,
+            obscureText: _isRepeatPasswordHidden,
+            decoration: InputDecoration(
+              prefixIcon: const Icon(Icons.key),
+              labelText: 'Repeat Password',
+              hintText: 'yourpassword',
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(30),
+              ),
+              contentPadding: EdgeInsets.zero,
+              suffixIcon: IconButton(
+                onPressed: () {
+                  setState(() {
+                    _isRepeatPasswordHidden = !_isRepeatPasswordHidden;
+                  });
+                },
+                icon: Icon(_isRepeatPasswordHidden
+                    ? Icons.visibility
+                    : Icons.visibility_off),
               ),
             ),
           ),
+          const SizedBox(height: 20),
+          Row(
+            children: [
+              Checkbox(
+                  value: widget._controller.rememberLogin,
+                  onChanged: (value) {
+                    setState(() {
+                      widget._controller.rememberLogin = value!;
+                    });
+                  }),
+              const SizedBox(width: 5),
+              const Text("Remember Me"),
+            ],
+          ),
+          const SizedBox(height: 40),
           Padding(
             padding: const EdgeInsets.only(top: 40.0, bottom: 10.0),
             child: Center(

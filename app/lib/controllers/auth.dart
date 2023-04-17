@@ -1,10 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:itflowapp/controllers/database.dart';
+import 'package:itflowapp/models/user.dart';
 
 class AuthController {
   static final _auth = FirebaseAuth.instance;
 
   static User? get currentUser => _auth.currentUser;
   static Stream<User?> get authStateChanges => _auth.authStateChanges();
+
+  static UserModel? currentUserModel;
 
   static Future<SignUpStatus> createUser(String email, String password) async {
     try {
@@ -20,6 +24,9 @@ class AuthController {
   static Future<LogInStatus> loginUser(String email, String password) async {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
+      final info = await DataBaseController.getUser(currentUser!.uid);
+      if (info == null) return LogInStatus.error("user-not-found");
+      currentUserModel = UserModel.fromFirestore(info);
       return const LogInStatus();
     } on FirebaseAuthException catch(e) {
       return LogInStatus.error(e.code);
@@ -36,7 +43,10 @@ class AuthController {
     }
   }
 
-  static Future<void> logout() async => await _auth.signOut();
+  static Future<void> logout() async {
+    currentUserModel = null;
+    await _auth.signOut();
+  }
 }
 
 class SignUpStatus {

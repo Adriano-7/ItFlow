@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:itflowapp/controllers/auth.dart';
 import 'package:itflowapp/theme/app_theme.dart';
 import 'package:itflowapp/main.dart';
 
@@ -32,6 +33,10 @@ class NavBar extends StatelessWidget {
                 context, NoPageTransitionToMyApp(Routes.notification));
             break;
           case 3:
+            if (AuthController.currentUser == null) {
+              Navigator.pushNamed(context, Routes.login);
+              break;
+            }
             Navigator.pushReplacement(
                 context, NoPageTransitionToMyApp(Routes.profile));
             break;

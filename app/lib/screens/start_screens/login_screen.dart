@@ -24,16 +24,15 @@ class LoginScreen extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-              child: Text(
-                "Let's get you signed in!",
-                style: TextStyle(
-                  fontSize: 40,
-                  fontWeight: FontWeight.w300,
-                ),
+            const SizedBox(height: 10),
+            const Text(
+              "Let's get you signed in!",
+              style: TextStyle(
+                fontSize: 40,
+                fontWeight: FontWeight.w300,
               ),
             ),
+            const SizedBox(height: 20),
             LoginForm(),
           ],
         ),

@@ -2,11 +2,9 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:itflowapp/controllers/auth.dart';
 import 'package:itflowapp/constants/constants.dart';
-
-enum UserType {
-  standard,
-  enterprise,
-}
+import 'package:itflowapp/controllers/database.dart';
+import 'package:itflowapp/models/user.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 enum RegisterScreenType {
   main,
@@ -20,12 +18,15 @@ class RegisterScreenController extends ValueNotifier<RegisterScreenType> {
 }
 
 class RegisterFormController {
+  bool rememberLogin = false;
+
   // Screen Controller //
   final registerFormScreenController = RegisterScreenController();
   RegisterScreenType get screen => registerFormScreenController.value;
   set screen(RegisterScreenType newValue) {
     registerFormScreenController.value = newValue;
   }
+
   // Error Variables //
   String? _errorMessage;
   String? _errorCode;
@@ -61,9 +62,11 @@ class RegisterFormController {
   }
 
   String? phoneNumberValidator(value) {
+    /* NOTHING FOR NOW
     if (value == null || value!.isEmpty) {
       return "Phone number can't be empty!";
     }
+    */
     return null;
   }
 
@@ -71,7 +74,8 @@ class RegisterFormController {
     if (value == null || value!.isEmpty) {
       return "Password can't be empty!";
     }
-    if (value.length < kPasswordMinimumLength || value.length > kPasswordMaximumLength) {
+    if (value.length < kPasswordMinimumLength ||
+        value.length > kPasswordMaximumLength) {
       return "Password length must be between $kPasswordMinimumLength and $kPasswordMaximumLength characters.";
     }
     return null;
@@ -117,7 +121,8 @@ class RegisterFormController {
     if (value == null || value!.isEmpty) {
       return "Description can't be empty!";
     }
-    if (value!.length < kDescriptionMinimumLength || value!.length > kDescriptionMaximumLength) {
+    if (value!.length < kDescriptionMinimumLength ||
+        value!.length > kDescriptionMaximumLength) {
       return "Description must be between $kDescriptionMinimumLength and $kDescriptionMaximumLength characters.";
     }
     return null;
@@ -139,9 +144,10 @@ class RegisterFormController {
   String get siteUrl => siteUrlController.text;
   String get eDescription => eDescriptionController.text;
 
-  set logoFile(PlatformFile file){
+  set logoFile(PlatformFile file) {
     logo = Image.memory(file.bytes!);
-    logoSnapshot = Image.memory(file.bytes!, width: 100, height: 80, fit: BoxFit.contain);
+    logoSnapshot =
+        Image.memory(file.bytes!, width: 100, height: 80, fit: BoxFit.contain);
     logoName = file.name;
   }
 
@@ -169,14 +175,20 @@ class RegisterFormController {
     if (value == null || value!.isEmpty) {
       return "Description can't be empty!";
     }
-    if (value!.length < kDescriptionMinimumLength || value!.length > kDescriptionMaximumLength) {
+    if (value!.length < kDescriptionMinimumLength ||
+        value!.length > kDescriptionMaximumLength) {
       return "Description must be between $kDescriptionMinimumLength and $kDescriptionMaximumLength characters.";
     }
     return null;
   }
 
+  // =============== //
   // Submit Function //
+  // =============== //
   Future<bool> submit() async {
+    SharedPreferences.getInstance().then((prefs) {
+      prefs.setBool(kRememberMePrefName, rememberLogin);
+    });
     SignUpStatus status = await AuthController.createUser(email, password);
     if (status.errorOccurred) {
       _errorMessage = status.errorMessage;
@@ -184,18 +196,42 @@ class RegisterFormController {
       return false;
     } else {
       // All Good
-      // TODO: Save user info in data base
-      // e.g. DatabaseController.saveInfo?
+      UserModel user;
       switch (userType) {
         case UserType.standard:
           // Save standard user data
+          user = UserModel(
+            name: name,
+            phone: phone,
+            userType: userType,
+            description: sDescription,
+            location: location,
+          );
           break;
         case UserType.enterprise:
           // Save enterprise user data
+          user = UserModel(
+            name: name,
+            phone: phone,
+            userType: userType,
+            description: eDescription,
+            address: address,
+            siteUrl: siteUrl,
+          );
           break;
         default:
           return false;
       }
+      final info = user.toFirestore();
+      if (info == null) {
+        AuthController.currentUser?.delete();
+        return false;
+      }
+      DataBaseController.setUser(
+          AuthController.currentUser!.uid,
+          info
+      );
+      AuthController.currentUserModel = user;
       return true;
     }
   }

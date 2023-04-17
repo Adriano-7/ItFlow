@@ -16,8 +16,8 @@ class AppTheme {
       colorScheme: const ColorScheme.dark(
         primary: AppColors.green,
         onPrimary: AppColors.black,
-        // secondary: AppColors.red,
-        // onSecondary: AppColors.black,
+        secondary: AppColors.green,
+        onSecondary: AppColors.black,
         error: AppColors.red,
       ),
       scaffoldBackgroundColor: Colors.black,

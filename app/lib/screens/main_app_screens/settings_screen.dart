@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:itflowapp/constants/constants.dart';
+import 'package:itflowapp/controllers/auth.dart';
+import 'package:itflowapp/main.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -11,8 +13,15 @@ class SettingsScreen extends StatelessWidget {
         title: const Text(kAppName),
         centerTitle: true,
       ),
-      body: const Center(
-        child: Text('Settings'),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            AuthController.logout();
+            Navigator.pushNamedAndRemoveUntil(
+                context, Routes.start, ModalRoute.withName('/'));
+          },
+          child: const Text("Log Out"),
+        ),
       ),
     );
   }

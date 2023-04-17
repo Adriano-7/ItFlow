@@ -1,15 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:itflowapp/controllers/auth.dart';
+import 'package:itflowapp/controllers/database.dart';
+import 'package:itflowapp/models/user.dart';
 import 'package:itflowapp/theme/app_theme.dart';
 import 'package:itflowapp/screens/all_screens.dart';
 import 'package:flutter/services.dart';
 import 'package:itflowapp/models/job.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'constants/constants.dart';
 import 'firebase_options.dart';
 
 void main() {
   // Firebase Initialization
   WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform).then((value) {
+    SharedPreferences.getInstance().then((prefs) {
+      final bool? rememberMe = prefs.getBool(kRememberMePrefName);
+      if (rememberMe == null || !rememberMe){
+        AuthController.logout();
+        runApp(const MyApp(initialRoute: Routes.start));
+      } else {
+        DataBaseController.getUser(AuthController.currentUser!.uid).then((info) {
+          AuthController.currentUserModel = UserModel.fromFirestore(info!);
+        });
+        runApp(const MyApp(initialRoute: Routes.home));
+      }
+    });
+  });
 
   // Portrait Mode
   SystemChrome.setPreferredOrientations([
@@ -17,11 +35,11 @@ void main() {
     // DeviceOrientation.portraitDown,
   ]);
 
-  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final String initialRoute;
+  const MyApp({super.key, required this.initialRoute});
 
   static GlobalKey mtAppKey = GlobalKey();
 
@@ -33,7 +51,7 @@ class MyApp extends StatelessWidget {
       darkTheme: AppTheme.dark(),
       themeMode: ThemeMode.dark,
       title: 'ItFlow App',
-      initialRoute: Routes.start,
+      initialRoute: initialRoute,
       routes: Routes.routes,
     );
   }

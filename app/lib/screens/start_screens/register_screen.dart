@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:itflowapp/constants/constants.dart';
 import 'package:itflowapp/controllers/register_controller.dart';
+import 'package:itflowapp/models/user.dart';
 import 'package:itflowapp/widgets/forms/enterprise_form.dart';
 import 'package:itflowapp/widgets/forms/register_form.dart';
 import 'package:itflowapp/widgets/forms/standard_form.dart';

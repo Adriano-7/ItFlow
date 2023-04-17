@@ -5,7 +5,7 @@ import 'package:itflowapp/theme/app_theme.dart';
 
 class StandardForm extends StatefulWidget {
   final RegisterFormController _controller;
-  StandardForm({Key? key, required RegisterFormController controller})
+  const StandardForm({Key? key, required RegisterFormController controller})
       : _controller = controller,
         super(key: key);
 
@@ -24,6 +24,8 @@ class _StandardFormState extends State<StandardForm> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextFormField(
+              validator: widget._controller.locationValidator,
+              controller: widget._controller.locationController,
               decoration: InputDecoration(
                 prefixIcon: const Icon(Icons.location_pin),
                 labelText: 'Location',
@@ -72,17 +74,17 @@ class _StandardFormState extends State<StandardForm> {
                 child: const Text('Submit'),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Center(
-                child: (widget._controller.errorMessage == null)
-                    ? Container()
-                    : Text(
+            (widget._controller.errorMessage == null)
+                ? Container()
+                : Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(
+                      child: Text(
                         widget._controller.errorMessage!,
                         style: const TextStyle(color: AppColors.red),
                       ),
-              ),
-            ),
+                    ),
+                  ),
           ],
         ));
   }
