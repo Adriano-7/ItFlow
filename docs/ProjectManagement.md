@@ -17,7 +17,7 @@ End of iteration:
 **Iteration 2**
 Begin of iteration:
 <p align="center" justify="center">
-<img src="../images/iteration2_begin.png" width="700">
+<img src="../images/iteration2_begin.jpg" width="700">
 </p>
 End of iteration:
 <p align="center" justify="center">
