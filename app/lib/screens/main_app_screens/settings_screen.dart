@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:itflowapp/constants/constants.dart';
-import 'package:itflowapp/controllers/auth.dart';
+import 'package:itflowapp/controllers/firebase/auth.dart';
 import 'package:itflowapp/main.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -11,10 +11,15 @@ class SettingsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
           centerTitle: true,
-          title: InkWell(onTap: () {Navigator.pushReplacementNamed(context, Routes.home);},
-            child: Image.asset('assets/images/logo.png', height: 30,),
-          )
-      ),
+          title: InkWell(
+            onTap: () {
+              Navigator.pushReplacementNamed(context, Routes.home);
+            },
+            child: Hero(
+              tag: kLogoHeroTag,
+              child: Image.asset(kLogoImageAssetPath, height: 30),
+            ),
+          )),
       body: Center(
         child: ElevatedButton(
           onPressed: () {

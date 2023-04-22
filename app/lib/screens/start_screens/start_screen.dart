@@ -1,6 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:itflowapp/widgets/double_button.dart';
+import 'package:itflowapp/constants/constants.dart';
+import 'package:itflowapp/controllers/firebase/auth.dart';
+import 'package:itflowapp/widgets/custom_widgets/double_button.dart';
 import 'package:itflowapp/main.dart';
 
 class StartScreen extends StatelessWidget {
@@ -12,16 +14,22 @@ class StartScreen extends StatelessWidget {
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 40),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 40),
-            const Image(image: AssetImage('assets/images/start_img.png')),
+            const Image(image: AssetImage(kStartImageAssetPath)),
             const SizedBox(height: 15),
             const Text(
-              'Welcome to ItFlow',
+              'Welcome to',
               style: TextStyle(
                 fontSize: 45,
                 fontWeight: FontWeight.bold,
               ),
+            ),
+            const SizedBox(height: 10),
+            Hero(
+              tag: kLogoHeroTag,
+              child: Image.asset(kLogoImageAssetPath, height: 30),
             ),
             const SizedBox(height: 15),
             const Text(
@@ -57,9 +65,10 @@ class StartScreen extends StatelessWidget {
                       text: 'guest',
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
+                          AuthController.isGuest = true;
                           // Remove Every Screen and Leave Only the New One
-                          Navigator.pushNamedAndRemoveUntil(context,
-                              Routes.home, ModalRoute.withName('/'));
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, Routes.home, ModalRoute.withName('/'));
                         },
                       style: const TextStyle(
                         fontWeight: FontWeight.w900,

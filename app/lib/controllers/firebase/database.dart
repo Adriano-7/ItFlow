@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:itflowapp/constants/constants.dart';
-import 'package:itflowapp/controllers/register_controller.dart';
 
 class DataBaseController {
   static final _db = FirebaseFirestore.instance;

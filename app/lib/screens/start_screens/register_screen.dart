@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:itflowapp/constants/constants.dart';
-import 'package:itflowapp/controllers/register_controller.dart';
+import 'package:itflowapp/controllers/start/register_controller.dart';
 import 'package:itflowapp/models/user.dart';
 import 'package:itflowapp/widgets/forms/enterprise_form.dart';
 import 'package:itflowapp/widgets/forms/register_form.dart';
@@ -41,7 +41,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return WillPopScope(
       child: Scaffold(
         appBar: AppBar(
-          title: const Text(kAppName),
+          title: Hero(
+            tag: kLogoHeroTag,
+            child: Image.asset(kLogoImageAssetPath, height: 30),
+          ),
           centerTitle: true,
         ),
         body: SingleChildScrollView(

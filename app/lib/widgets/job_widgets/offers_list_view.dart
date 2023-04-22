@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:itflowapp/controllers/it_jobs_api.dart';
+import 'package:itflowapp/controllers/itjobs/it_jobs_api.dart';
 import 'package:itflowapp/models/job.dart';
-import 'package:itflowapp/widgets/job_offer.dart';
+import 'package:itflowapp/widgets/job_widgets/job_offer.dart';
 
 class OffersListView extends StatefulWidget {
   const OffersListView({Key? key}) : super(key: key);

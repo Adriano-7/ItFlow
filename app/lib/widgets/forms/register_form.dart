@@ -1,10 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:itflowapp/main.dart';
 import 'package:itflowapp/models/user.dart';
-import 'package:itflowapp/widgets/double_button.dart';
-import 'package:itflowapp/controllers/register_controller.dart';
+import 'package:itflowapp/widgets/custom_widgets/double_button.dart';
+import 'package:itflowapp/controllers/start/register_controller.dart';
 
 class RegisterForm extends StatefulWidget {
   final RegisterFormController _controller;

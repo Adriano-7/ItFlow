@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:itflowapp/constants/constants.dart';
 import 'package:itflowapp/models/job.dart';
 import 'package:itflowapp/theme/app_theme.dart';
-import 'package:itflowapp/widgets/double_button.dart';
+import 'package:itflowapp/widgets/custom_widgets/double_button.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:itflowapp/controllers/net_utils.dart';
-import 'package:itflowapp/widgets/icon_switch.dart';
+import 'package:itflowapp/widgets/custom_widgets/icon_switch.dart';
 
 import '../../main.dart';
 
@@ -55,8 +56,14 @@ class JobDetailsScreenState extends State<JobDetailsScreen> {
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: InkWell(onTap: () {Navigator.pushReplacementNamed(context, Routes.home);},
-            child: Image.asset('assets/images/logo.png', height: 30,),
+          title: InkWell(
+            onTap: () {
+              Navigator.pushReplacementNamed(context, Routes.home);
+            },
+            child: Hero(
+              tag: kLogoHeroTag,
+              child: Image.asset(kLogoImageAssetPath, height: 30),
+            ),
           ),
         ),
         body: SingleChildScrollView(

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:itflowapp/constants/constants.dart';
+import 'package:itflowapp/controllers/firebase/auth.dart';
 import 'package:itflowapp/main.dart';
-import 'package:itflowapp/widgets/job_offer.dart';
-import 'package:itflowapp/widgets/navigation_bar.dart';
+import 'package:itflowapp/widgets/job_widgets/job_offer.dart';
+import 'package:itflowapp/widgets/custom_widgets/navigation_bar.dart';
 import 'package:itflowapp/models/job.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -13,8 +14,14 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: InkWell(onTap: () {Navigator.pushReplacementNamed(context, Routes.home);},
-          child: Image.asset('assets/images/logo.png', height: 30,),
+        title: InkWell(
+          onTap: () {
+            Navigator.pushReplacementNamed(context, Routes.home);
+          },
+          child: Hero(
+            tag: kLogoHeroTag,
+            child: Image.asset(kLogoImageAssetPath, height: 30),
+          ),
         ),
         actions: [
           IconButton(
@@ -31,7 +38,7 @@ class ProfileScreen extends StatelessWidget {
             children: [
               Expanded(
                 child: Column(
-                  //profile picture and edit profile
+                  // profile picture and edit profile
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: const [
                     Icon(Icons.person, size: 100),
@@ -42,20 +49,20 @@ class ProfileScreen extends StatelessWidget {
               ),
               Expanded(
                 child: Column(
-                  // name and profession
+                  // Name and Location
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
+                      children: [
                         Text(
-                          "Faísca Raimundo",
-                          style: TextStyle(fontSize: 25),
+                          AuthController.currentUserModel!.name,
+                          style: const TextStyle(fontSize: 25),
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text("Analytical Counselor"),
+                        const SizedBox(height: 15),
+                        Text(
+                          AuthController.currentUserModel!.location ?? "",
+                        )
                       ],
                     ),
                   ],

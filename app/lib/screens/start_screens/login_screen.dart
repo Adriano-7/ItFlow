@@ -9,7 +9,10 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(kAppName),
+        title: Hero(
+          tag: kLogoHeroTag,
+          child: Image.asset(kLogoImageAssetPath, height: 30),
+        ),
         centerTitle: true,
       ),
       body: SingleChildScrollView(

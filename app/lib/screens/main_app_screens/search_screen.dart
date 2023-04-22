@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:itflowapp/widgets/job_offer_description.dart';
-import 'package:itflowapp/widgets/navigation_bar.dart';
-import 'package:itflowapp/controllers/it_jobs_api.dart';
+import 'package:itflowapp/constants/constants.dart';
+import 'package:itflowapp/widgets/job_widgets/job_offer_description.dart';
+import 'package:itflowapp/widgets/custom_widgets/navigation_bar.dart';
+import 'package:itflowapp/controllers/itjobs/it_jobs_api.dart';
 import 'package:itflowapp/models/job.dart';
 import 'package:itflowapp/screens/main_app_screens/filters_screen.dart';
-import '../../main.dart';
-import '../../widgets/filters_applied.dart';
+import 'package:itflowapp/main.dart';
+import 'package:itflowapp/widgets/custom_widgets/filters_applied.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
@@ -42,9 +43,9 @@ class _SearchScreenState extends State<SearchScreen> {
           onTap: () {
             Navigator.pushReplacementNamed(context, Routes.home);
           },
-          child: Image.asset(
-            'assets/images/logo.png',
-            height: 30,
+          child: Hero(
+            tag: kLogoHeroTag,
+            child: Image.asset(kLogoImageAssetPath, height: 30),
           ),
         ),
       ),
@@ -80,7 +81,9 @@ class _SearchScreenState extends State<SearchScreen> {
                 });
               },
             ),
-          ),FiltersApplied(filters: _filters, onFilterRemoved: _handleFilterRemove),
+          ),
+          FiltersApplied(
+              filters: _filters, onFilterRemoved: _handleFilterRemove),
           const Padding(
             padding: EdgeInsets.fromLTRB(0.0, 40.0, 190.0, 20.0),
             child: Text(

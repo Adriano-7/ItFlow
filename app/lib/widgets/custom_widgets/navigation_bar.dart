@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:itflowapp/controllers/auth.dart';
+import 'package:itflowapp/controllers/firebase/auth.dart';
 import 'package:itflowapp/theme/app_theme.dart';
 import 'package:itflowapp/main.dart';
 

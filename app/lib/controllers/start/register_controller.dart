@@ -1,10 +1,9 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:itflowapp/controllers/auth.dart';
+import 'package:itflowapp/controllers/firebase/auth.dart';
 import 'package:itflowapp/constants/constants.dart';
-import 'package:itflowapp/controllers/database.dart';
+import 'package:itflowapp/controllers/firebase/database.dart';
 import 'package:itflowapp/models/user.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 enum RegisterScreenType {
   main,
@@ -186,9 +185,7 @@ class RegisterFormController {
   // Submit Function //
   // =============== //
   Future<bool> submit() async {
-    SharedPreferences.getInstance().then((prefs) {
-      prefs.setBool(kRememberMePrefName, rememberLogin);
-    });
+    AuthController.rememberMe = rememberLogin;
     SignUpStatus status = await AuthController.createUser(email, password);
     if (status.errorOccurred) {
       _errorMessage = status.errorMessage;

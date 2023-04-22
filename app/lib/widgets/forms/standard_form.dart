@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:itflowapp/controllers/register_controller.dart';
+import 'package:itflowapp/controllers/start/register_controller.dart';
 import 'package:itflowapp/main.dart';
 import 'package:itflowapp/theme/app_theme.dart';
 

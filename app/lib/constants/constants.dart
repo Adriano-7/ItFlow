@@ -4,7 +4,10 @@
 
 const String kAppName = 'ItFlow';
 
-const String kRememberMePrefName = "rememberMe";
+const String kLogoHeroTag = 'logo_img';
+const String kLogoImageAssetPath = 'assets/images/logo.png';
+
+const String kStartImageAssetPath = 'assets/images/start_img.png';
 
 const kUserNameMinimumLength = 6;
 const kUserNameMaximumLength = 64;

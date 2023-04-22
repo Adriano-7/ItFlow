@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:itflowapp/models/job.dart';
 import 'package:itflowapp/theme/app_theme.dart';
-import 'package:itflowapp/widgets/icon_switch.dart';
+import 'package:itflowapp/widgets/custom_widgets/icon_switch.dart';
 import 'package:itflowapp/screens/main_app_screens/job_details_screen.dart';
 
 class JobOfferDescription extends StatelessWidget {

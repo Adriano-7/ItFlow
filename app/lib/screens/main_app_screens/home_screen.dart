@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:itflowapp/widgets/navigation_bar.dart';
-import 'package:itflowapp/widgets/offers_list_view.dart';
+import 'package:itflowapp/constants/constants.dart';
+import 'package:itflowapp/widgets/custom_widgets/navigation_bar.dart';
+import 'package:itflowapp/widgets/job_widgets/offers_list_view.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -15,7 +16,10 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Image.asset('assets/images/logo.png', height: 30,),
+        title: Hero(
+          tag: kLogoHeroTag,
+          child: Image.asset(kLogoImageAssetPath, height: 30),
+        ),
         ),
       body: const OffersListView(),
       bottomNavigationBar: const NavBar(

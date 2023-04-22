@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:itflowapp/theme/app_theme.dart';
-import 'package:itflowapp/controllers/login_controller.dart';
+import 'package:itflowapp/controllers/start/login_controller.dart';
 import 'package:itflowapp/main.dart';
 
 class LoginForm extends StatefulWidget {

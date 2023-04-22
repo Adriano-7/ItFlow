@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:itflowapp/constants/constants.dart';
 import 'package:itflowapp/theme/app_theme.dart';
-import '../../main.dart';
-import '../../widgets/double_button.dart';
+import 'package:itflowapp/main.dart';
+import 'package:itflowapp/widgets/custom_widgets/double_button.dart';
 
 
 class FilterScreen extends StatefulWidget {
@@ -25,9 +26,9 @@ class _FilterScreenState extends State<FilterScreen> {
             onTap: () {
               Navigator.pushReplacementNamed(context, Routes.home);
             },
-            child: Image.asset(
-              'assets/images/logo.png',
-              height: 30,
+            child: Hero(
+              tag: kLogoHeroTag,
+              child: Image.asset(kLogoImageAssetPath, height: 30),
             ),
           )),
       body: Column(

@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:itflowapp/controllers/database.dart';
 import 'package:itflowapp/models/user.dart';
+import 'database.dart';
 
 class AuthController {
   static final _auth = FirebaseAuth.instance;
@@ -9,10 +9,15 @@ class AuthController {
   static Stream<User?> get authStateChanges => _auth.authStateChanges();
 
   static UserModel? currentUserModel;
+  static bool rememberMe = false;
+  static bool isGuest = false;
+
+  static bool get isLoggedIn => currentUser != null;
 
   static Future<SignUpStatus> createUser(String email, String password) async {
     try {
       await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      isGuest = false;
       return const SignUpStatus();
     } on FirebaseAuthException catch(e) {
       return SignUpStatus.error(e.code);
@@ -25,8 +30,12 @@ class AuthController {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
       final info = await DataBaseController.getUser(currentUser!.uid);
-      if (info == null) return LogInStatus.error("user-not-found");
+      if (info == null) {
+        logout();
+        return LogInStatus.error("user-not-found");
+      }
       currentUserModel = UserModel.fromFirestore(info);
+      isGuest = false;
       return const LogInStatus();
     } on FirebaseAuthException catch(e) {
       return LogInStatus.error(e.code);
@@ -46,6 +55,16 @@ class AuthController {
   static Future<void> logout() async {
     currentUserModel = null;
     await _auth.signOut();
+  }
+
+  static Future<bool> logoutIfNotRememberMe() async {
+    // Returns if did log out or not.
+    if (!rememberMe){
+      print("Logged Out");
+      await logout();
+      return true;
+    }
+    return false;
   }
 }
 
