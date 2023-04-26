@@ -1,34 +1,56 @@
 import 'package:flutter/material.dart';
+import 'package:itflowapp/controllers/firebase/auth.dart';
+import 'package:itflowapp/controllers/firebase/database.dart';
 import 'package:itflowapp/models/job.dart';
 import 'package:itflowapp/theme/app_theme.dart';
 import 'package:itflowapp/widgets/custom_widgets/icon_switch.dart';
 import 'package:itflowapp/screens/main_app_screens/job_details_screen.dart';
 
 class JobOffer extends StatelessWidget {
+  bool bookmarkActive = false;
   static const double _logoWidthPercentage = 0.15;
   static const double _logoHeightPercentage = 0.10;
   static const double _titlePercentage = 0.45;
   static const double _cardHeight = 125;
   final Job jobDetails;
-
+  final int _id; //job id
   final String _hirer; //hirer name
   final String _location; //city and country
   final String _type; // part-time or full-time
   final String _job; // ex: React-developer or engineer
   late final Image _logo; // hirer logo
 
+  void bookmark(bool x){ // if this isnt here it doesnt work (idk why)
+    if(!bookmarkActive){ // if you bookmark this offer
+      bookmarkActive=true;
+      String? temp = AuthController.currentUser?.uid;
+      if(temp!=null){
+        DataBaseController.addBookmark(temp, _id);
+      }
+  
+    }
+    else{ //if you remove bookmark
+      bookmarkActive = false;
+      String? temp = AuthController.currentUser?.uid;
+      if(temp!=null){
+        DataBaseController.removeBookmark(temp, _id);
+      }
+    }
+  }
   JobOffer({
     Key? key,
     String hirer = '',
     String location = '',
     String type = '',
     String job = '',
+    int id = -1,
     Image? logo,
     required this.jobDetails,
   })  : _hirer = hirer,
         _location = location,
         _type = type,
         _job = job,
+        _id = id,
         super(key: key) {
     _logo = logo ??
         Image.network(
@@ -44,6 +66,7 @@ class JobOffer extends StatelessWidget {
       type: job.types == null ? '' : job.types![0].name,
       job: job.title,
       logo: Image.network(job.company?.logoUrl ?? ''),
+      id: job.id,
       jobDetails: job,
     );
   }
@@ -123,9 +146,9 @@ class JobOffer extends StatelessWidget {
                   // BOOKMARK
                   alignment: Alignment.topRight,
                   child: IconSwitch(
-                    onChanged: (_) {},
-                    iconEnabled: const Icon(Icons.bookmark),
-                    iconDisabled: const Icon(Icons.bookmark_border),
+                    onChanged:bookmark,
+                    iconEnabled: Icon(Icons.bookmark),
+                    iconDisabled: Icon(Icons.bookmark_border),
                   ),
                 ),
                 Row(

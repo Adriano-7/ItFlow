@@ -5,8 +5,13 @@ import 'package:itflowapp/main.dart';
 import 'package:itflowapp/widgets/job_widgets/job_offer.dart';
 import 'package:itflowapp/widgets/custom_widgets/navigation_bar.dart';
 import 'package:itflowapp/models/job.dart';
-
+import 'package:itflowapp/controllers/itjobs/it_jobs_api.dart';
 class ProfileScreen extends StatelessWidget {
+  Future <Job?> getjob(int id) async{
+    JobGet job =  await ItJobsApiController.getJob(id);
+    return job.job;
+  }
+
   const ProfileScreen({Key? key}) : super(key: key);
 
   @override
@@ -72,13 +77,27 @@ class ProfileScreen extends StatelessWidget {
           ),
 
           //bookmarks
-
-          JobOffer(
-            hirer: "II SECTOR inc",
-            location: "Porto,Portugal",
-            type: "Full time",
-            job: "REACT JS DEVELOPER",
-            jobDetails: Job.empty(),
+          
+          FutureBuilder(
+            future: getjob(459536),
+            builder: (context,snapshot){
+              if(snapshot.connectionState == ConnectionState.waiting){
+                return const CircularProgressIndicator();
+              }
+              if(snapshot.hasError){
+                return Text("Error");
+              }
+              else{
+                var temp =snapshot.data;
+                if(temp== null){
+                  return Text("Error");
+                }
+                else{
+                  Job job = temp;
+                  return JobOffer.fromJob(job);
+                }
+              }
+            }
           ),
         ],
       ),
