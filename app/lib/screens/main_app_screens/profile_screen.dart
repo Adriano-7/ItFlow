@@ -10,20 +10,9 @@ import 'package:itflowapp/controllers/itjobs/it_jobs_api.dart';
 
  
 class ProfileScreen extends StatelessWidget {
-  
-  String getID(){
-    String? id=AuthController.currentUser?.uid;
-    if(id!=null){
-      return id;
-    }
-    else{
-      id="0"; //nao vai acontecer pois esta screen so é aberta quando se esta autenticado
-      return id; 
-    }
-  }
 
   Future<List<dynamic>> getJobs() async{
-    String uid =getID();
+    String uid =AuthController.currentUser!.uid;
     List<dynamic> ids =  await DataBaseController.getBookmarks(uid);
     List<Job> jobs=[];
     for(var i=0; i<ids.length; i++){
