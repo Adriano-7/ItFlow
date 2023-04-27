@@ -88,7 +88,13 @@ class ProfileScreen extends StatelessWidget {
               ),
             ],
           ),
-
+          const Padding(
+            padding: EdgeInsets.fromLTRB(0.0, 40.0, 220.0, 10.0),
+            child: Text(
+              'Bookmarks',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+          ),
           //bookmarks
           
           Expanded(
