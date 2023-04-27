@@ -97,6 +97,7 @@ class JobDetailsScreenState extends State<JobDetailsScreen> {
                         iconSize: 30.0,
                         iconEnabled: const Icon(Icons.bookmark),
                         iconDisabled: const Icon(Icons.bookmark_border),
+                        isEnabled: false,
                       ),
                     ]),
                 Align(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:test/test.dart';
 
 class IconSwitch extends StatefulWidget {
   final void Function(bool) _onChanged;
@@ -7,12 +8,13 @@ class IconSwitch extends StatefulWidget {
   final Color? _color;
   final double? _iconSize;
   final ButtonStyle? _style;
-
+  final bool _isEnabled;
   const IconSwitch({
     super.key,
     required onChanged,
     required Icon iconEnabled,
     required Icon iconDisabled,
+    required bool isEnabled,
     Color? color,
     double? iconSize,
     ButtonStyle? style,
@@ -21,15 +23,23 @@ class IconSwitch extends StatefulWidget {
         _onChanged = onChanged,
         _color = color,
         _iconSize = iconSize,
-        _style = style;
+        _style = style,
+        _isEnabled=isEnabled;
 
   @override
   State<IconSwitch> createState() => _IconSwitchState();
 }
 
+  
 class _IconSwitchState extends State<IconSwitch> {
-  bool _isEnabled = false;
+  bool isActive = false;
 
+  @override
+  void initState(){
+    super.initState();
+    isActive = widget._isEnabled;
+  }
+ 
   @override
   Widget build(BuildContext context) {
     return IconButton(
@@ -38,11 +48,11 @@ class _IconSwitchState extends State<IconSwitch> {
       style: widget._style,
       onPressed: () {
         setState(() {
-          _isEnabled = !_isEnabled;
+          isActive= !isActive;
         });
-        widget._onChanged(_isEnabled);
+        widget._onChanged(isActive);
       },
-      icon: _isEnabled ? widget._iconEnabled : widget._iconDisabled,
+      icon: isActive? widget._iconEnabled : widget._iconDisabled,
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
     );

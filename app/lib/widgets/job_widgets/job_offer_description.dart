@@ -123,6 +123,7 @@ class JobOfferDescription extends StatelessWidget {
                     onChanged: (_) {},
                     iconEnabled: const Icon(Icons.bookmark),
                     iconDisabled: const Icon(Icons.bookmark_border),
+                    isEnabled: false,
                   ),
                 ),
                 Container(

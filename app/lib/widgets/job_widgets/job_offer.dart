@@ -7,7 +7,7 @@ import 'package:itflowapp/widgets/custom_widgets/icon_switch.dart';
 import 'package:itflowapp/screens/main_app_screens/job_details_screen.dart';
 
 class JobOffer extends StatelessWidget {
-  bool bookmarkActive = false;
+  
   static const double _logoWidthPercentage = 0.15;
   static const double _logoHeightPercentage = 0.10;
   static const double _titlePercentage = 0.45;
@@ -20,17 +20,30 @@ class JobOffer extends StatelessWidget {
   final String _job; // ex: React-developer or engineer
   late final Image _logo; // hirer logo
 
-  void bookmark(bool x){ // if this isnt here it doesnt work (idk why)
-    if(!bookmarkActive){ // if you bookmark this offer
-      bookmarkActive=true;
+  Future<bool> checkBookmark(int id) async{
+    String? uid=AuthController.currentUser?.uid;
+    if(uid==null){ //if user is not authenticated bookmarks will always appear as not saved
+      return false;
+    }
+    List<dynamic> bookmarks = await DataBaseController.getBookmarks(uid);
+    for(var i=0;i<bookmarks.length;i++){
+      if(bookmarks[i]==id){
+        return true;
+      }
+    }
+    return false;
+  }
+
+  
+
+  void bookmark(bool x){ 
+    if(x){ // if you bookmark this offer
       String? temp = AuthController.currentUser?.uid;
       if(temp!=null){
         DataBaseController.addBookmark(temp, _id);
       }
-  
     }
     else{ //if you remove bookmark
-      bookmarkActive = false;
       String? temp = AuthController.currentUser?.uid;
       if(temp!=null){
         DataBaseController.removeBookmark(temp, _id);
@@ -145,11 +158,29 @@ class JobOffer extends StatelessWidget {
                 Align(
                   // BOOKMARK
                   alignment: Alignment.topRight,
-                  child: IconSwitch(
-                    onChanged:bookmark,
-                    iconEnabled: Icon(Icons.bookmark),
-                    iconDisabled: Icon(Icons.bookmark_border),
-                  ),
+                  child:FutureBuilder<bool>(
+                    future: checkBookmark(_id),
+                    builder:
+                      (context,snapshot) {
+                    if (snapshot.hasData) {
+                      return IconSwitch(
+                        onChanged: bookmark,
+                        iconEnabled:Icon(Icons.bookmark),
+                        iconDisabled: Icon(Icons.bookmark_border),
+                        isEnabled: snapshot.data!,
+                      );
+                    } 
+                  else if (snapshot.hasError) {
+                    return Container();
+                  } 
+                  else {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                },
+                  )
+                  
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
