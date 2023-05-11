@@ -13,7 +13,7 @@ class UserModel {
   String? location;
   String? address;
   String? siteUrl;
-  List<int>? bookmarks;
+  List<dynamic>? bookmarks;
 
   UserModel({
     required this.name,
