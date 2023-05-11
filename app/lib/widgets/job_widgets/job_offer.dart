@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:itflowapp/controllers/firebase/auth.dart';
+import 'package:itflowapp/controllers/firebase/database.dart';
 import 'package:itflowapp/models/job.dart';
 import 'package:itflowapp/theme/app_theme.dart';
 import 'package:itflowapp/widgets/custom_widgets/icon_switch.dart';
@@ -10,12 +12,43 @@ class JobOffer extends StatelessWidget {
   static const double _titlePercentage = 0.45;
   static const double _cardHeight = 125;
   final Job jobDetails;
-
+  final int _id; //job id
   final String _hirer; //hirer name
   final String _location; //city and country
   final String _type; // part-time or full-time
   final String _job; // ex: React-developer or engineer
   late final Image _logo; // hirer logo
+
+  static Future<bool> checkBookmark(int id) async {
+    String? uid = AuthController.currentUser?.uid;
+    if (uid == null) {
+      //if user is not authenticated bookmarks will always appear as not saved
+      return false;
+    }
+    List<dynamic> bookmarks = await DataBaseController.getBookmarks(uid);
+    for (var i = 0; i < bookmarks.length; i++) {
+      if (bookmarks[i] == id) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  static void bookmark(int id, bool x) {
+    if (x) {
+      // if you bookmark this offer
+      String? temp = AuthController.currentUser?.uid;
+      if (temp != null) {
+        DataBaseController.addBookmark(temp, id);
+      }
+    } else {
+      //if you remove bookmark
+      String? temp = AuthController.currentUser?.uid;
+      if (temp != null) {
+        DataBaseController.removeBookmark(temp, id);
+      }
+    }
+  }
 
   JobOffer({
     Key? key,
@@ -23,12 +56,14 @@ class JobOffer extends StatelessWidget {
     String location = '',
     String type = '',
     String job = '',
+    int id = -1,
     Image? logo,
     required this.jobDetails,
   })  : _hirer = hirer,
         _location = location,
         _type = type,
         _job = job,
+        _id = id,
         super(key: key) {
     _logo = logo ??
         Image.network(
@@ -44,6 +79,7 @@ class JobOffer extends StatelessWidget {
       type: job.types == null ? '' : job.types![0].name,
       job: job.title,
       logo: Image.network(job.company?.logoUrl ?? ''),
+      id: job.id,
       jobDetails: job,
     );
   }
@@ -120,14 +156,29 @@ class JobOffer extends StatelessWidget {
                   ),
                 ),
                 Align(
-                  // BOOKMARK
-                  alignment: Alignment.topRight,
-                  child: IconSwitch(
-                    onChanged: (_) {},
-                    iconEnabled: const Icon(Icons.bookmark),
-                    iconDisabled: const Icon(Icons.bookmark_border),
-                  ),
-                ),
+                    // BOOKMARK
+                    alignment: Alignment.topRight,
+                    child: FutureBuilder<bool>(
+                      future: checkBookmark(_id),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return IconSwitch(
+                            onChanged: (value) {
+                              bookmark(_id, value);
+                            },
+                            iconEnabled: Icon(Icons.bookmark),
+                            iconDisabled: Icon(Icons.bookmark_border),
+                            isEnabled: snapshot.data!,
+                          );
+                        } else if (snapshot.hasError) {
+                          return Container();
+                        } else {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                      },
+                    )),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

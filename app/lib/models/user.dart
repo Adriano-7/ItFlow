@@ -1,4 +1,3 @@
-
 import 'package:itflowapp/constants/constants.dart';
 
 enum UserType {
@@ -14,6 +13,7 @@ class UserModel {
   String? location;
   String? address;
   String? siteUrl;
+  List<dynamic>? bookmarks;
 
   UserModel({
     required this.name,
@@ -23,17 +23,21 @@ class UserModel {
     this.location,
     this.address,
     this.siteUrl,
+    this.bookmarks,
   });
 
-  factory UserModel.fromFirestore(Map<String, dynamic> info){
+  factory UserModel.fromFirestore(Map<String, dynamic> info) {
     return UserModel(
       name: info[kNameDocName],
-      userType: info[kUserTypeDocName] == kUserTypeStandard ? UserType.standard : UserType.enterprise,
+      userType: info[kUserTypeDocName] == kUserTypeStandard
+          ? UserType.standard
+          : UserType.enterprise,
       description: info[kDescriptionDocName],
       phone: info[kPhoneDocName],
       location: info[kLocationDocName],
       address: info[kAddressDocName],
       siteUrl: info[kSiteUrlDocName],
+      bookmarks: info[kBookmarksDocName],
     );
   }
 
@@ -46,6 +50,7 @@ class UserModel {
         kUserTypeDocName: kUserTypeStandard,
         kDescriptionDocName: description,
         kLocationDocName: location,
+        kBookmarksDocName: bookmarks ?? [],
       };
     } else {
       if (address == null || siteUrl == null) return null;

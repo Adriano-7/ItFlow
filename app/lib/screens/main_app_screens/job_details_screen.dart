@@ -6,6 +6,7 @@ import 'package:itflowapp/widgets/custom_widgets/double_button.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:itflowapp/controllers/net_utils.dart';
 import 'package:itflowapp/widgets/custom_widgets/icon_switch.dart';
+import 'package:itflowapp/widgets/job_widgets/job_offer.dart';
 
 import '../../main.dart';
 
@@ -92,11 +93,26 @@ class JobDetailsScreenState extends State<JobDetailsScreen> {
                           ],
                         ),
                       ),
-                      IconSwitch(
-                        onChanged: (_) {},
-                        iconSize: 30.0,
-                        iconEnabled: const Icon(Icons.bookmark),
-                        iconDisabled: const Icon(Icons.bookmark_border),
+                      FutureBuilder<bool>(
+                        future: JobOffer.checkBookmark(widget.jobOffer.id),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return IconSwitch(
+                              onChanged: (value) {
+                                JobOffer.bookmark(widget.jobOffer.id, value);
+                              },
+                              iconEnabled: Icon(Icons.bookmark),
+                              iconDisabled: Icon(Icons.bookmark_border),
+                              isEnabled: snapshot.data!,
+                            );
+                          } else if (snapshot.hasError) {
+                            return Container();
+                          } else {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                        },
                       ),
                     ]),
                 Align(
@@ -374,7 +390,11 @@ class JobDetailsScreenState extends State<JobDetailsScreen> {
                         .toList()
                         .join(', ')),
                 const SizedBox(height: 8),
-                buildAttributeText('Wage', widget.jobOffer.wage),
+                buildAttributeText(
+                    'Wage',
+                    widget.jobOffer.wage != null
+                        ? '${widget.jobOffer.wage.toString()} €/year'
+                        : null),
                 const SizedBox(height: 8),
                 buildAttributeText(
                     'Allows Remote', widget.jobOffer.allowsRemote)
