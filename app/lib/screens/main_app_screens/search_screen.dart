@@ -98,6 +98,7 @@ class _SearchScreenState extends State<SearchScreen> {
             child: SearchListView(
               query: _searchText,
               filters: _filters,
+              key: UniqueKey(), // add a unique key to rebuild the widget
             ),
           ),
         ],

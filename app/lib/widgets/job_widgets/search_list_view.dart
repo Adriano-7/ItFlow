@@ -54,29 +54,19 @@ class _SearchListViewState extends State<SearchListView> {
 
   Widget _errorDialog({required double size}) {
     return SizedBox(
-      height: 180,
+      height: 50,
       width: 200,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            'An error occurred when fetching the posts.',
+            "Oops, nothing found.",
             style: TextStyle(
               fontSize: size,
             ),
           ),
           const SizedBox(
             height: 10,
-          ),
-          ElevatedButton(
-            onPressed: () {
-              setState(() {
-                _loading = true;
-                _error = false;
-                searchJobs();
-              });
-            },
-            child: const Text("Retry"),
           ),
         ],
       ),
