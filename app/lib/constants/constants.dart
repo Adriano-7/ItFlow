@@ -27,3 +27,4 @@ const String kDescriptionDocName = "description";
 const String kLocationDocName = "location";
 const String kAddressDocName = "address";
 const String kSiteUrlDocName = "url";
+const String kBookmarksDocName = "bookmarks";

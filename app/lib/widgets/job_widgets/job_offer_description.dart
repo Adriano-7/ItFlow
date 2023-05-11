@@ -3,6 +3,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:itflowapp/models/job.dart';
 import 'package:itflowapp/theme/app_theme.dart';
 import 'package:itflowapp/widgets/custom_widgets/icon_switch.dart';
+import 'package:itflowapp/widgets/job_widgets/job_offer.dart';
 import 'package:itflowapp/screens/main_app_screens/job_details_screen.dart';
 
 class JobOfferDescription extends StatelessWidget {
@@ -34,22 +35,22 @@ class JobOfferDescription extends StatelessWidget {
         _type = type,
         _jobName = jobName,
         super(key: key) {
-         _logo = logo ??
+    _logo = logo ??
         Image.network(
           'https://i.scdn.co/image/ab67616d0000b2734e57c459c44ad93020529594',
           scale: 10,
         );
   }
 
-  factory JobOfferDescription.fromJob(Job job){
+  factory JobOfferDescription.fromJob(Job job) {
     return JobOfferDescription(
-        logo: Image.network(job.company?.logoUrl ?? ''),
-        companyName: job.company?.name ?? '',
-        jobName: job.title,
-        description: job.body,
-        location: job.locations == null ? '' : job.locations![0].name,
-        type: job.types == null ? '' : job.types![0].name,
-        jobDetails: job,
+      logo: Image.network(job.company?.logoUrl ?? ''),
+      companyName: job.company?.name ?? '',
+      jobName: job.title,
+      description: job.body,
+      location: job.locations == null ? '' : job.locations![0].name,
+      type: job.types == null ? '' : job.types![0].name,
+      jobDetails: job,
     );
   }
 
@@ -57,18 +58,25 @@ class JobOfferDescription extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     return InkWell(
-      onTap: () {
-        Navigator.push(context, MaterialPageRoute(
-          builder: (context) => JobDetailsScreen(jobOffer: jobDetails),),);
-      },
-      child: Container(
-          decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(15)), color: AppColors.gray2,),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => JobDetailsScreen(jobOffer: jobDetails),
+            ),
+          );
+        },
+        child: Container(
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(15)),
+            color: AppColors.gray2,
+          ),
           width: screenWidth * 0.90,
           height: _cardHeight,
           alignment: Alignment.center,
           child: Padding(
             padding:
-            const EdgeInsets.symmetric(horizontal: 17.0, vertical: 20.0),
+                const EdgeInsets.symmetric(horizontal: 17.0, vertical: 20.0),
             child: Stack(
               children: [
                 Align(
@@ -117,15 +125,29 @@ class JobOfferDescription extends StatelessWidget {
                   ),
                 ),
                 Align(
-                  // BOOKMARK
-                  alignment: Alignment.topRight,
-                  child: IconSwitch(
-                    onChanged: (_) {},
-                    iconEnabled: const Icon(Icons.bookmark),
-                    iconDisabled: const Icon(Icons.bookmark_border),
-                    isEnabled: false,
-                  ),
-                ),
+                    // BOOKMARK
+                    alignment: Alignment.topRight,
+                    child: FutureBuilder<bool>(
+                      future: JobOffer.checkBookmark(jobDetails.id),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return IconSwitch(
+                            onChanged: (value) {
+                              JobOffer.bookmark(jobDetails.id, value);
+                            },
+                            iconEnabled: Icon(Icons.bookmark),
+                            iconDisabled: Icon(Icons.bookmark_border),
+                            isEnabled: snapshot.data!,
+                          );
+                        } else if (snapshot.hasError) {
+                          return Container();
+                        } else {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                      },
+                    )),
                 Container(
                   margin: const EdgeInsets.only(top: 38),
                   height: _cardHeight * 0.55,
@@ -161,13 +183,13 @@ class JobOfferDescription extends StatelessWidget {
                       // TIME TYPE
                       alignment: Alignment.bottomRight,
                       child:
-                      Text(_type, style: const TextStyle(fontSize: 12.0)),
+                          Text(_type, style: const TextStyle(fontSize: 12.0)),
                     ),
                   ],
                 ),
               ],
             ),
           ),
-      ));
+        ));
   }
 }

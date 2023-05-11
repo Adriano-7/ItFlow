@@ -7,7 +7,6 @@ import 'package:itflowapp/widgets/custom_widgets/icon_switch.dart';
 import 'package:itflowapp/screens/main_app_screens/job_details_screen.dart';
 
 class JobOffer extends StatelessWidget {
-  
   static const double _logoWidthPercentage = 0.15;
   static const double _logoHeightPercentage = 0.10;
   static const double _titlePercentage = 0.45;
@@ -20,36 +19,37 @@ class JobOffer extends StatelessWidget {
   final String _job; // ex: React-developer or engineer
   late final Image _logo; // hirer logo
 
-  Future<bool> checkBookmark(int id) async{
-    String? uid=AuthController.currentUser?.uid;
-    if(uid==null){ //if user is not authenticated bookmarks will always appear as not saved
+  static Future<bool> checkBookmark(int id) async {
+    String? uid = AuthController.currentUser?.uid;
+    if (uid == null) {
+      //if user is not authenticated bookmarks will always appear as not saved
       return false;
     }
     List<dynamic> bookmarks = await DataBaseController.getBookmarks(uid);
-    for(var i=0;i<bookmarks.length;i++){
-      if(bookmarks[i]==id){
+    for (var i = 0; i < bookmarks.length; i++) {
+      if (bookmarks[i] == id) {
         return true;
       }
     }
     return false;
   }
 
-  
-
-  void bookmark(bool x){ 
-    if(x){ // if you bookmark this offer
+  static void bookmark(int id, bool x) {
+    if (x) {
+      // if you bookmark this offer
       String? temp = AuthController.currentUser?.uid;
-      if(temp!=null){
-        DataBaseController.addBookmark(temp, _id);
+      if (temp != null) {
+        DataBaseController.addBookmark(temp, id);
       }
-    }
-    else{ //if you remove bookmark
+    } else {
+      //if you remove bookmark
       String? temp = AuthController.currentUser?.uid;
-      if(temp!=null){
-        DataBaseController.removeBookmark(temp, _id);
+      if (temp != null) {
+        DataBaseController.removeBookmark(temp, id);
       }
     }
   }
+
   JobOffer({
     Key? key,
     String hirer = '',
@@ -156,32 +156,29 @@ class JobOffer extends StatelessWidget {
                   ),
                 ),
                 Align(
-                  // BOOKMARK
-                  alignment: Alignment.topRight,
-                  child:FutureBuilder<bool>(
-                    future: checkBookmark(_id),
-                    builder:
-                      (context,snapshot) {
-                    if (snapshot.hasData) {
-                      return IconSwitch(
-                        onChanged: bookmark,
-                        iconEnabled:Icon(Icons.bookmark),
-                        iconDisabled: Icon(Icons.bookmark_border),
-                        isEnabled: snapshot.data!,
-                      );
-                    } 
-                  else if (snapshot.hasError) {
-                    return Container();
-                  } 
-                  else {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                },
-                  )
-                  
-                ),
+                    // BOOKMARK
+                    alignment: Alignment.topRight,
+                    child: FutureBuilder<bool>(
+                      future: checkBookmark(_id),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return IconSwitch(
+                            onChanged: (value) {
+                              bookmark(_id, value);
+                            },
+                            iconEnabled: Icon(Icons.bookmark),
+                            iconDisabled: Icon(Icons.bookmark_border),
+                            isEnabled: snapshot.data!,
+                          );
+                        } else if (snapshot.hasError) {
+                          return Container();
+                        } else {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                      },
+                    )),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
