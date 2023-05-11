@@ -390,7 +390,11 @@ class JobDetailsScreenState extends State<JobDetailsScreen> {
                         .toList()
                         .join(', ')),
                 const SizedBox(height: 8),
-                buildAttributeText('Wage', widget.jobOffer.wage),
+                buildAttributeText(
+                    'Wage',
+                    widget.jobOffer.wage != null
+                        ? '${widget.jobOffer.wage.toString()} €/year'
+                        : null),
                 const SizedBox(height: 8),
                 buildAttributeText(
                     'Allows Remote', widget.jobOffer.allowsRemote)

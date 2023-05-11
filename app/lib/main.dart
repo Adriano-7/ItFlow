@@ -33,8 +33,7 @@ class MyApp extends StatefulWidget {
     print(AuthController.currentUser);
     final String initialRoute;
     if (AuthController.isLoggedIn) {
-      DataBaseController.getUser(AuthController.currentUser!.uid)
-          .then((info) {
+      DataBaseController.getUser(AuthController.currentUser!.uid).then((info) {
         AuthController.currentUserModel = UserModel.fromFirestore(info!);
       });
       AuthController.rememberMe = true;
@@ -51,10 +50,12 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
-  void initState() => { WidgetsBinding.instance.addObserver(this), super.initState() };
+  void initState() =>
+      {WidgetsBinding.instance.addObserver(this), super.initState()};
 
   @override
-  void dispose() => { WidgetsBinding.instance.removeObserver(this), super.dispose() };
+  void dispose() =>
+      {WidgetsBinding.instance.removeObserver(this), super.dispose()};
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -68,7 +69,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         if (!AuthController.isGuest) {
           AuthController.logoutIfNotRememberMe().then((loggedOut) {
             if (loggedOut) {
-              widget.navigatorKey.currentState!.pushReplacementNamed(Routes.start);
+              widget.navigatorKey.currentState!
+                  .pushReplacementNamed(Routes.start);
             }
           });
         }
