@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:itflowapp/controllers/itjobs/it_jobs_api.dart';
-import 'package:itflowapp/models/job.dart';
 import 'package:itflowapp/widgets/job_widgets/job_offer.dart';
 
 class OffersListView extends StatefulWidget {
@@ -46,7 +45,8 @@ class _OffersListViewState extends State<OffersListView> {
         _page++;
         _offers.addAll(jobList.results!.map((job) => JobOffer.fromJob(job)));
       });
-    } catch (e) {
+    }
+    catch (e) {
       print("Error: $e");
       setState(() {
         _loading = false;
