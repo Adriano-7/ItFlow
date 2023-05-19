@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
+
 import 'package:itflowapp/constants/constants.dart';
 import 'package:itflowapp/theme/app_theme.dart';
 import 'package:itflowapp/main.dart';
 import 'package:itflowapp/widgets/custom_widgets/double_button.dart';
-
+import 'package:itflowapp/constants/it_jobs_constants.dart';
 
 class FilterScreen extends StatefulWidget {
-  const FilterScreen({Key? key, required Map<String, dynamic> filters}) : super(key: key);
+  const FilterScreen({Key? key, required Map<String, dynamic> filters})
+      : super(key: key);
   @override
   _FilterScreenState createState() => _FilterScreenState();
 }
 
 class _FilterScreenState extends State<FilterScreen> {
-  bool isPartTimeSelected = false;
-  bool isFullTimeSelected = false;
+  int jobTypeSelected = 0;
+  int locationSelected = 0;
+  int contractTypeSelected = 0;
+  final List<String> _jobTypeOptions = jobTypeToInt.keys.toList();
+  final List<String> _locationOptions = locationToInt.keys.toList();
+  final List<String> _contractTypeOptions = jobContractToInt.keys.toList();
 
-  //Text controller
   final TextEditingController _companyNameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -36,7 +41,10 @@ class _FilterScreenState extends State<FilterScreen> {
         children: [
           const Padding(
             padding: EdgeInsets.symmetric(vertical: 32, horizontal: 16),
-            child: Text('Filters', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+            child: Text(
+              'Filters',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -53,31 +61,68 @@ class _FilterScreenState extends State<FilterScreen> {
                 TextField(
                   decoration: InputDecoration(
                     hintText: 'Company id',
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10),),
-                    contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 12, horizontal: 16),
                   ),
                   controller: _companyNameController,
                 ),
                 const Padding(
-                  padding: EdgeInsets.only(top: 16, bottom: 8),
+                  padding: EdgeInsets.only(top: 25, bottom: 8),
                   child: Text(
                     'Filter by type of Job',
                     style: TextStyle(fontSize: 16),
                   ),
                 ),
-                DoubleButton(
-                  onPressedFirst: () { setState(() {isPartTimeSelected = true; isFullTimeSelected = false;});},
-                  childFirst: const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 18.0, horizontal: 0),
-                    child: Text('Part Time', style: TextStyle(fontSize: 15,)),),
-                  onPressedSecond: () {setState(() {isFullTimeSelected = true;isPartTimeSelected = false;});
-                  },
-                  childSecond: const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 18.0, horizontal: 0),
-                    child: Text('Full Time', style: TextStyle(fontSize: 15,),
-                    ),
+                DropdownButton<String>(
+                  value: _jobTypeOptions[jobTypeSelected],
+                  menuMaxHeight: 300,
+                  items: _jobTypeOptions
+                      .map((String option) => DropdownMenuItem<String>(
+                            value: option,
+                            child: Text(option),
+                          ))
+                      .toList(),
+                  onChanged: (String? value) {if (mounted) {setState(() {jobTypeSelected = _jobTypeOptions.indexOf(value!);});}},
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(top: 25, bottom: 8),
+                  child: Text(
+                    'Filter by location',
+                    style: TextStyle(fontSize: 16),
                   ),
                 ),
+                DropdownButton<String>(
+                    value: _locationOptions[locationSelected],
+                    menuMaxHeight: 300,
+                    items: _locationOptions
+                        .map((String option) => DropdownMenuItem<String>(
+                              value: option,
+                              child: Text(option),
+                            ))
+                        .toList(),
+                    onChanged: (String? value) {if (mounted) {setState(() {locationSelected = _locationOptions.indexOf(value!);});}},
+                  ),
+                                  const Padding(
+                  padding: EdgeInsets.only(top: 25, bottom: 8),
+                  child: Text(
+                    'Filter by type of contract',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+                DropdownButton<String>(
+                    value: _contractTypeOptions[contractTypeSelected],
+                    menuMaxHeight: 300,
+                    items: _contractTypeOptions
+                        .map((String option) => DropdownMenuItem<String>(
+                              value: option,
+                              child: Text(option),
+                            ))
+                        .toList(),
+                    onChanged: (String? value) {if (mounted) {setState(() {contractTypeSelected = _contractTypeOptions.indexOf(value!);});}},
+                  ),
               ],
             ),
           ),
@@ -85,28 +130,34 @@ class _FilterScreenState extends State<FilterScreen> {
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 30),
-        child: ElevatedButton(
-          onPressed: () {
-            print('isFullTimeSelected: $isFullTimeSelected');
-            print('isPartTimeSelected: $isPartTimeSelected');
-            print('company id: ${_companyNameController.text}');
-
-            Navigator.pushReplacementNamed(context, Routes.search,
-              arguments: {
-                'type': isFullTimeSelected ? 1 : isPartTimeSelected ? 2 : null,
-                 if (_companyNameController.text.isNotEmpty) 'company_id': _companyNameController.text,
-              },
-            );
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.green,
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-          child: const Text('Submit'),
-        ),
+        child: DoubleButton(
+                  onPressedFirst: () {
+                      Navigator.pushReplacementNamed(context, Routes.search);
+                  },
+                  childFirst: const Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 18.0, horizontal: 0),
+                    child: Text('Discard', style: TextStyle(fontSize: 15,)),
+                  ),
+                  onPressedSecond: () {
+                  Navigator.pushReplacementNamed(
+                    context,
+                    Routes.search,
+                    arguments: {
+                    if (_companyNameController.text.isNotEmpty)'company': _companyNameController.text,
+                    if(jobTypeSelected != 0) 'type': jobTypeSelected,
+                    if (locationSelected != 0) 'location': locationSelected,
+                    if (contractTypeSelected != 0) 'contract': contractTypeSelected,
+                    },
+                    );
+                  },
+                  childSecond: const Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 18.0, horizontal: 0),
+                    child: Text('Apply',style: TextStyle(fontSize: 15,),
+                    ),
+                  ),
+                ),
       ),
     );
   }

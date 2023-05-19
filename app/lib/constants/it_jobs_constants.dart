@@ -1,49 +1,81 @@
 
-// DON'T KNOW IF THIS WILL BE USEFUL OR NOT
-// TODO: REMOVE FOR PRODUCTION IF NOT NEEDED
+final Map<String, int> jobTypeToInt = {
+  'Job Type' : 0, 
+  'Full-time' : 1, 
+  'Part-time' : 2,
+};
 
-class ItJobsState {
-  static const removed = 0;
-  static const active = 1;
-  static const moderation = 2;
-  static const suspended = 3;
-  static const refused = 4;
-  static const expired = 5;
-}
+final Map<int, String> intToJobType = {
+    0: 'Job Type',
+    1: 'Full-time',
+    2: 'Part-time',
+  };
 
-class ItJobsType {
-  static const fullTime = 1;
-  static const partTime = 2;
-}
 
-class ItJobsContract {
-  static const contratoATermo = 1;
-  static const contratoSemTermo = 2;
-  static const estagioProfissional = 3;
-  static const prestacaoDeServicos = 4;
-  static const estagioAcademico = 5;
-}
+final Map<String, int> jobContractToInt = {
+  'Contract Type' : 0, 
+  'Fixed-term' : 1, 
+  'Permanent' : 2, 
+  'Professional internship' : 3, 
+  'Service provision' : 4, 
+  'Academic internship' : 5,
+};
 
-class ItJobsLocation {
-  static const aveiro = 1;
-  static const acores = 2;
-  static const beja = 3;
-  static const braga = 4;
-  static const braganca = 5;
-  static const casteloBranco = 6;
-  static const coimbra = 8;
-  static const faro = 9;
-  static const evora = 10;
-  static const guarda = 11;
-  static const portalegre = 12;
-  static const leiria = 13;
-  static const lisboa = 14;
-  static const madeira = 15;
-  static const viseu = 16;
-  static const setubal = 17;
-  static const porto = 18;
-  static const santarem = 20;
-  static const vilaReal = 21;
-  static const vianaDoCastelo = 22;
-  static const internacional = 29;
-}
+final Map<int, String> intToJobContract = {
+    0: 'Contract Type',
+    1: 'Fixed-term',
+    2: 'Permanent',
+    3: 'Professional internship',
+    4: 'Service provision',
+    5: 'Academic internship',
+};
+
+final Map<String, int> locationToInt = {
+  'Locations': 0,
+  'Aveiro': 1,
+  'Açores': 2,
+  'Beja': 3,
+  'Braga': 4,
+  'Bragança': 5,
+  'Castelo Branco': 6,
+  'Coimbra': 7,
+  'Faro': 8,
+  'Évora': 9,
+  'Guarda': 10,
+  'Portalegre': 11,
+  'Leiria': 12,
+  'Lisboa': 13,
+  'Madeira': 14,
+  'Viseu': 15,
+  'Setúbal': 16,
+  'Porto': 17,
+  'Santarem': 20,
+  'Vila Real': 21,
+  'Viana do Castelo': 22,
+  'Internacional': 29,
+};
+
+final Map<int, String> intToLocation = {
+  0: 'Locations',
+  1: 'Aveiro',
+  2: 'Açores',
+  3: 'Beja',
+  4: 'Braga',
+  5: 'Bragança',
+  6: 'Castelo Branco',
+  7: 'Coimbra',
+  8: 'Faro',
+  9: 'Évora',
+  10: 'Guarda',
+  11: 'Portalegre',
+  12: 'Leiria',
+  13: 'Lisboa',
+  14: 'Madeira',
+  15: 'Viseu',
+  16: 'Setúbal',
+  17: 'Porto',
+  20: 'Santarem',
+  21: 'Vila Real',
+  22: 'Viana do Castelo',
+  29: 'Internacional',
+};

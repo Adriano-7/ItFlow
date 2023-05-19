@@ -32,9 +32,11 @@ class _SearchScreenState extends State<SearchScreen> {
 
   void _handleFilterRemove(Map<String, dynamic> updatedFilters) {
     debugPrint('Updated filters: $updatedFilters');
-    setState(() {
-      _filters = updatedFilters;
-    });
+    if (mounted) {
+      setState(() {
+        _filters = updatedFilters;
+      });
+    }
   }
 
   @override
@@ -63,25 +65,28 @@ class _SearchScreenState extends State<SearchScreen> {
                 suffixIcon: IconButton(
                   icon: const Icon(Icons.filter_list),
                   onPressed: () {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                         builder: (context) => FilterScreen(filters: _filters),
                       ),
                     ).then((value) {
                       if (value != null) {
-                        setState(() {
-                          _filters = value;
-                        });
+                        if (mounted) {
+                          setState(() {
+                            _filters = value;
+                          });
+                        }
                       }
                     });
                   },
                 ),
               ),
               onChanged: (value) {
+                if (mounted){
                 setState(() {
                   _searchText = value;
-                });
+                });}
               },
             ),
           ),
@@ -98,7 +103,7 @@ class _SearchScreenState extends State<SearchScreen> {
             child: SearchListView(
               query: _searchText,
               filters: _filters,
-              key: UniqueKey(), // add a unique key to rebuild the widget
+              key: UniqueKey(),
             ),
           ),
         ],

@@ -18,6 +18,8 @@ class _SearchListViewState extends State<SearchListView> {
   late bool _loading;
   final int _nextPageTrigger = 4;
   late List<JobOfferDescription> _offers;
+  final _scrollController = ScrollController();
+  bool _isSearching = false;
 
   @override
   void initState() {
@@ -28,27 +30,38 @@ class _SearchListViewState extends State<SearchListView> {
     _loading = true;
     _offers = [];
     searchJobs();
+
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {searchJobs();}
+    });
   }
 
   void searchJobs() async {
+    if(_isSearching) return;
+    _isSearching = true;
     try {
       debugPrint('Query: ${widget.query}');
       debugPrint('Filters: ${widget.filters}');
       JobSearch results = await ItJobsApiController.searchJobs(widget.query, widget.filters, page: _page);
+      if (mounted){
       setState(() {
         _offers.addAll(results.results.map((job) => JobOfferDescription.fromJob(job)));
         _page++;
         _isLastPage = results.length < 10;
         _error = false;
         _loading = false;
-      });
+      });}
     } catch (e) {
+      if (mounted){
       setState(() {
         debugPrint('Query: ${widget.query}');
         debugPrint('Filters: ${widget.filters}');
         _error = true;
         _loading = false;
-      });
+      });}
+    }
+    finally {
+      _isSearching = false;
     }
   }
 
@@ -76,6 +89,7 @@ class _SearchListViewState extends State<SearchListView> {
   @override
   Widget build(BuildContext context) {
       return ListView.builder(
+        controller: _scrollController,
         itemCount: _offers.length + (_isLastPage ? 0 : 1),
         itemBuilder: (BuildContext context, int index) {
           if (index == _offers.length - _nextPageTrigger) {
@@ -86,7 +100,7 @@ class _SearchListViewState extends State<SearchListView> {
               return Center(
                 child: _errorDialog(size: 15),
               );
-            } else { // LOADING
+            } else {
               return const Center(
                 child: Padding(
                   padding: EdgeInsets.all(8),
@@ -95,7 +109,6 @@ class _SearchListViewState extends State<SearchListView> {
               );
             }
           }
-          // All good
           final Widget offer = _offers[index];
           return Padding (
             padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 25.0),

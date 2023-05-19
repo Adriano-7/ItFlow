@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:itflowapp/theme/app_theme.dart';
 
-// stateful widget where each button redirects to a given page, and color change to the selected button
 class DoubleButton extends StatefulWidget {
   final void Function() onPressedFirst;
   final void Function() onPressedSecond;
