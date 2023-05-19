@@ -7,6 +7,7 @@ import 'package:itflowapp/models/job.dart';
 import 'package:itflowapp/screens/main_app_screens/filters_screen.dart';
 import 'package:itflowapp/main.dart';
 import 'package:itflowapp/widgets/custom_widgets/filters_applied.dart';
+import 'package:itflowapp/widgets/job_widgets/search_list_view.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
@@ -21,6 +22,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   void didChangeDependencies() {
+    debugPrint('SearchScreen: didChangeDependencies');
     super.didChangeDependencies();
     final args = ModalRoute.of(context)!.settings.arguments;
     if (args != null) {
@@ -29,6 +31,7 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   void _handleFilterRemove(Map<String, dynamic> updatedFilters) {
+    debugPrint('Updated filters: $updatedFilters');
     setState(() {
       _filters = updatedFilters;
     });
@@ -75,7 +78,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   },
                 ),
               ),
-              onSubmitted: (value) {
+              onChanged: (value) {
                 setState(() {
                   _searchText = value;
                 });
@@ -92,29 +95,10 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
           ),
           Expanded(
-            child: FutureBuilder<JobSearch>(
-              future: ItJobsApiController.searchJobs(_searchText, _filters),
-              builder:
-                  (BuildContext context, AsyncSnapshot<JobSearch> snapshot) {
-                if (snapshot.hasData) {
-                  return ListView.builder(
-                    itemCount: snapshot.data!.results.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      Job job = snapshot.data!.results[index];
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: JobOfferDescription.fromJob(job),
-                      );
-                    },
-                  );
-                } else if (snapshot.hasError) {
-                  return Container();
-                } else {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              },
+            child: SearchListView(
+              query: _searchText,
+              filters: _filters,
+              key: UniqueKey(), // add a unique key to rebuild the widget
             ),
           ),
         ],

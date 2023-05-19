@@ -35,14 +35,11 @@ class ItJobsApiController {
     return JobList.fromJson(jsonMap);
   }
 
-  static Future<JobSearch> searchJobs(String query, Map<String, dynamic> filters) async {
-    print("Filters: $filters");
+  static Future<JobSearch> searchJobs(String query, Map<String, dynamic> filters, {int page = 1}) async {
     String optional = '';
     int limit = 50;
-    int page = 1;
 
-    if (filters['company'] != null)
-      optional += '&company=${filters['company']}';
+    if (filters['company'] != null) {optional += '&company=${filters['company']}';}
     if (filters['type'] != null) optional += '&type=${filters['type']}';
 
     final uri = Uri.parse("${_jobRootUrl}search.json?api_key=$_apiKey&q=$query&limit=$limit&page=$page$optional");
@@ -51,16 +48,13 @@ class ItJobsApiController {
   }
 
   static Future<Company> getCompany(String slug) async {
-    final uri =
-        Uri.parse("${_compRootUrl}get.json?api_key=$_apiKey&slug=$slug");
+    final uri = Uri.parse("${_compRootUrl}get.json?api_key=$_apiKey&slug=$slug");
     final jsonMap = await _apiCall(uri);
     return Company.fromJson(jsonMap);
   }
 
-  static Future<CompanySearch> searchCompanies(String query,
-      {int limit = 10, int page = 1}) async {
-    final uri = Uri.parse(
-        "${_jobRootUrl}search.json?api_key=$_apiKey&q=$query&limit=$limit&page=$page");
+  static Future<CompanySearch> searchCompanies(String query, {int limit = 10, int page = 1}) async {
+    final uri = Uri.parse("${_jobRootUrl}search.json?api_key=$_apiKey&q=$query&limit=$limit&page=$page");
     final jsonMap = await _apiCall(uri);
     return CompanySearch.fromJson(jsonMap);
   }
@@ -149,6 +143,7 @@ class JobSearch {
   }
 
   List<Job> get jobs => results;
+  int get length => results.length;
 }
 
 // Companies
