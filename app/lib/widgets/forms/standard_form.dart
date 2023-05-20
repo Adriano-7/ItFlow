@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:itflowapp/controllers/start/register_controller.dart';
 import 'package:itflowapp/main.dart';
 import 'package:itflowapp/theme/app_theme.dart';
+import 'package:file_picker/file_picker.dart';
 
 class StandardForm extends StatefulWidget {
   final RegisterFormController _controller;
@@ -23,6 +24,29 @@ class _StandardFormState extends State<StandardForm> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                widget._controller.logoSnapshot ??
+                    const Text("No file chosen."),
+                OutlinedButton(
+                  onPressed: () async {
+                    FilePickerResult? result =
+                        await FilePicker.platform.pickFiles(
+                      type: FileType.custom,
+                      withData: true,
+                      allowedExtensions: ['jpg', 'png', 'jpeg', 'gif'],
+                    );
+                    if (result != null) {
+                      setState(() {
+                        widget._controller.logoFile = result.files.single;
+                      });
+                    }
+                  },
+                  child: const Text("Upload your logo"),
+                ),
+              ],
+            ),
             TextFormField(
               validator: widget._controller.locationValidator,
               controller: widget._controller.locationController,
@@ -50,6 +74,32 @@ class _StandardFormState extends State<StandardForm> {
                   borderRadius: BorderRadius.circular(30),
                 ),
               ),
+            ),
+            const SizedBox(height: 16),
+            // cv file in pdf format
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                widget._controller.cv != null
+                    ? Text(widget._controller.cv!.name)
+                    : const Text("No file chosen."),
+                OutlinedButton(
+                  onPressed: () async {
+                    FilePickerResult? result =
+                        await FilePicker.platform.pickFiles(
+                      type: FileType.custom,
+                      withData: true,
+                      allowedExtensions: ['pdf'],
+                    );
+                    if (result != null) {
+                      setState(() {
+                        widget._controller.cvFile = result.files.single;
+                      });
+                    }
+                  },
+                  child: const Text("Upload your CV"),
+                ),
+              ],
             ),
             const SizedBox(height: 16),
             Padding(

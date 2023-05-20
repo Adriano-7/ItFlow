@@ -14,6 +14,7 @@ class UserModel {
   String? address;
   String? siteUrl;
   List<dynamic>? bookmarks;
+  String? profilePicUrl;
 
   UserModel({
     required this.name,
@@ -24,6 +25,7 @@ class UserModel {
     this.address,
     this.siteUrl,
     this.bookmarks,
+    this.profilePicUrl,
   });
 
   factory UserModel.fromFirestore(Map<String, dynamic> info) {
@@ -38,6 +40,7 @@ class UserModel {
       address: info[kAddressDocName],
       siteUrl: info[kSiteUrlDocName],
       bookmarks: info[kBookmarksDocName],
+      profilePicUrl: info[kProfilePicUrlDocName],
     );
   }
 
@@ -51,6 +54,7 @@ class UserModel {
         kDescriptionDocName: description,
         kLocationDocName: location,
         kBookmarksDocName: bookmarks ?? [],
+        kProfilePicUrlDocName: profilePicUrl ?? '',
       };
     } else {
       if (address == null || siteUrl == null) return null;
@@ -61,6 +65,7 @@ class UserModel {
         kDescriptionDocName: description,
         kAddressDocName: address,
         kSiteUrlDocName: siteUrl,
+        kProfilePicUrlDocName: profilePicUrl ?? '',
       };
     }
   }
