@@ -23,6 +23,9 @@ class FiltersApplied extends StatelessWidget {
     if (key == 'location') {
       return intToLocation[value] ?? 'Locations';
     }
+    if (key == 'company'){
+      
+    }
     return value.toString();
   }
 

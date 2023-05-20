@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:itflowapp/constants/constants.dart';
-import 'package:itflowapp/theme/app_theme.dart';
 import 'package:itflowapp/main.dart';
 import 'package:itflowapp/widgets/custom_widgets/double_button.dart';
 import 'package:itflowapp/constants/it_jobs_constants.dart';
+import 'package:itflowapp/widgets/job_widgets/company_search.dart';
 
 class FilterScreen extends StatefulWidget {
   const FilterScreen({Key? key, required Map<String, dynamic> filters})
@@ -17,11 +17,14 @@ class _FilterScreenState extends State<FilterScreen> {
   int jobTypeSelected = 0;
   int locationSelected = 0;
   int contractTypeSelected = 0;
+  int? _selectedCompanyId = 0;
+
   final List<String> _jobTypeOptions = jobTypeToInt.keys.toList();
   final List<String> _locationOptions = locationToInt.keys.toList();
   final List<String> _contractTypeOptions = jobContractToInt.keys.toList();
 
   final TextEditingController _companyNameController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,16 +61,13 @@ class _FilterScreenState extends State<FilterScreen> {
                     style: TextStyle(fontSize: 16),
                   ),
                 ),
-                TextField(
-                  decoration: InputDecoration(
-                    hintText: 'Company id',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(
-                        vertical: 12, horizontal: 16),
-                  ),
-                  controller: _companyNameController,
+                CompanySearchWidget(
+                  onSearch: (String companyName) {
+                    _companyNameController.text = companyName;
+                  },
+                  onCompanySelected: (int companyId) {
+                    _selectedCompanyId = companyId;
+                  },
                 ),
                 const Padding(
                   padding: EdgeInsets.only(top: 25, bottom: 8),
@@ -85,7 +85,13 @@ class _FilterScreenState extends State<FilterScreen> {
                             child: Text(option),
                           ))
                       .toList(),
-                  onChanged: (String? value) {if (mounted) {setState(() {jobTypeSelected = _jobTypeOptions.indexOf(value!);});}},
+                  onChanged: (String? value) {
+                    if (mounted) {
+                      setState(() {
+                        jobTypeSelected = _jobTypeOptions.indexOf(value!);
+                      });
+                    }
+                  },
                 ),
                 const Padding(
                   padding: EdgeInsets.only(top: 25, bottom: 8),
@@ -95,17 +101,23 @@ class _FilterScreenState extends State<FilterScreen> {
                   ),
                 ),
                 DropdownButton<String>(
-                    value: _locationOptions[locationSelected],
-                    menuMaxHeight: 300,
-                    items: _locationOptions
-                        .map((String option) => DropdownMenuItem<String>(
-                              value: option,
-                              child: Text(option),
-                            ))
-                        .toList(),
-                    onChanged: (String? value) {if (mounted) {setState(() {locationSelected = _locationOptions.indexOf(value!);});}},
-                  ),
-                                  const Padding(
+                  value: _locationOptions[locationSelected],
+                  menuMaxHeight: 300,
+                  items: _locationOptions
+                      .map((String option) => DropdownMenuItem<String>(
+                            value: option,
+                            child: Text(option),
+                          ))
+                      .toList(),
+                  onChanged: (String? value) {
+                    if (mounted) {
+                      setState(() {
+                        locationSelected = _locationOptions.indexOf(value!);
+                      });
+                    }
+                  },
+                ),
+                const Padding(
                   padding: EdgeInsets.only(top: 25, bottom: 8),
                   child: Text(
                     'Filter by type of contract',
@@ -113,16 +125,23 @@ class _FilterScreenState extends State<FilterScreen> {
                   ),
                 ),
                 DropdownButton<String>(
-                    value: _contractTypeOptions[contractTypeSelected],
-                    menuMaxHeight: 300,
-                    items: _contractTypeOptions
-                        .map((String option) => DropdownMenuItem<String>(
-                              value: option,
-                              child: Text(option),
-                            ))
-                        .toList(),
-                    onChanged: (String? value) {if (mounted) {setState(() {contractTypeSelected = _contractTypeOptions.indexOf(value!);});}},
-                  ),
+                  value: _contractTypeOptions[contractTypeSelected],
+                  menuMaxHeight: 300,
+                  items: _contractTypeOptions
+                      .map((String option) => DropdownMenuItem<String>(
+                            value: option,
+                            child: Text(option),
+                          ))
+                      .toList(),
+                  onChanged: (String? value) {
+                    if (mounted) {
+                      setState(() {
+                        contractTypeSelected =
+                            _contractTypeOptions.indexOf(value!);
+                      });
+                    }
+                  },
+                ),
               ],
             ),
           ),
@@ -131,33 +150,38 @@ class _FilterScreenState extends State<FilterScreen> {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 30),
         child: DoubleButton(
-                  onPressedFirst: () {
-                      Navigator.pushReplacementNamed(context, Routes.search);
-                  },
-                  childFirst: const Padding(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 18.0, horizontal: 0),
-                    child: Text('Discard', style: TextStyle(fontSize: 15,)),
-                  ),
-                  onPressedSecond: () {
-                  Navigator.pushReplacementNamed(
-                    context,
-                    Routes.search,
-                    arguments: {
-                    if (_companyNameController.text.isNotEmpty)'company': _companyNameController.text,
-                    if(jobTypeSelected != 0) 'type': jobTypeSelected,
-                    if (locationSelected != 0) 'location': locationSelected,
-                    if (contractTypeSelected != 0) 'contract': contractTypeSelected,
-                    },
-                    );
-                  },
-                  childSecond: const Padding(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 18.0, horizontal: 0),
-                    child: Text('Apply',style: TextStyle(fontSize: 15,),
-                    ),
-                  ),
-                ),
+          onPressedFirst: () {
+            Navigator.pushReplacementNamed(context, Routes.search);
+          },
+          childFirst: const Padding(
+            padding: EdgeInsets.symmetric(vertical: 18.0, horizontal: 0),
+            child: Text('Discard',
+                style: TextStyle(
+                  fontSize: 15,
+                )),
+          ),
+          onPressedSecond: () {
+            Navigator.pushReplacementNamed(
+              context,
+              Routes.search,
+              arguments: {
+                if (_selectedCompanyId != 0 && _selectedCompanyId != null) 'company': _selectedCompanyId,
+                if (jobTypeSelected != 0) 'type': jobTypeSelected,
+                if (locationSelected != 0) 'location': locationSelected,
+                if (contractTypeSelected != 0) 'contract': contractTypeSelected,
+              },
+            );
+          },
+          childSecond: const Padding(
+            padding: EdgeInsets.symmetric(vertical: 18.0, horizontal: 0),
+            child: Text(
+              'Apply',
+              style: TextStyle(
+                fontSize: 15,
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

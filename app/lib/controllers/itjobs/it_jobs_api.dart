@@ -49,9 +49,11 @@ class ItJobsApiController {
     final JobSearch results = JobSearch.fromJson(jsonMap);
 
     //apply additional filters
+    /*
     if (filters['wage'] != null) {
       results.results.removeWhere((job) => job.wage == null || job.wage! < filters['wage']);    
     }
+    */
 
     return results;
   }
@@ -63,15 +65,9 @@ class ItJobsApiController {
   }
 
   static Future<CompanySearch> searchCompanies(String query, {int limit = 10, int page = 1}) async {
-    final uri = Uri.parse("${_jobRootUrl}search.json?api_key=$_apiKey&q=$query&limit=$limit&page=$page");
+    final uri = Uri.parse("${_compRootUrl}search.json?api_key=$_apiKey&q=$query&limit=$limit&page=$page");
     final jsonMap = await _apiCall(uri);
     return CompanySearch.fromJson(jsonMap);
-  }
-
-  static Future<int> getCompanyId(String name) async {
-    final uri = Uri.parse("${_compRootUrl}get.json?api_key=$_apiKey&name=$name");
-    final jsonMap = await _apiCall(uri);
-    return jsonMap['id'];
   }
 }
 
@@ -179,6 +175,9 @@ class CompanySearch {
   );
 
   factory CompanySearch.fromJson(Map<String, dynamic> jsonMap) {
+    if(jsonMap['query'] == null) return CompanySearch(0, 0, 0, '', []);
+    if(jsonMap['results'] == null) jsonMap['results'] = [];
+
     return CompanySearch(
       jsonMap['total'],
       jsonMap['page'],
