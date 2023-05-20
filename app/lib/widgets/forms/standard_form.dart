@@ -47,6 +47,7 @@ class _StandardFormState extends State<StandardForm> {
                 ),
               ],
             ),
+            const SizedBox(height: 16),
             TextFormField(
               validator: widget._controller.locationValidator,
               controller: widget._controller.locationController,
@@ -76,7 +77,6 @@ class _StandardFormState extends State<StandardForm> {
               ),
             ),
             const SizedBox(height: 16),
-            // cv file in pdf format
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

@@ -58,7 +58,18 @@ class DataBaseController {
     final uploadTask = ref.putFile(file);
     final snapshot = await uploadTask.whenComplete(() => null);
     String url = await snapshot.ref.getDownloadURL();
-    print(url);
+    return url;
+  }
+
+  static Future<String> uploadCV(PlatformFile platformFile, String uid) async {
+    final filePath = platformFile.path!;
+    final fileName = path.basename(filePath);
+    final file = File(filePath);
+
+    final ref = FirebaseStorage.instance.ref().child('cv/$uid/$fileName');
+    final uploadTask = ref.putFile(file);
+    final snapshot = await uploadTask.whenComplete(() => null);
+    String url = await snapshot.ref.getDownloadURL();
     return url;
   }
 }
