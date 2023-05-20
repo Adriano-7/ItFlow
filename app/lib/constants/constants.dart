@@ -29,3 +29,4 @@ const String kAddressDocName = "address";
 const String kSiteUrlDocName = "url";
 const String kBookmarksDocName = "bookmarks";
 const String kProfilePicUrlDocName = "profile_pic_url";
+const String kCVUrlDocName = "cv_url";
