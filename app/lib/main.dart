@@ -65,6 +65,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       case AppLifecycleState.paused:
         break;
       case AppLifecycleState.inactive:
+        break;
       case AppLifecycleState.detached:
         if (!AuthController.isGuest) {
           AuthController.logoutIfNotRememberMe().then((loggedOut) {

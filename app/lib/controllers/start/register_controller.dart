@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:itflowapp/controllers/firebase/auth.dart';
@@ -97,6 +99,18 @@ class RegisterFormController {
     return null;
   }
 
+  PlatformFile? logo;
+  Image? logoSnapshot;
+  String? logoName;
+  String? logoURL;
+
+  Future<void> uploadProfilePicture() async {
+    if (logo != null && AuthController.currentUser != null) {
+      logoURL = await DataBaseController.uploadProfilePicture(
+          logo!, AuthController.currentUser!.uid);
+    }
+  }
+
   // ====================== //
   // Standard Register Form //
   // ====================== //
@@ -106,6 +120,9 @@ class RegisterFormController {
 
   String get location => locationController.text;
   String get sDescription => sDescriptionController.text;
+
+  PlatformFile? cv;
+  String? cvURL;
 
   // Standard Form Validator Functions //
 
@@ -127,6 +144,17 @@ class RegisterFormController {
     return null;
   }
 
+  set cvFile(PlatformFile file) {
+    cv = file;
+  }
+
+  Future<void> uploadCV() async {
+    if (cv != null && AuthController.currentUser != null) {
+      cvURL = await DataBaseController.uploadCV(
+          cv!, AuthController.currentUser!.uid);
+    }
+  }
+
   // ======================== //
   // Enterprise Register Form //
   // ======================== //
@@ -135,21 +163,16 @@ class RegisterFormController {
   final siteUrlController = TextEditingController();
   final eDescriptionController = TextEditingController();
 
-  Image? logo;
-  Image? logoSnapshot;
-  String? logoName;
-
   String get address => addressController.text;
   String get siteUrl => siteUrlController.text;
   String get eDescription => eDescriptionController.text;
 
   set logoFile(PlatformFile file) {
-    logo = Image.memory(file.bytes!);
+    logo = file;
     logoSnapshot =
         Image.memory(file.bytes!, width: 100, height: 80, fit: BoxFit.contain);
     logoName = file.name;
   }
-
   // Enterprise Form Validator Functions //
 
   String? addressValidator(value) {
@@ -187,6 +210,7 @@ class RegisterFormController {
   Future<bool> submit() async {
     AuthController.rememberMe = rememberLogin;
     SignUpStatus status = await AuthController.createUser(email, password);
+    await uploadProfilePicture();
     if (status.errorOccurred) {
       _errorMessage = status.errorMessage;
       _errorCode = status.errorCode;
@@ -197,24 +221,26 @@ class RegisterFormController {
       switch (userType) {
         case UserType.standard:
           // Save standard user data
+          await uploadCV();
           user = UserModel(
-            name: name,
-            phone: phone,
-            userType: userType,
-            description: sDescription,
-            location: location,
-          );
+              name: name,
+              phone: phone,
+              userType: userType,
+              description: sDescription,
+              location: location,
+              profilePicUrl: logoURL,
+              cvUrl: cvURL);
           break;
         case UserType.enterprise:
           // Save enterprise user data
           user = UserModel(
-            name: name,
-            phone: phone,
-            userType: userType,
-            description: eDescription,
-            address: address,
-            siteUrl: siteUrl,
-          );
+              name: name,
+              phone: phone,
+              userType: userType,
+              description: eDescription,
+              address: address,
+              siteUrl: siteUrl,
+              profilePicUrl: logoURL);
           break;
         default:
           return false;
@@ -224,10 +250,7 @@ class RegisterFormController {
         AuthController.currentUser?.delete();
         return false;
       }
-      DataBaseController.setUser(
-          AuthController.currentUser!.uid,
-          info
-      );
+      DataBaseController.setUser(AuthController.currentUser!.uid, info);
       AuthController.currentUserModel = user;
       return true;
     }
