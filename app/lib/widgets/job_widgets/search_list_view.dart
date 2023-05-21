@@ -40,8 +40,6 @@ class _SearchListViewState extends State<SearchListView> {
     if(_isSearching) return;
     _isSearching = true;
     try {
-      debugPrint('Query: ${widget.query}');
-      debugPrint('Filters: ${widget.filters}');
       JobSearch results = await ItJobsApiController.searchJobs(widget.query, widget.filters, page: _page);
       if (mounted){
       setState(() {
@@ -54,8 +52,6 @@ class _SearchListViewState extends State<SearchListView> {
     } catch (e) {
       if (mounted){
       setState(() {
-        debugPrint('Query: ${widget.query}');
-        debugPrint('Filters: ${widget.filters}');
         _error = true;
         _loading = false;
       });}

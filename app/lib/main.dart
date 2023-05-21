@@ -30,7 +30,6 @@ class MyApp extends StatefulWidget {
   MyApp({super.key});
 
   Future<dynamic> initialize() {
-    print(AuthController.currentUser);
     final String initialRoute;
     if (AuthController.isLoggedIn) {
       DataBaseController.getUser(AuthController.currentUser!.uid).then((info) {
@@ -59,7 +58,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    print("State: $state");
     switch (state) {
       case AppLifecycleState.resumed:
       case AppLifecycleState.paused:
@@ -101,7 +99,6 @@ class Routes {
   static const String register = '/start/register';
   static const String home = '/home';
   static const String search = '/search';
-  static const String notification = '/notification';
   static const String profile = '/profile';
   static const String settings = '/settings';
   static const String jobDetails = '/jobDetails';
@@ -112,7 +109,6 @@ class Routes {
     register: (context) => RegisterScreen(),
     home: (context) => const HomeScreen(),
     search: (context) => const SearchScreen(),
-    notification: (context) => const NotificationScreen(),
     profile: (context) => const ProfileScreen(),
     settings: (context) => const SettingsScreen(),
     jobDetails: (context) => JobDetailsScreen(

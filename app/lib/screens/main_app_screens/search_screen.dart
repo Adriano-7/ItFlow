@@ -22,7 +22,6 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   void didChangeDependencies() {
-    debugPrint('SearchScreen: didChangeDependencies');
     super.didChangeDependencies();
     final args = ModalRoute.of(context)!.settings.arguments;
     if (args != null) {
@@ -31,7 +30,6 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   void _handleFilterRemove(Map<String, dynamic> updatedFilters) {
-    debugPrint('Updated filters: $updatedFilters');
     if (mounted) {
       setState(() {
         _filters = updatedFilters;

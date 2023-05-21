@@ -29,10 +29,6 @@ class NavBar extends StatelessWidget {
                 context, NoPageTransitionToMyApp(Routes.search));
             break;
           case 2:
-            Navigator.pushReplacement(
-                context, NoPageTransitionToMyApp(Routes.notification));
-            break;
-          case 3:
             if (AuthController.currentUser == null) {
               Navigator.pushNamed(context, Routes.login);
               break;
@@ -67,7 +63,6 @@ class NavBar extends StatelessWidget {
     return [
       _buildNavBarItem(icon: Icons.home),
       _buildNavBarItem(icon: Icons.search),
-      _buildNavBarItem(icon: Icons.notifications),
       _buildNavBarItem(icon: Icons.person),
     ];
   }
