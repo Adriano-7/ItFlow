@@ -37,7 +37,7 @@ class ItJobsApiController {
 
   static Future<JobSearch> searchJobs(String query, Map<String, dynamic> filters, {int page = 1}) async {
     String optional = '';
-    int limit = 20;
+    int limit = 200;
 
     if (filters['company'] != null) {optional += '&company=${filters['company']}';}
     if (filters['type'] != null) optional += '&type=${filters['type']}';
@@ -48,12 +48,20 @@ class ItJobsApiController {
     final jsonMap = await _apiCall(uri);
     final JobSearch results = JobSearch.fromJson(jsonMap);
 
-    //apply additional filters
-    /*
-    if (filters['wage'] != null) {
-      results.results.removeWhere((job) => job.wage == null || job.wage! < filters['wage']);    
-    }
-    */
+    
+    if (filters['language'] != null) {
+      List<Job> filteredResults = [];
+      for (Job job in results.results) {
+        String title = job.title.toLowerCase();
+        String body = job.body.toLowerCase();
+        String languageLower = filters['language'].toLowerCase();
+
+        if (title.contains(languageLower) || body.contains(languageLower)) {
+          filteredResults.add(job);
+        }
+      }
+      results.results = filteredResults;
+    }    
 
     return results;
   }
@@ -132,7 +140,7 @@ class JobSearch {
   final int page;
   final int limit;
   final String query;
-  final List<Job> results;
+  List<Job> results;
 
   JobSearch(
     this.total,

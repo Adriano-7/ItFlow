@@ -5,6 +5,7 @@ import 'package:itflowapp/main.dart';
 import 'package:itflowapp/widgets/custom_widgets/double_button.dart';
 import 'package:itflowapp/constants/it_jobs_constants.dart';
 import 'package:itflowapp/widgets/job_widgets/company_search.dart';
+import 'package:itflowapp/widgets/custom_widgets/scrollable_row.dart';
 
 class FilterScreen extends StatefulWidget {
   const FilterScreen({Key? key, required Map<String, dynamic> filters})
@@ -18,10 +19,20 @@ class _FilterScreenState extends State<FilterScreen> {
   int locationSelected = 0;
   int contractTypeSelected = 0;
   int? _selectedCompanyId = 0;
+  String selectedLanguage = '';
 
   final List<String> _jobTypeOptions = jobTypeToInt.keys.toList();
   final List<String> _locationOptions = locationToInt.keys.toList();
   final List<String> _contractTypeOptions = jobContractToInt.keys.toList();
+  final List<String> _languageOptions = [
+    'Flutter',
+    'Java',
+    'C++',
+    'C#',
+    'Javascript',
+    'React',
+    'Angular',
+  ];
 
   final TextEditingController _companyNameController = TextEditingController();
 
@@ -55,9 +66,24 @@ class _FilterScreenState extends State<FilterScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Padding(
-                  padding: EdgeInsets.only(bottom: 8),
+                  padding: EdgeInsets.only(bottom: 10),
                   child: Text(
-                    'Filter by Company',
+                    'Select Language',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+                ScrolableButtonRow(
+                  options: _languageOptions,
+                  onSelected: (int index) {
+                    setState(() {
+                      selectedLanguage = _languageOptions[index];
+                    });
+                  },
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(top: 25, bottom: 10),
+                  child: Text(
+                    'Select a Company',
                     style: TextStyle(fontSize: 16),
                   ),
                 ),
@@ -70,9 +96,9 @@ class _FilterScreenState extends State<FilterScreen> {
                   },
                 ),
                 const Padding(
-                  padding: EdgeInsets.only(top: 25, bottom: 8),
+                  padding: EdgeInsets.only(top: 25, bottom: 10),
                   child: Text(
-                    'Filter by type of Job',
+                    'Type of Job',
                     style: TextStyle(fontSize: 16),
                   ),
                 ),
@@ -94,9 +120,9 @@ class _FilterScreenState extends State<FilterScreen> {
                   },
                 ),
                 const Padding(
-                  padding: EdgeInsets.only(top: 25, bottom: 8),
+                  padding: EdgeInsets.only(top: 25, bottom: 10),
                   child: Text(
-                    'Filter by location',
+                    'Location',
                     style: TextStyle(fontSize: 16),
                   ),
                 ),
@@ -118,9 +144,9 @@ class _FilterScreenState extends State<FilterScreen> {
                   },
                 ),
                 const Padding(
-                  padding: EdgeInsets.only(top: 25, bottom: 8),
+                  padding: EdgeInsets.only(top: 25, bottom: 10),
                   child: Text(
-                    'Filter by type of contract',
+                    'Contract Type',
                     style: TextStyle(fontSize: 16),
                   ),
                 ),
@@ -165,10 +191,12 @@ class _FilterScreenState extends State<FilterScreen> {
               context,
               Routes.search,
               arguments: {
-                if (_selectedCompanyId != 0 && _selectedCompanyId != null) 'company': _selectedCompanyId,
+                if (_selectedCompanyId != 0 && _selectedCompanyId != null)
+                  'company': _selectedCompanyId,
                 if (jobTypeSelected != 0) 'type': jobTypeSelected,
                 if (locationSelected != 0) 'location': locationSelected,
                 if (contractTypeSelected != 0) 'contract': contractTypeSelected,
+                if (selectedLanguage.isNotEmpty) 'language': selectedLanguage,
               },
             );
           },
