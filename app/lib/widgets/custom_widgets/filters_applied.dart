@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:itflowapp/constants/it_jobs_constants.dart';
 
 import '../../theme/app_theme.dart';
 
@@ -14,7 +15,16 @@ class FiltersApplied extends StatelessWidget {
 
   String _getDisplayText(String key, dynamic value) {
     if (key == 'type') {
-      return value == 1 ? 'Full Time' : 'Part Time';
+      return intToJobType[value] ?? 'Job Type';
+    }
+    if (key == 'contract') {
+      return intToJobContract[value] ?? 'Contract Type';
+    }
+    if (key == 'location') {
+      return intToLocation[value] ?? 'Locations';
+    }
+    if (key == 'company'){
+      
     }
     return value.toString();
   }

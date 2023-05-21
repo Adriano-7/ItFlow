@@ -21,7 +21,23 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Image.asset(kLogoImageAssetPath, height: 30),
         ),
         ),
-      body: const OffersListView(),
+      body: Column(
+        children: const [
+          Padding(
+            padding: EdgeInsets.only(top: 40.0, left: 0, bottom: 40.0),
+            child: Text(
+              'Recommended',
+              style: TextStyle(
+                fontSize: 24.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          Expanded(
+            child: OffersListView(),
+          ),
+        ],
+      ),
       bottomNavigationBar: const NavBar(
         currentIndex: 0,
       ),
