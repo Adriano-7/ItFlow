@@ -64,8 +64,6 @@ class ProfileScreen extends StatelessWidget {
                         backgroundImage: NetworkImage(
                             AuthController.currentUserModel!.profilePicUrl ??
                                 '')),
-                    const ElevatedButton(
-                        onPressed: null, child: Text("Edit Profile")),
                   ],
                 ),
               ),
@@ -150,7 +148,7 @@ class ProfileScreen extends StatelessWidget {
         ],
       ),
       bottomNavigationBar: const NavBar(
-        currentIndex: 3,
+        currentIndex: 2,
       ),
     );
   }

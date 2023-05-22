@@ -58,9 +58,7 @@ class AuthController {
   }
 
   static Future<bool> logoutIfNotRememberMe() async {
-    // Returns if did log out or not.
     if (!rememberMe){
-      print("Logged Out");
       await logout();
       return true;
     }

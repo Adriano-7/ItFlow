@@ -37,14 +37,33 @@ class ItJobsApiController {
 
   static Future<JobSearch> searchJobs(String query, Map<String, dynamic> filters, {int page = 1}) async {
     String optional = '';
-    int limit = 50;
+    int limit = 200;
 
     if (filters['company'] != null) {optional += '&company=${filters['company']}';}
     if (filters['type'] != null) optional += '&type=${filters['type']}';
+    if (filters['location'] != null) optional += '&location=${filters['location']}';
+    if (filters['contract'] != null) optional += '&contract=${filters['contract']}';
 
     final uri = Uri.parse("${_jobRootUrl}search.json?api_key=$_apiKey&q=$query&limit=$limit&page=$page$optional");
     final jsonMap = await _apiCall(uri);
-    return JobSearch.fromJson(jsonMap);
+    final JobSearch results = JobSearch.fromJson(jsonMap);
+
+    
+    if (filters['language'] != null) {
+      List<Job> filteredResults = [];
+      for (Job job in results.results) {
+        String title = job.title.toLowerCase();
+        String body = job.body.toLowerCase();
+        String languageLower = filters['language'].toLowerCase();
+
+        if (title.contains(languageLower) || body.contains(languageLower)) {
+          filteredResults.add(job);
+        }
+      }
+      results.results = filteredResults;
+    }    
+
+    return results;
   }
 
   static Future<Company> getCompany(String slug) async {
@@ -54,7 +73,7 @@ class ItJobsApiController {
   }
 
   static Future<CompanySearch> searchCompanies(String query, {int limit = 10, int page = 1}) async {
-    final uri = Uri.parse("${_jobRootUrl}search.json?api_key=$_apiKey&q=$query&limit=$limit&page=$page");
+    final uri = Uri.parse("${_compRootUrl}search.json?api_key=$_apiKey&q=$query&limit=$limit&page=$page");
     final jsonMap = await _apiCall(uri);
     return CompanySearch.fromJson(jsonMap);
   }
@@ -121,7 +140,7 @@ class JobSearch {
   final int page;
   final int limit;
   final String query;
-  final List<Job> results;
+  List<Job> results;
 
   JobSearch(
     this.total,
@@ -164,6 +183,9 @@ class CompanySearch {
   );
 
   factory CompanySearch.fromJson(Map<String, dynamic> jsonMap) {
+    if(jsonMap['query'] == null) return CompanySearch(0, 0, 0, '', []);
+    if(jsonMap['results'] == null) jsonMap['results'] = [];
+
     return CompanySearch(
       jsonMap['total'],
       jsonMap['page'],
