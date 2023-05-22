@@ -10,17 +10,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:itflowapp/firebase_options.dart';
 
 void main() async {
-  // Firebase Initialization
-  // WidgetsFlutterBinding.ensureInitialized(); called by runApp.
   final myApp = MyApp();
   runApp(myApp);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   myApp.initialize();
 
-  // Portrait Mode
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
-    // DeviceOrientation.portraitDown,
   ]);
 }
 
