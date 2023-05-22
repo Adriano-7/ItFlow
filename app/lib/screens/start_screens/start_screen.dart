@@ -39,7 +39,7 @@ class StartScreen extends StatelessWidget {
                 fontWeight: FontWeight.w300,
               ),
             ),
-            const SizedBox(height: 100),
+            const SizedBox(height: 160),
             DoubleButton(
               onPressedFirst: () {
                 Navigator.pushNamed(context, Routes.login);
@@ -66,7 +66,6 @@ class StartScreen extends StatelessWidget {
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
                           AuthController.isGuest = true;
-                          // Remove Every Screen and Leave Only the New One
                           Navigator.pushNamedAndRemoveUntil(
                               context, Routes.home, ModalRoute.withName('/'));
                         },
