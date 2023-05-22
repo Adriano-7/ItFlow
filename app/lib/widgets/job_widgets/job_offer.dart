@@ -166,8 +166,8 @@ class JobOffer extends StatelessWidget {
                             onChanged: (value) {
                               bookmark(_id, value);
                             },
-                            iconEnabled: Icon(Icons.bookmark),
-                            iconDisabled: Icon(Icons.bookmark_border),
+                            iconEnabled: const Icon(Icons.bookmark),
+                            iconDisabled: const Icon(Icons.bookmark_border),
                             isEnabled: snapshot.data!,
                           );
                         } else if (snapshot.hasError) {

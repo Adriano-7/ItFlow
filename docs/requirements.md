@@ -20,16 +20,13 @@ In this section, you should describe all kinds of requirements for your module: 
   - contact;
 ##
 - **Job Seeker**: derives from User. It has the following attributes:
-  - education: such as degree, institution, etc;
-  - experience: years of experience;
+  - description;
   - resume;
-  - skills: such as programming languages, frameworks, etc to match with job offers;
-  - preferences (filters): such as location, salary, etc to match with job offers with those preferences.
   ##
-  A job seeker has many job offers at his/her disposal and job offers are at the disposal of many job seekers.
+  A job seeker has many job offers at his/her disposal and job offers are at the disposal of many job seekers. 
 ##
 - **Employer**: derives from User. It has the following attributes:
-  - industry: specific IT industry, such as software development, data science, automation, etc.
+  - website;
   ##
   A employer owns many job offers and a job offer belongs to a specific employer.
 ##
@@ -39,8 +36,9 @@ In this section, you should describe all kinds of requirements for your module: 
   - location;
   - type: such as full-time, part-time, etc;
   - description;
-  - skills: to match with job seekers with those skills;
   - publication date;
-  - deadline.
   ##
   A job offer has many job seekers looking for it and and is associated with an employer.
+
+
+Note that this is a high-level description and representation of the domain model. However, the app itself has more classes and maybe different attributes in some of them. This is just an overview to show the idea behind the app and the main interaction and relations are here represented.
