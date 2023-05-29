@@ -2,8 +2,6 @@
 
 Welcome to the documentation pages of the _ITFlow_!
 
-You can find here details about the product (or mini-app or module), from a high-level vision to low-level implementation decisions, a kind of Software Development Report, organized by discipline (as of Rational Unified Process): 
-
 * Business modeling 
   * [Product Vision](/docs/ProductVision.md)
   * [Elevator Pitch](/docs/ElevatorPitch.md)
@@ -16,11 +14,17 @@ You can find here details about the product (or mini-app or module), from a high
 * [Test](/docs/Test.md)
 * [Project management](/docs/ProjectManagement.md)
 
-So far, contributions are exclusively made by the initial team, but we hope to open them to the community, in all areas and topics: requirements, technologies, development, experimentation, testing, etc.
 
-Please contact us! 
+Here are some screenshots of the application:
+<p align="center">
+  <img src="images/screenshot_home_screen.png" width="270" title="hover text">
+  <img src="images/screenshot_search.png" width="270" alt="accessibility text">
+  <img src="images/screenshot_search_filters.png" width="270" alt="accessibility text">
+  <img src="images/screenshot_offer_description.png" width="270" alt="accessibility text">
+  <img src="images/screenshot_offer_company.png" width="270" alt="accessibility text">
+  <img src="images\screenshot_profile.png" width="270" alt="accessibility text">
+</p>
 
-Thank you!
 
 - Adriano Alexandre dos Santos Machado
 - Igor Cherstnev
